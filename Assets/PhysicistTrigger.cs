@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PhysicistTrigger : MonoBehaviour
 {
-    public PhysicistData physicistToTrigger;
+    public PhysicistData data;
+    public int interactionCount = 0;
     
     private EncounterManager encounterManager;
 
@@ -14,9 +15,9 @@ public class PhysicistTrigger : MonoBehaviour
     public void TriggerEncounter()  //função que sera chamada quando o jogador interagir com este objeto
 
     {
-        if (physicistToTrigger != null && encounterManager != null)
+        if (data != null && encounterManager != null)
         {
-            encounterManager.RegisterEncounter(physicistToTrigger);
+            encounterManager.RegisterPhysicistEncounter(data);
         }
     }
 }

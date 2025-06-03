@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87cd672228196c941b93c2d27297e2da, type: 3}
   m_Name: PlanckData
   m_EditorClassIdentifier: 
-  physicistName: Max Planck
+  name: Max Karl Ernst Ludwig Planck
   description: "F\xEDsico alem\xE3o, e muitos consideram o 'pai da Teoria Qu\xE2ntica'.
     No seu tempo, todos acreditavam que a energia era emitida de forma cont\xEDnua.
     Sua grande ideia foi propor que a energia, na verdade, \xE9 liberada em pequenos
     'pacotes' ou 'degraus', chamado de 'quanta'. Essa ideia deu in\xEDcio a uma revolu\xE7\xE3o
     na f\xEDsica e abriu as portas para todo o universo qu\xE2ntico."
+  dialogue: {fileID: 11400000, guid: 4477af45733cffd44b80f4d7eee1dd75, type: 2}
   icon: {fileID: 0}
+  modelPrefab: {fileID: 0}
+  presentationAudio: {fileID: 0}

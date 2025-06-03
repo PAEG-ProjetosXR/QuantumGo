@@ -16,3 +16,7 @@ MonoBehaviour:
     array:
     - speaker: {fileID: 11400000, guid: 82277cecef773c44782b910f6f9b27eb, type: 2}
       text: Testing...
+    - speaker: {fileID: 11400000, guid: 82277cecef773c44782b910f6f9b27eb, type: 2}
+      text: Testing...Again
+    - speaker: {fileID: 11400000, guid: 82277cecef773c44782b910f6f9b27eb, type: 2}
+      text: Testing...Again...And Again.
