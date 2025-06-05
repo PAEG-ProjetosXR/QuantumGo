@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8523506887774565997}
   - component: {fileID: 8151853792807231943}
   - component: {fileID: 4134380583595353405}
-  - component: {fileID: 6653583095692621281}
   - component: {fileID: 8254669454863066033}
   m_Layer: 0
   m_Name: alien
@@ -112,19 +111,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6653583095692621281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275639863567630962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 351951c9b91675246b3727b827b01144, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: 4477af45733cffd44b80f4d7eee1dd75, type: 2}
 --- !u!114 &8254669454863066033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,3 +124,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: e71a75ee99932f04d98ac10b9254c5b6, type: 2}
+  interactionCount: 0

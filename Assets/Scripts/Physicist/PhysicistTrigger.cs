@@ -5,7 +5,7 @@ public class PhysicistTrigger : MonoBehaviour
     public PhysicistData data;
     public int interactionCount = 0;
     
-    public EncounterManager encounterManager;
+    private EncounterManager encounterManager;
 
     void Start()
     {

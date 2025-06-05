@@ -19,6 +19,7 @@ MonoBehaviour:
     'pacotes' ou 'degraus', chamado de 'quanta'. Essa ideia deu in\xEDcio a uma revolu\xE7\xE3o
     na f\xEDsica e abriu as portas para todo o universo qu\xE2ntico."
   dialogue: {fileID: 11400000, guid: 4477af45733cffd44b80f4d7eee1dd75, type: 2}
+  quest: {fileID: 11400000, guid: 24fb2798006e64e479b6329608b8c40b, type: 2}
   icon: {fileID: 0}
   modelPrefab: {fileID: 0}
   presentationAudio: {fileID: 0}

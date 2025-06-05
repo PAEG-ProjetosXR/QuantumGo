@@ -439,8 +439,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1274203917}
   - {fileID: 1093788598}
+  - {fileID: 1274203917}
   - {fileID: 1333134233}
   - {fileID: 970630392}
   - {fileID: 2089066331}
@@ -746,7 +746,7 @@ MonoBehaviour:
   m_OriginBaseGameObject: {fileID: 724357202}
   m_CameraFloorOffsetObject: {fileID: 153767534}
   m_RequestedTrackingOriginMode: 0
-  m_CameraYOffset: 1.1176
+  m_CameraYOffset: 0
 --- !u!4 &724357204
 Transform:
   m_ObjectHideFlags: 0
@@ -813,6 +813,8 @@ MonoBehaviour:
   infoText: {fileID: 970630390}
   PhysicistCanvas: {fileID: 567498057}
   ObjectCanvas: {fileID: 1462642078}
+  namePanel: {fileID: 1093788597}
+  infoPanel: {fileID: 1274203916}
 --- !u!1 &802438526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,7 +1389,7 @@ GameObject:
   - component: {fileID: 1093788600}
   - component: {fileID: 1093788599}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Name Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1481,6 +1483,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foundPhysicists: []
   foundObjects: []
+  allQuests:
+  - {fileID: 11400000, guid: 24fb2798006e64e479b6329608b8c40b, type: 2}
 --- !u!4 &1110719207
 Transform:
   m_ObjectHideFlags: 0
@@ -1508,7 +1512,7 @@ GameObject:
   - component: {fileID: 1274203919}
   - component: {fileID: 1274203918}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Info Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

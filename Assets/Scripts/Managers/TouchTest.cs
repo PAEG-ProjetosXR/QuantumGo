@@ -1,8 +1,11 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class TouchTest : MonoBehaviour
 {
+    private EncounterManager encounterManager;
     public TMP_Text popupText;
 
     public TMP_Text nameText;
@@ -12,10 +15,13 @@ public class TouchTest : MonoBehaviour
     
     public Canvas PhysicistCanvas;
     public Canvas ObjectCanvas;
+    
+    public GameObject namePanel;
+    public GameObject infoPanel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        encounterManager = FindObjectOfType<EncounterManager>();
     }
 
     // Update is called once per frame
@@ -67,6 +73,8 @@ public class TouchTest : MonoBehaviour
     {
         PhysicistTrigger physicistTrigger = hit.transform.GetComponent<PhysicistTrigger>();
         PhysicistData physicistData = physicistTrigger.data;
+        namePanel.GetComponent<Image>().color = physicistData.dialogue.lines[0].Color;
+        infoPanel.GetComponent<Image>().color = physicistData.dialogue.lines[0].Color;
         if (physicistTrigger != null)
         {
             physicistTrigger.TriggerEncounter();
@@ -101,7 +109,7 @@ public class TouchTest : MonoBehaviour
                     if (physicistData.quest.questCompleted == false)
                     {
                         bool objFound = false;
-                        foreach (var obj in physicistTrigger.encounterManager.foundObjects)
+                        foreach (var obj in encounterManager.foundObjects)
                         {
                             objFound = obj == physicistData.quest.questObjective;
                         }

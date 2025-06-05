@@ -15,15 +15,8 @@ MonoBehaviour:
   questGiver: {fileID: 11400000, guid: e71a75ee99932f04d98ac10b9254c5b6, type: 2}
   questObjective: {fileID: 11400000, guid: 0b200d0e24e733c43bb25c52a85f410b, type: 2}
   description: Get UFO object
-  startQuestDialogue:
-    array:
-    - speaker: {fileID: 0}
-      text: Please get my ufo
-  midQuestDialogue:
-    array:
-    - speaker: {fileID: 0}
-      text: Have you found my ufo yet?
-  endQuestDialogue:
-    array:
-    - speaker: {fileID: 0}
-      text: Thanks for finding my ufo!
+  questActive: 0
+  questCompleted: 1
+  startQuestText: Starting Quest
+  midQuestText: Mid Quest
+  endQuestText: End Quest

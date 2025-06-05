@@ -46,17 +46,16 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.34f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ClearButton.cs" />
-    <Compile Include="Assets\Scripts\TouchTest.cs" />
-    <Compile Include="Assets\PhysicistData.cs" />
-    <Compile Include="Assets\PhysicistTrigger.cs" />
+    <Compile Include="Assets\Scripts\Managers\ImageTracker.cs" />
+    <Compile Include="Assets\Scripts\Button Scripts\ClearButton.cs" />
+    <Compile Include="Assets\Scripts\Quest\QuestData.cs" />
+    <Compile Include="Assets\Scripts\Managers\EncounterManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\TouchTest.cs" />
+    <Compile Include="Assets\Scripts\Object\ObjectData.cs" />
+    <Compile Include="Assets\Scripts\Object\ObjectTrigger.cs" />
+    <Compile Include="Assets\Scripts\Physicist\PhysicistData.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
-    <Compile Include="Assets\ObjectData.cs" />
-    <Compile Include="Assets\Scripts\ObjectDialogue.cs" />
-    <Compile Include="Assets\Scripts\ImageTracker.cs" />
-    <Compile Include="Assets\EncounterManager.cs" />
-    <Compile Include="Assets\ObjectTrigger.cs" />
-    <Compile Include="Assets\QuestData.cs" />
+    <Compile Include="Assets\Scripts\Physicist\PhysicistTrigger.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />

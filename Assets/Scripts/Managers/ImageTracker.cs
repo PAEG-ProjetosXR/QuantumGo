@@ -12,6 +12,29 @@ public class ImageTracker : MonoBehaviour
 
     List<GameObject> ARObjects = new List<GameObject>();
 
+
+    void Update()
+    {
+        outputTracking();
+    }
+
+    void outputTracking()
+    {
+        int i = 0;
+        foreach (var trackedImage in trackedImages.trackables)
+        {
+            if (trackedImage.trackingState == TrackingState.Limited)
+            {
+                ARObjects[i].SetActive(false);
+            }
+            if (trackedImage.trackingState == TrackingState.Tracking)
+            {
+                ARObjects[i].SetActive(true);
+            }
+
+            i++;
+        }
+    }
     
     void Awake()
     {
