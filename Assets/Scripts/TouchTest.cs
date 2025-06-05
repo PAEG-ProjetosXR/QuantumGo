@@ -66,23 +66,57 @@ public class TouchTest : MonoBehaviour
     private void PhysicistInteraction(RaycastHit hit)
     {
         PhysicistTrigger physicistTrigger = hit.transform.GetComponent<PhysicistTrigger>();
+        PhysicistData physicistData = physicistTrigger.data;
         if (physicistTrigger != null)
         {
             physicistTrigger.TriggerEncounter();
-            string physicistName = physicistTrigger.data.name;
+            string physicistName = physicistData.name;
             string info;
             if (physicistTrigger.interactionCount == 0)
             {
-                info = physicistTrigger.data.description;
+                info = physicistData.description;
             }
             else
             {
-                info = physicistTrigger.data.dialogue.lines[physicistTrigger.interactionCount - 1].Text;
+                info = physicistData.dialogue.lines[physicistTrigger.interactionCount - 1].Text;
             }
 
-            if (physicistTrigger.interactionCount < physicistTrigger.data.dialogue.lines.Length)
+            if (physicistTrigger.interactionCount < physicistData.dialogue.lines.Length)
             {
                 physicistTrigger.interactionCount++;
+            }
+            else
+            {
+                if (physicistData.quest.questActive == false)
+                {
+                    if (physicistData.quest.questCompleted == false)
+                    {
+                        info = physicistData.quest.GetStartQuestDialogue();
+                        physicistData.quest.StartQuest();
+                    }
+                    
+                }
+                else
+                {
+                    if (physicistData.quest.questCompleted == false)
+                    {
+                        bool objFound = false;
+                        foreach (var obj in physicistTrigger.encounterManager.foundObjects)
+                        {
+                            objFound = obj == physicistData.quest.questObjective;
+                        }
+
+                        if (objFound)
+                        {
+                            info = physicistData.quest.GetEndQuestDialogue();
+                            physicistData.quest.EndQuest();
+                        }
+                        else
+                        {
+                            info = physicistData.quest.GetMidQuestDialogue();
+                        }
+                    }
+                }
             }
         
             PhysicistCanvas.gameObject.SetActive(true);
@@ -94,6 +128,7 @@ public class TouchTest : MonoBehaviour
 
     private void ObjectInteraction(RaycastHit hit)
     {
+        
         ObjectTrigger objectTrigger = hit.transform.GetComponent<ObjectTrigger>();
         if (objectTrigger != null)
         {

@@ -8,6 +8,7 @@ public class PhysicistData : ScriptableObject
     [TextArea(3, 10)]
     public string description;
     public Dialogue dialogue;
+    public QuestData quest;
     
     public Sprite icon;                              // icone para a enciclopédia
     public GameObject modelPrefab;                   //O modelo 3D do físico
