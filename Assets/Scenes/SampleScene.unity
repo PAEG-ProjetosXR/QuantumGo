@@ -830,6 +830,7 @@ GameObject:
   - component: {fileID: 802438530}
   - component: {fileID: 802438529}
   - component: {fileID: 802438528}
+  - component: {fileID: 802438534}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1089,6 +1090,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &802438534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802438526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fe326c7f25501143a4e4e9218ef085b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,7 +1474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1110719207}
-  - component: {fileID: 1110719206}
+  - component: {fileID: 1110719208}
   m_Layer: 0
   m_Name: Encounter Manager
   m_TagString: Untagged
@@ -1469,22 +1482,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1110719206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110719205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 887225428ed82e046b5c14dfc7199a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foundPhysicists: []
-  foundObjects: []
-  allQuests:
-  - {fileID: 11400000, guid: 24fb2798006e64e479b6329608b8c40b, type: 2}
 --- !u!4 &1110719207
 Transform:
   m_ObjectHideFlags: 0
@@ -1500,6 +1497,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1110719208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110719205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887225428ed82e046b5c14dfc7199a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foundPhysicists: []
+  foundObjects: []
+  allQuests: []
 --- !u!1 &1274203916
 GameObject:
   m_ObjectHideFlags: 0
