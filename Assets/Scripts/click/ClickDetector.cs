@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ClickDetector : MonoBehaviour
 {
+    
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) 
