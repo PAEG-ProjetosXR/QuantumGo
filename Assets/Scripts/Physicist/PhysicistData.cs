@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Physicist", menuName = "QuantumGo/Physicist")]     //opção no menu para criar novos Físicos no editor 
 public class PhysicistData : ScriptableObject
 {
+    public int id;
     public string name;
     [TextArea(3, 10)]
     public string description;

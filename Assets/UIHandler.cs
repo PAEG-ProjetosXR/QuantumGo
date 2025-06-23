@@ -1,9 +1,12 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
     private GameObject physicistCanvas;
     private GameObject objectCanvas;
+    private GameObject detailCanvas;
     private GameObject menuCanvas;
     private GameObject closeMenuButton;
     private GameObject goBackButton;
@@ -12,6 +15,9 @@ public class UIHandler : MonoBehaviour
     private GameObject objpediaCanvas;
     private GameObject physpediaButton;
     private GameObject objpediaButton;
+    [SerializeField] private Image detailImage;
+    [SerializeField] private TMP_Text detailName;
+    [SerializeField] private TMP_Text detailBio;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -21,38 +27,66 @@ public class UIHandler : MonoBehaviour
 
     private void getComponents()
     {
-        physicistCanvas = GameObject.Find("PhysicistCanvas");
-        objectCanvas = GameObject.Find("ObjectCanvas");
+        physicistCanvas = GameObject.Find("Physicist Canvas");
+        objectCanvas = GameObject.Find("Object Canvas");
         closeMenuButton = GameObject.Find("Close Menu Button");
         menuCanvas = GameObject.Find("MenuCanvas");
         goBackButton = GameObject.Find("Go Back Button");
-        physpediaCanvas = GameObject.Find("PhyspediaCanvas");
-        objpediaCanvas = GameObject.Find("ObjpediaCanvas");
+        physpediaCanvas = GameObject.Find("Physpedia Canvas");
+        objpediaCanvas = GameObject.Find("Objpedia Canvas");
         physpediaButton = GameObject.Find("Physpedia Button");
         objpediaButton = GameObject.Find("Objpedia Button");
         menuButton = GameObject.Find("Menu Button");
+        detailCanvas = GameObject.Find("Detail Canvas");
+    } // or more fields
+    
+    public void DisplayPhysicistDetails(PhysicistData data)
+    {
+        detailCanvas.SetActive(true);
+        detailImage.sprite = data.icon;
+        detailName.text = "Nome: " + data.name;
+        detailBio.text = "Descrição: \n" + data.description;
+        physpediaCanvas.SetActive(false);
+        physpediaButton.SetActive(true);
+        objpediaButton.SetActive(true);
+    }
+    
+    public void DisplayObjectDetails(ObjectData data)
+    {
+        detailCanvas.SetActive(true);
+        detailImage.sprite = data.icon;
+        detailName.text = "Nome: " + data.name;
+        detailBio.text = "Descrição: \n" + data.description;
+        objpediaCanvas.SetActive(false);
+        physpediaButton.SetActive(true);
+        objpediaButton.SetActive(true);
     }
     
     private void hideUI()
     {
-        menuCanvas.SetActive(false);
+        physicistCanvas.SetActive(false);
+        objectCanvas.SetActive(false);
+        physpediaCanvas.SetActive(false);
+        objpediaCanvas.SetActive(false);
+        detailCanvas.SetActive(false);
     }
 
-    public void openMenu()
+    public void returnToGame()
     {
-        menuCanvas.SetActive(true);
-        closeMenuButton.SetActive(true);
-        menuButton.SetActive(false);
         physpediaButton.SetActive(true);
         objpediaButton.SetActive(true);
         objpediaCanvas.SetActive(false);
         physpediaCanvas.SetActive(false);
+        detailCanvas.SetActive(false);
     }
 
     public void closeMenu()
     {
-        menuCanvas.SetActive(false);
-        menuButton.SetActive(true);
+        physpediaCanvas.SetActive(false);
+        objpediaCanvas.SetActive(false);
+        physicistCanvas.SetActive(false);
+        objectCanvas.SetActive(false);
+        
     }
 
     public void goBack()
@@ -107,6 +141,7 @@ public class UIHandler : MonoBehaviour
         physpediaButton.SetActive(false);
         objpediaButton.SetActive(false);
         physpediaCanvas.SetActive(true);
+        detailCanvas.SetActive(false);
     }
 
     public void openObjpedia()
@@ -114,6 +149,7 @@ public class UIHandler : MonoBehaviour
         physpediaButton.SetActive(false);
         objpediaButton.SetActive(false);
         objpediaCanvas.SetActive(true);
+        detailCanvas.SetActive(false);
     }
 
 }

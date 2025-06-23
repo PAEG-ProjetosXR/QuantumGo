@@ -37,3 +37,13 @@ MonoBehaviour:
     m_SpecifySize: 0
     m_Name: ufo
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4722277968618722674
+      m_GuidHigh: 8092533266350375869
+    m_SerializedTextureGuid:
+      m_GuidLow: 15128970427242709518
+      m_GuidHigh: 6658247501899819482
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: Planck
+    m_Texture: {fileID: 0}

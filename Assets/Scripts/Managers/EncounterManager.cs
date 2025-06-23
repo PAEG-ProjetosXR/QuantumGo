@@ -6,7 +6,9 @@ public class EncounterManager : MonoBehaviour
 {
     public List<PhysicistData> foundPhysicists = new List<PhysicistData>(); //lista pública para vermos no inspector quais físicos foram encontrados
     public List<ObjectData> foundObjects = new List<ObjectData>();
-    public List<QuestData> allQuests = new List<QuestData>();
+    public QuestDatabase questDatabase;
+    public PhysicistDatabase physicistDatabase;
+    public ObjectDatabase objectDatabase;
     
     public void RegisterPhysicistEncounter(PhysicistData physicistData)  //método que outros scripts vão chamar para registrar um encontro
     {
@@ -36,15 +38,16 @@ public class EncounterManager : MonoBehaviour
 
     private void ResetAllQuests()
     {
-        foreach (var quest in allQuests)
+        foreach (var quest in questDatabase.allQuests)
         {
             quest.questActive = false;
             quest.questCompleted = false;
         }
     }
-
+    
     private void Start()
     {
+        
         ResetAllQuests();
     }
 }
