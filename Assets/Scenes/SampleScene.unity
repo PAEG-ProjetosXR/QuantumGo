@@ -4467,6 +4467,8 @@ MonoBehaviour:
   questDatabase: {fileID: 11400000, guid: 73e7689b72231ab468596240cd791a67, type: 2}
   physicistDatabase: {fileID: 11400000, guid: 6161f9c49e858a743a3536294644a947, type: 2}
   objectDatabase: {fileID: 11400000, guid: c44624e66b9ad6c4a854ba8ca53ef745, type: 2}
+  objpediaManager: {fileID: 1415739808}
+  physpediaManager: {fileID: 1968352109}
 --- !u!1001 &1149427470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7597,6 +7599,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 468254670}
   m_SourcePrefab: {fileID: 100100000, guid: c12541dd5ee81d544a94734507fad61e, type: 3}
+--- !u!114 &1968352109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3827356601657793293, guid: 7e267470ee626954098fe3a8d6480bad, type: 3}
+  m_PrefabInstance: {fileID: 2842013630363290979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e912e10c824fb2549830856c81c9b6bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2007940144
 GameObject:
   m_ObjectHideFlags: 0

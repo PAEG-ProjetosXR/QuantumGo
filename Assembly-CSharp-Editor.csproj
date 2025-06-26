@@ -866,6 +866,9 @@
     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
     </Reference>
+    <Reference Include="glTFast.dots">
+      <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\glTFast.dots.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.XR.Simulation.Editor">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.XR.Simulation.Editor.dll</HintPath>
     </Reference>
@@ -883,6 +886,9 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="glTFast">
+      <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\glTFast.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
@@ -949,6 +955,9 @@
     </Reference>
     <Reference Include="Unity.Collections.Editor">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="glTFast.Animation">
+      <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\glTFast.Animation.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
@@ -1039,6 +1048,9 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="glTFast.Editor">
+      <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\glTFast.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>

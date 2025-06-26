@@ -12,6 +12,15 @@ public class PhysicistCard : MonoBehaviour
         GetComponent<Image>().sprite = data.icon;
     }
 
+    public void SetFound()
+    {
+        GetComponent<Image>().color = Color.white;
+    }
+    public void SetUnfound()
+    {
+        GetComponent<Image>().color = Color.black;
+    }
+
     public void OnClick()
     {
         if (data != null)

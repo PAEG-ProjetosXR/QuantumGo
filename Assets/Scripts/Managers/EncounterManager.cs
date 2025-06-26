@@ -9,12 +9,15 @@ public class EncounterManager : MonoBehaviour
     public QuestDatabase questDatabase;
     public PhysicistDatabase physicistDatabase;
     public ObjectDatabase objectDatabase;
+    public ObjpediaManager objpediaManager;
+    public PhyspediaManager physpediaManager;
     
     public void RegisterPhysicistEncounter(PhysicistData physicistData)  //método que outros scripts vão chamar para registrar um encontro
     {
         if (!foundPhysicists.Contains(physicistData))
         {
             foundPhysicists.Add(physicistData);
+            physpediaManager.physicistCards[physicistData.id].SetFound();
             Debug.Log($"Encontrou e registrou um novo físico: {physicistData.name}!");
         }
         else
@@ -28,6 +31,7 @@ public class EncounterManager : MonoBehaviour
         if (!foundObjects.Contains(objectData))
         {
             foundObjects.Add(objectData);
+            objpediaManager.objectCards[objectData.id].SetFound();
             Debug.Log($"Encontrou e registrou um novo físico: {objectData.name}!");
         }
         else

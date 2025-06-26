@@ -247,8 +247,8 @@ MonoBehaviour:
     y: 0
     width: 472.00006
     height: 768
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 78.28572
+    y: 24
     width: 240.71428
     height: 742
   m_SerializedDataModeController:
@@ -396,8 +396,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 5641ffff7a28ffff4228ffff0a28ffffd227ffff9a27ffff6227ffff2a27fffff226ffffba26ffff8226ffff4a26ffff1226ffffda25ffffa225ffff
-      m_LastClickedID: -55902
+      m_SelectedIDs: 
+      m_LastClickedID: 0
       m_ExpandedIDs: 3841ffff9ee2ffffe2e2ffff1afbffff42b200004cb20000f8b20000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -444,8 +444,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 241.7143
-    y: 78.28572
+    x: 1
+    y: 24
     width: 747.1428
     height: 461.42856
   m_SerializedDataModeController:
@@ -1237,7 +1237,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 7ab60000
     m_LastClickedID: 46714
-    m_ExpandedIDs: 000000007ab600007cb6000000ca9a3b
+    m_ExpandedIDs: 0000000026b7000028b70000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1266,7 +1266,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000007ab600007cb60000
+    m_ExpandedIDs: 0000000026b7000028b70000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1345,8 +1345,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 241.7143
-    y: 565.7143
+    x: 1
+    y: 511.42856
     width: 747.1428
     height: 254.57144
   m_SerializedDataModeController:
@@ -1381,8 +1381,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 990.8572
-    y: 78.28572
+    x: 991.8571
+    y: 24
     width: 471.00006
     height: 742
   m_SerializedDataModeController:
@@ -1396,11 +1396,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
-  m_ObjectsLockedBeforeSerialization:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 7220ffff
   m_PreviewResizer:
     m_CachedPref: 160
@@ -1411,5 +1407,5 @@ MonoBehaviour:
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
-    m_IsLocked: 1
+    m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}

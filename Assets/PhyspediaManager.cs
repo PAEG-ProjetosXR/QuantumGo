@@ -28,6 +28,11 @@ public class PhyspediaManager : MonoBehaviour
             {
                 addToPhyspedia(data, physicistCards[data.id]);
             }
+
+            if (!encounterManager.foundPhysicists.Contains(data))
+            {
+                physicistCards[data.id].SetUnfound();
+            }
         }
     }
     

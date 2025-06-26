@@ -25,6 +25,10 @@ public class ObjpediaManager : MonoBehaviour
             {
                 addToObjspedia(data, objectCards[data.id]);
             }
+            if (!encounterManager.foundObjects.Contains(data))
+            {
+                objectCards[data.id].SetUnfound();
+            }
         }
     }
     
