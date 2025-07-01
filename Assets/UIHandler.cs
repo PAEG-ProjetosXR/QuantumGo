@@ -15,6 +15,7 @@ public class UIHandler : MonoBehaviour
     private GameObject objpediaCanvas;
     private GameObject physpediaButton;
     private GameObject objpediaButton;
+    private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
     [SerializeField] private TMP_Text detailBio;
@@ -38,14 +39,26 @@ public class UIHandler : MonoBehaviour
         objpediaButton = GameObject.Find("Objpedia Button");
         menuButton = GameObject.Find("Menu Button");
         detailCanvas = GameObject.Find("Detail Canvas");
+        touchTest = GameObject.Find("XR Origin").GetComponent<TouchTest>();
     } // or more fields
     
     public void DisplayPhysicistDetails(PhysicistData data)
     {
         detailCanvas.SetActive(true);
         detailImage.sprite = data.icon;
-        detailName.text = "Nome: " + data.name;
-        detailBio.text = "Descrição: \n" + data.description;
+        if (data.quest.questCompleted)
+        {
+            detailImage.color = Color.white;
+            detailName.text = "Nome: " + data.name;
+            detailBio.text = "Descrição: \n" + data.description;
+        }
+        else
+        {
+            detailImage.color = new Color32(0x07, 0x07, 0x07, 255);
+            detailName.text = "Nome: ???" ;
+            detailBio.text = "?????";
+        }
+        
         physpediaCanvas.SetActive(false);
         physpediaButton.SetActive(true);
         objpediaButton.SetActive(true);
@@ -78,6 +91,7 @@ public class UIHandler : MonoBehaviour
         objpediaCanvas.SetActive(false);
         physpediaCanvas.SetActive(false);
         detailCanvas.SetActive(false);
+        touchTest.canInteract = true;
     }
 
     public void closeMenu()
@@ -142,6 +156,7 @@ public class UIHandler : MonoBehaviour
         objpediaButton.SetActive(false);
         physpediaCanvas.SetActive(true);
         detailCanvas.SetActive(false);
+        touchTest.canInteract = false;
     }
 
     public void openObjpedia()
@@ -150,6 +165,7 @@ public class UIHandler : MonoBehaviour
         objpediaButton.SetActive(false);
         objpediaCanvas.SetActive(true);
         detailCanvas.SetActive(false);
+        touchTest.canInteract = false;
     }
 
 }

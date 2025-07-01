@@ -47,3 +47,13 @@ MonoBehaviour:
     m_SpecifySize: 0
     m_Name: Planck
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4756776763345743546
+      m_GuidHigh: 15490737416690711970
+    m_SerializedTextureGuid:
+      m_GuidLow: 13183385820337034274
+      m_GuidHigh: 4174843796085888794
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: DEBROGLIE
+    m_Texture: {fileID: 0}

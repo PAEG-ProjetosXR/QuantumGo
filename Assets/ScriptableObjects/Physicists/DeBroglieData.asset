@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87cd672228196c941b93c2d27297e2da, type: 3}
   m_Name: DeBroglieData
   m_EditorClassIdentifier: 
-  name: 
+  id: 2
+  name: Louis de Broglie
   description: "O f\xEDsico franc\xEAs Louis de Broglie prop\xF4s a revolucion\xE1ria
     ideia da dualidade part\xEDcula-onda. Ele teorizou que todas as part\xEDculas
     de mat\xE9ria, como os el\xE9trons, tamb\xE9m possuem propriedades de onda, um
     conceito fundamental para o desenvolvimento da mec\xE2nica qu\xE2ntica."
-  dialogue: {fileID: 0}
-  quest: {fileID: 0}
-  icon: {fileID: 0}
+  dialogue: {fileID: 11400000, guid: 452d79a04696be8449503257a73e454a, type: 2}
+  quest: {fileID: 11400000, guid: 4f5652f3246e94e42b0c1b959fac26e2, type: 2}
+  icon: {fileID: 21300000, guid: 161c5422cb8eb6f41a5771325006f039, type: 3}
   modelPrefab: {fileID: 0}
   presentationAudio: {fileID: 0}

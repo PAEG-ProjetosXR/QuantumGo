@@ -18,6 +18,8 @@ public class TouchTest : MonoBehaviour
     
     public GameObject namePanel;
     public GameObject infoPanel;
+
+    [HideInInspector] public bool canInteract = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,23 +29,34 @@ public class TouchTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        // Handle both mouse click and first touch
+        if ((Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)) && canInteract)
         {
-            Debug.Log("Pressed primary button");
-            
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.Log("Input detected");
+
+            Vector3 inputPosition;
+
+            if (Input.touchCount > 0)
+            {
+                inputPosition = Input.GetTouch(0).position;
+            }
+            else
+            {
+                inputPosition = Input.mousePosition;
+            }
+
+            Ray ray = Camera.main.ScreenPointToRay(inputPosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-                Debug.Log("hit");
-                
+                Debug.Log("Hit something");
+
                 if (hit.transform.CompareTag("Physicist"))
                 {
                     PhysicistCanvas.gameObject.SetActive(true);
                     Debug.Log(hit.transform.name + " : " + hit.transform.tag);
                     PhysicistInteraction(hit);
-                    
                 }
 
                 if (hit.transform.CompareTag("Object"))

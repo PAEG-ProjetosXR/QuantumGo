@@ -876,11 +876,11 @@
     <Reference Include="Unity.Timeline">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
-      <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.Shared.dll</HintPath>
-    </Reference>
     <Reference Include="glTFast">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\glTFast.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
+      <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.Shared.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:\Users\kasti\Unity\QuantumGo\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
