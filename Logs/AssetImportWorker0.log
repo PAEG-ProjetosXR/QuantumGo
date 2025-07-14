@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Using pre-set license
 Built from '6000.0/staging' branch; Version is '6000.0.34f1 (5ab2d9ed9190) revision 5944025'; Using compiler version '193933523'; Build Type 'Release'
 OS: 'Windows 11  (10.0.22631) 64bit Core' Language: 'pt' Physical Memory: 18277 MB
@@ -8461,3 +8462,5 @@ Memory consumption went from 147.7 MB to 137.3 MB.
 Total: 18.673900 ms (FindLiveObjects: 1.071800 ms CreateObjectMapping: 1.261500 ms MarkObjects: 6.068300 ms  DeleteObjects: 10.270800 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+=======
+>>>>>>> e0322a02cbbc93b4ce272c0ce472dc101b90539c
