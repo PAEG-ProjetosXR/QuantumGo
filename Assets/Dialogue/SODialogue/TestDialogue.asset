@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8993b0af8393534fa848f352a25f1b8, type: 3}
+  m_Name: TestDialogue
+  m_EditorClassIdentifier: 
+  lines:
+    array:
+    - speaker: {fileID: 11400000, guid: 82277cecef773c44782b910f6f9b27eb, type: 2}
+      text: Testing...
+    - speaker: {fileID: 11400000, guid: 82277cecef773c44782b910f6f9b27eb, type: 2}
+      text: Testing...Again
+    - speaker: {fileID: 11400000, guid: 82277cecef773c44782b910f6f9b27eb, type: 2}
+      text: Testing...Again...And Again.
+    - speaker: {fileID: 11400000, guid: 82277cecef773c44782b910f6f9b27eb, type: 2}
+      text: All Done

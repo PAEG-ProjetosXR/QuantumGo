@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c2aa36f89b7584ca5f364891f81595, type: 3}
+  m_Name: Physicist Database
+  m_EditorClassIdentifier: 
+  allPhysicists:
+  - {fileID: 11400000, guid: 921682f3906aa6b48af3b263ff898bef, type: 2}
+  - {fileID: 11400000, guid: e71a75ee99932f04d98ac10b9254c5b6, type: 2}
+  - {fileID: 11400000, guid: df4c5447272b6c34c8347eb71dac16e7, type: 2}

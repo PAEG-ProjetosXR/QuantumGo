@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87cd672228196c941b93c2d27297e2da, type: 3}
+  m_Name: PlanckData
+  m_EditorClassIdentifier: 
+  id: 1
+  name: Max Karl Ernst Ludwig Planck
+  description: "F\xEDsico alem\xE3o, e muitos consideram o 'pai da Teoria Qu\xE2ntica'.
+    No seu tempo, todos acreditavam que a energia era emitida de forma cont\xEDnua.
+    Sua grande ideia foi propor que a energia, na verdade, \xE9 liberada em pequenos
+    'pacotes' ou 'degraus', chamado de 'quanta'. Essa ideia deu in\xEDcio a uma revolu\xE7\xE3o
+    na f\xEDsica e abriu as portas para todo o universo qu\xE2ntico."
+  dialogue: {fileID: 11400000, guid: 4477af45733cffd44b80f4d7eee1dd75, type: 2}
+  quest: {fileID: 11400000, guid: 24fb2798006e64e479b6329608b8c40b, type: 2}
+  icon: {fileID: 21300000, guid: 6531020ee672d1f4dae95e79d3d8665c, type: 3}
+  modelPrefab: {fileID: 0}
+  presentationAudio: {fileID: 0}
