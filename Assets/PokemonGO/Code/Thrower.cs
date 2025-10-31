@@ -240,13 +240,15 @@ namespace PokemonGO.Code
         {
             Debug.Log("1. OnPointerStarted foi chamado!");
 
-            if (context.control != Mouse.current.leftButton)
+            // Aceitar Mouse (Editor) e Touchscreen (mobile). Não filtrar por Mouse apenas.
+            var device = context.control?.device;
+            if (device != null && !(device is UnityEngine.InputSystem.Mouse) && !(device is UnityEngine.InputSystem.Touchscreen))
             {
-                Debug.Log("Ação ignorada: não foi o botão esquerdo do mouse.");
+                Debug.Log($"Ação ignorada: dispositivo não é Mouse nem Touchscreen ({device}).");
                 return;
             }
-            
-            Debug.Log("2. Clique com o botão esquerdo detectado.");
+
+            Debug.Log("2. Clique / toque detectado.");
 
             if (!IsOnPointerCollider() || !HasPokeBall)
             {
