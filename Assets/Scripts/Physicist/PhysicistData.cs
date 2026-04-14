@@ -7,7 +7,7 @@ public class PhysicistData : ScriptableObject
     public int id;
     public string name;
     [TextArea(3, 10)]
-    public string description;
+    public string description;                      //Dividir em partes para ser lentamente descoberto
     public Dialogue dialogue;
     public QuestData quest;
     

@@ -24,7 +24,8 @@ public class ObjectCard : MonoBehaviour
     {
         if (data != null)
         {
-            FindObjectOfType<UIHandler>().DisplayObjectDetails(data);
+            //Era FindObjectOfType
+            FindAnyObjectByType<UIHandler>().DisplayObjectDetails(data);
         }
     }
 }
