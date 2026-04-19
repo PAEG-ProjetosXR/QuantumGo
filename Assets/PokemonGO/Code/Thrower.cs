@@ -5,6 +5,10 @@ using Kynesis.Utilities;
 using PokemonGO.Global;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.XR.CoreUtils;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.UI;
+using TMPro;
 
 namespace PokemonGO.Code
 {
@@ -47,10 +51,12 @@ namespace PokemonGO.Code
 
         private float Force => Input.Instance.AveragePointerDelta.magnitude * _forceMultiplier;
         private bool HasPokeBall => _pokeBall != null;
+        public static Thrower Instance; //Gerar Instancia de Thrower, espero não ser duplicado 
 
         private void Awake()
         {
-            _mainCamera = Camera.main;
+            Instance = this;
+            //_mainCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
             // Se o _pokeBallSlot não foi atribuído no Inspector...
             if (_pokeBallSlot == null)
             {
@@ -89,12 +95,16 @@ namespace PokemonGO.Code
         private void Start()
         {
             // A chamada foi movida para cá. Start() é executado depois que tudo foi inicializado.
-            SpawnPokeBall();
+            _mainCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
+            //SpawnPokeBall();
         }
-
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            {
+               SpawnPokeBall(); 
+            }
             if (!_isDragging) return;
             // FollowPointer();
         }
@@ -194,15 +204,50 @@ namespace PokemonGO.Code
             _pokeBall.Throw(path);
             _pokeBall.transform.SetParent(null);
             _pokeBall = null;
-            DOVirtual.DelayedCall(1, SpawnPokeBall);
+            //DOVirtual.DelayedCall(1, SpawnPokeBall);
         }
+        
+        public void SpawnPokeBall()
+        {
+        _pokeBall = _pokeBallFactory.Create(Vector3.zero, Quaternion.identity);
+        
+        // Achar camera XR se _mainCamera não funcionar!
+        //arCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
+        
+        if (_mainCamera!= null && _pokeBall != null)
+        {
+            // Make the model a child of the AR Camera
+            _pokeBall.transform.SetParent(_mainCamera.transform);
+            // Set its local position to be forward relative to the camera
+            _pokeBall.transform.localPosition = new Vector3(0, 0, 4f);
+            // Reset its rotation so it faces forward
+            _pokeBall.transform.localRotation = Quaternion.identity;
+        }
+        else
+        {
+            Debug.LogError("AR Camera or Model to Place is not assigned!");
+        }
+        
+        Transform cam = _mainCamera.transform;
 
+        _pokeBall.transform.SetParent(cam);
+        _pokeBall.transform.localPosition = new Vector3(0, -0.4f, 1f); // ajuste fino aqui
+        _pokeBall.transform.localRotation = Quaternion.identity;
+        _pokeBall.transform.localScale = _heldPokeBallScale;
+        
+        }
+        
+
+        /*
         public void SpawnPokeBall()
         {
             _pokeBall = _pokeBallFactory.Create(_pokeBallSlot.position, _pokeBallSlot.rotation);
             _pokeBall.transform.SetParent(_pokeBallSlot);
             _pokeBall.transform.localScale = _heldPokeBallScale;
+            Debug.Log("Spawnou pokebola: " + _pokeBall);
+            _pokeBall.transform.position = _mainCamera.transform.position + _mainCamera.transform.forward * 0.5f;
         }
+        */
 
         private void Reset()
         {
@@ -240,13 +285,15 @@ namespace PokemonGO.Code
         {
             Debug.Log("1. OnPointerStarted foi chamado!");
 
-            if (context.control != Mouse.current.leftButton)
+            // Aceitar Mouse (Editor) e Touchscreen (mobile). Não filtrar por Mouse apenas.
+            var device = context.control?.device;
+            if (device != null && !(device is UnityEngine.InputSystem.Mouse) && !(device is UnityEngine.InputSystem.Touchscreen))
             {
-                Debug.Log("Ação ignorada: não foi o botão esquerdo do mouse.");
+                Debug.Log($"Ação ignorada: dispositivo não é Mouse nem Touchscreen ({device}).");
                 return;
             }
-            
-            Debug.Log("2. Clique com o botão esquerdo detectado.");
+
+            Debug.Log("2. Clique / toque detectado.");
 
             if (!IsOnPointerCollider() || !HasPokeBall)
             {
@@ -290,13 +337,14 @@ namespace PokemonGO.Code
 
             // Pega a referência do âncora diretamente do nosso gerenciador global
             Transform anchor = CameraManager.Instance.PlayerInputAnchor;
-
+            /*
             // Garante que nosso "âncora" sempre siga a posição e rotação da câmera.
             if (anchor != null)
             {
                 anchor.position = _mainCamera.transform.position;
                 anchor.rotation = _mainCamera.transform.rotation;
             }
+            */
         }
     }
 }

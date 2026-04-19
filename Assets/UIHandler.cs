@@ -1,3 +1,4 @@
+using PokemonGO.Code;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,10 +16,12 @@ public class UIHandler : MonoBehaviour
     private GameObject objpediaCanvas;
     private GameObject physpediaButton;
     private GameObject objpediaButton;
+    private GameObject captureButton;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
     [SerializeField] private TMP_Text detailBio;
+    [SerializeField] private Image spawnButtonImage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -37,9 +40,14 @@ public class UIHandler : MonoBehaviour
         objpediaCanvas = GameObject.Find("Objpedia Canvas");
         physpediaButton = GameObject.Find("Physpedia Button");
         objpediaButton = GameObject.Find("Objpedia Button");
+        objpediaButton = GameObject.Find("Capture Button");
         menuButton = GameObject.Find("Menu Button");
         detailCanvas = GameObject.Find("Detail Canvas");
         touchTest = GameObject.Find("XR Origin").GetComponent<TouchTest>();
+        if (Thrower.Instance == null)
+        {
+            Debug.LogError("sem Thrower");
+        }
     } // or more fields
     
     public void DisplayPhysicistDetails(PhysicistData data)
@@ -73,6 +81,7 @@ public class UIHandler : MonoBehaviour
         objpediaCanvas.SetActive(false);
         physpediaButton.SetActive(true);
         objpediaButton.SetActive(true);
+        captureButton.SetActive(true);
     }
     
     private void hideUI()
@@ -91,7 +100,23 @@ public class UIHandler : MonoBehaviour
         objpediaCanvas.SetActive(false);
         physpediaCanvas.SetActive(false);
         detailCanvas.SetActive(false);
+        captureButton.SetActive(true);
+        //pokeSpawn.SpawnPokeBall();
         touchTest.canInteract = true;
+    }
+
+    public void pokeballButton()
+    {
+        if (Thrower.Instance != null)
+        {
+            Thrower.Instance.SpawnPokeBall();
+        }
+            else
+        {
+            Debug.LogError("Thrower nao existe");
+            spawnButtonImage.color = Color.red;
+        }
+
     }
 
     public void closeMenu()
@@ -100,7 +125,7 @@ public class UIHandler : MonoBehaviour
         objpediaCanvas.SetActive(false);
         physicistCanvas.SetActive(false);
         objectCanvas.SetActive(false);
-        
+        captureButton.SetActive(true);
     }
 
     public void goBack()
@@ -156,6 +181,7 @@ public class UIHandler : MonoBehaviour
         objpediaButton.SetActive(false);
         physpediaCanvas.SetActive(true);
         detailCanvas.SetActive(false);
+        captureButton.SetActive(false);
         touchTest.canInteract = false;
     }
 
@@ -165,6 +191,7 @@ public class UIHandler : MonoBehaviour
         objpediaButton.SetActive(false);
         objpediaCanvas.SetActive(true);
         detailCanvas.SetActive(false);
+        captureButton.SetActive(false);
         touchTest.canInteract = false;
     }
 
