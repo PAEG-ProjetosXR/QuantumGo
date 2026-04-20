@@ -55,6 +55,9 @@ namespace PokemonGO.Code
 
         private void Awake()
         {
+            if (Instance != null && Instance != this) { 
+                Destroy(gameObject); return; 
+            } 
             Instance = this;
             //_mainCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
             // Se o _pokeBallSlot não foi atribuído no Inspector...
@@ -63,6 +66,8 @@ namespace PokemonGO.Code
                 // ...peça a referência diretamente ao nosso gerenciador.
                 _pokeBallSlot = CameraManager.Instance.PokeBallHoldPosition;
             }
+
+            Debug.Log("Thrower ativo em: " + gameObject.name + " | Cena: " + gameObject.scene.name);
         }
         
         private void OnPointerPerformed(InputAction.CallbackContext context)
@@ -295,7 +300,7 @@ namespace PokemonGO.Code
 
             Debug.Log("2. Clique / toque detectado.");
 
-            if (!IsOnPointerCollider() || !HasPokeBall)
+            if (!HasPokeBall)
             {
                 Debug.Log("Condição para iniciar o arrasto FALHOU.");
                 return;
