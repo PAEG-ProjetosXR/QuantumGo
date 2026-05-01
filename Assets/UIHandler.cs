@@ -26,6 +26,10 @@ public class UIHandler : MonoBehaviour
     void Awake()
     {
         getComponents();
+    }
+
+    private void Start()
+    {
         hideUI();
     }
 
