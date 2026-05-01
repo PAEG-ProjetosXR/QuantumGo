@@ -74,6 +74,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-/[Aa]ssets/Settings/Build Profiles
+/[Aa]ssets/Settings/Build Profiles/New Android™ Profile.asset
 *.vsconfig
-.vscode
+.vscode/settings.json
