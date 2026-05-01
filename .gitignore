@@ -76,4 +76,4 @@ crashlytics-build.properties
 
 /[Aa]ssets/Settings/Build Profiles
 *.vsconfig
-.vccode
+.vscode
