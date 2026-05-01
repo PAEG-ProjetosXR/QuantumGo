@@ -1473,7 +1473,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 894400163}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3280,8 +3280,8 @@ MonoBehaviour:
   popupText: {fileID: 1574013493}
   nameText: {fileID: 1333134234}
   infoText: {fileID: 970630390}
-  PhysicistCanvas: {fileID: 0}
-  ObjectCanvas: {fileID: 0}
+  PhysicistPanel: {fileID: 0}
+  ObjectPanel: {fileID: 0}
   namePanel: {fileID: 1093788597}
   infoPanel: {fileID: 1274203916}
   canInteract: 1
@@ -5534,7 +5534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.000122, y: 585}
+  m_AnchoredPosition: {x: -2, y: 585}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1093788599
@@ -6325,7 +6325,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2025672091}
   m_HandleRect: {fileID: 2025672090}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8483,8 +8483,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1405205098}
   m_HandleRect: {fileID: 1405205097}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.9999999
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
