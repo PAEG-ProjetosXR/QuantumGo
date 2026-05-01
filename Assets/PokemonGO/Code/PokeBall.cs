@@ -39,6 +39,8 @@ namespace PokemonGO.Code
         private bool IsFollowingPath => _followPathTween is { active: true } && !_followPathTween.IsComplete();
         public Vector3 AngularVelocity => _rigidbody.angularVelocity;
 
+        public EncounterManager encounterManager;
+
         // ==========================================================
         //  MÉTODO ADICIONADO PARA CORRIGIR O ERRO DE REFERÊNCIA
         // ==========================================================
@@ -50,6 +52,8 @@ namespace PokemonGO.Code
             {
                 _rigidbody = GetComponent<Rigidbody>();
             }
+
+            encounterManager = FindAnyObjectByType<EncounterManager>();
         }
         // ==========================================================
 
@@ -76,6 +80,14 @@ namespace PokemonGO.Code
             if (other.gameObject.CompareTag("Physicist"))
             {
                 Debug.Log("Acertou o Physicist! Iniciando lógica de captura...");
+
+                //Conecta com a physipedia (ainda não foi feita a lógica da objepedia, todos os objs são cientistas por enquanto)
+                if (other.gameObject.transform.CompareTag("Physicist"))
+                {
+                    PhysicistTrigger physicistTrigger = other.gameObject.transform.GetComponent<PhysicistTrigger>();
+                    PhysicistData physicistData = physicistTrigger.data;
+                    physicistTrigger.TriggerEncounter();
+                }
 
                 // Aqui é onde a animação de captura começaria.
                 // Por enquanto, vamos apenas parar a pokébola e destruir os objetos.

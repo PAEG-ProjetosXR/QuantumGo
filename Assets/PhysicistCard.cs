@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class PhysicistCard : MonoBehaviour
 {
-    
+    public Color32 unfoundColor = new Color32(180, 180, 180, 255);
     private PhysicistData data;
 
     public void SetData(PhysicistData newData)
@@ -15,15 +15,17 @@ public class PhysicistCard : MonoBehaviour
     public void SetFound()
     {
         GetComponent<Image>().color = Color.white;
+        data.found = true;
     }
     public void SetUnfound()
     {
-        GetComponent<Image>().color = Color.black;
+        GetComponent<Image>().color = unfoundColor;
+        data.found = false;
     }
 
     public void OnClick()
     {
-        if (data != null)
+        if (data != null && data.found)
         {
             FindObjectOfType<UIHandler>().DisplayPhysicistDetails(data);
         }
