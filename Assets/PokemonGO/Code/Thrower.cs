@@ -55,6 +55,8 @@ namespace PokemonGO.Code
 
         private void Awake()
         {
+            Debug.Log("Camera permission: " + Application.HasUserAuthorization(UserAuthorization.WebCam));
+
             if (Instance != null && Instance != this) { 
                 Destroy(gameObject); return; 
             } 
@@ -106,6 +108,12 @@ namespace PokemonGO.Code
 
         private void Update()
         {
+
+            if (UnityEngine.Input.touchCount > 0)
+            {
+                Debug.Log("TOQUE NATIVO DETECTADO");
+            }
+
             if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
             {
                SpawnPokeBall(); 
