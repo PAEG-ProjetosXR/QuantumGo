@@ -10,6 +10,7 @@ public class PhyspediaManager : MonoBehaviour
     public List<PhysicistCard> physicistCards = new List<PhysicistCard>();
     public GameObject physicistCardPrefab; // Assign in inspector: the prefab for a PhysicistCard
     public GameObject physipediaContent; // Assign in inspector: the parent GameObject that holds all the PhysicistCard instances
+    public GameObject detailPanel; // Assign in inspector: the panel that shows detailed info about a physicist
     private EncounterManager encounterManager;
 
     public void Start()
