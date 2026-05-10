@@ -27,7 +27,7 @@ public class PhysicistCard : MonoBehaviour
     {
         if (data != null && data.found)
         {
-            FindObjectOfType<UIHandler>().DisplayPhysicistDetails(data);
+            FindAnyObjectByType<UIHandler>().DisplayPhysicistDetails(data);
         }
     }
 }
