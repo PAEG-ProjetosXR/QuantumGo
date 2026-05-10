@@ -5,18 +5,15 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
-    private GameObject physicistPanel;
-    private GameObject objectPanel;
-    private GameObject detailPanel;
-    private GameObject menuPanel;
-    private GameObject closeMenuButton;
-    private GameObject goBackButton;
-    private GameObject menuButton;
-    private GameObject physpediaPanel;
-    private GameObject objpediaPanel;
-    private GameObject physpediaButton;
-    private GameObject objpediaButton;
-    private GameObject captureButton;
+    public GameObject physicistPanel;
+    public GameObject objectPanel;
+    public GameObject detailPanel;
+    public GameObject menuPanel;
+    public GameObject physpediaPanel;
+    public GameObject objpediaPanel;
+    public GameObject physpediaButton;
+    public GameObject objpediaButton;
+    public GameObject captureButton;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
@@ -35,18 +32,9 @@ public class UIHandler : MonoBehaviour
 
     private void getComponents()
     {
-        physicistPanel = GameObject.Find("Physicist Panel");
-        objectPanel = GameObject.Find("Object Panel");
-        closeMenuButton = GameObject.Find("Close Menu Button");
-        menuPanel = GameObject.Find("MenuPanel");
-        goBackButton = GameObject.Find("Go Back Button");
-        physpediaPanel = GameObject.Find("Physpedia Panel");
-        objpediaPanel = GameObject.Find("Objpedia Panel");
-        physpediaButton = GameObject.Find("Physpedia Button");
-        objpediaButton = GameObject.Find("Objpedia Button");
-        objpediaButton = GameObject.Find("Capture Button");
-        menuButton = GameObject.Find("Menu Button");
-        detailPanel = GameObject.Find("Detail Panel");
+
+        //objpediaButton = GameObject.Find("Capture Button"); ????????????????
+
         touchTest = GameObject.Find("XR Origin").GetComponent<TouchTest>();
         if (Thrower.Instance == null)
         {
@@ -58,7 +46,7 @@ public class UIHandler : MonoBehaviour
     {
         detailPanel.SetActive(true);
         detailImage.sprite = data.icon;
-        if (data.quest.questCompleted)
+        if (data.found)
         {
             detailImage.color = Color.white;
             detailName.text = "Nome: " + data.name;
