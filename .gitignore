@@ -77,3 +77,4 @@ crashlytics-build.properties
 /[Aa]ssets/Settings/Build Profiles/New Android™ Profile.asset
 *.vsconfig
 .vscode/settings.json
+Quantum GO_BurstDebugInformation_DoNotShip/tempburstlibs/arm64-v8a/lib_burst_generated.txt
