@@ -45,12 +45,21 @@ namespace PokemonGO.Code
         [SerializeField] private Transform _pokeBallSlot;
         [SerializeField] private Collider _pointerCollider;
         [SerializeField] private PokeBallFactory _pokeBallFactory;
+        private ParticleSystem _dragParticles;
 
         private Camera _mainCamera;
         private bool _isDragging;
 
+<<<<<<< Updated upstream
         private float Force => Input.Instance.AveragePointerDelta.magnitude * _forceMultiplier;
         private bool HasPokeBall => _pokeBall != null;
+=======
+        private Vector2 _touchStartPosition;
+        private Vector2 _touchEndPosition;
+        private Vector2 _currentPointerDelta;
+        private float Force => _currentPointerDelta.magnitude * _forceMultiplier;
+        private bool HasPokeBall => _pokeBall != null && _pokeBall.gameObject != null;
+>>>>>>> Stashed changes
         public static Thrower Instance; //Gerar Instancia de Thrower, espero não ser duplicado 
 
         private void Awake()
@@ -71,53 +80,148 @@ namespace PokemonGO.Code
         }
         
         private void OnPointerPerformed(InputAction.CallbackContext context)
+
+        private void Start()
         {
             // Este método precisa existir para a inscrição do evento funcionar.
             // O script Input.Instance provavelmente usa este evento para calcular o AveragePointerDelta.
-        }
-
-
-        private void OnEnable()
-        {
-            if (Input.Instance != null)
-            {
-                Input.Instance.Pointer.started += OnPointerStarted;
-                Input.Instance.Pointer.performed += OnPointerPerformed;
-                Input.Instance.Pointer.canceled += OnPointerCanceled;
-            }
-        }
-
-    
-        private void OnDisable()
-        {
-            if (Input.Instance != null)
-            {
-                Input.Instance.Pointer.started -= OnPointerStarted;
-                Input.Instance.Pointer.performed -= OnPointerPerformed; 
-                Input.Instance.Pointer.canceled -= OnPointerCanceled;
-            }
-        }
-        private void Start()
-        {
             // A chamada foi movida para cá. Start() é executado depois que tudo foi inicializado.
             _mainCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
             //SpawnPokeBall();
         }
 
+
         private void Update()
+    {
+    // Spawn no PC
+    if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+    {
+        if (!HasPokeBall)
         {
+            if (Input.Instance != null)
+<<<<<<< Updated upstream
             if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
             {
+                Input.Instance.Pointer.started += OnPointerStarted;
+                Input.Instance.Pointer.performed += OnPointerPerformed;
+                Input.Instance.Pointer.canceled += OnPointerCanceled;
+            }
                SpawnPokeBall(); 
+=======
+            SpawnPokeBall();
+        }
+    }
+
+    // TOUCH MOBILE
+    if (UnityEngine.Input.touchCount > 0)
+    {
+        Touch touch = UnityEngine.Input.GetTouch(0);
+
+        switch (touch.phase)
+        {
+            case TouchPhase.Began:
+
+                Debug.Log("TOQUE COMEÇOU");
+
+                if (HasPokeBall)
+                {
+                    _touchStartPosition = touch.position;
+                    StartDragging();
+                }
+
+                break;
+
+            case TouchPhase.Moved:
+
+                if (_isDragging)
+                {
+                    _currentPointerDelta = touch.position - _touchStartPosition;
+
+                    FollowPointer();
+                }
+
+                break;
+
+            case TouchPhase.Ended:
+
+                Debug.Log("TOQUE TERMINOU");
+
+                if (_isDragging)
+                {
+                    _touchEndPosition = touch.position;
+
+                    _currentPointerDelta = _touchEndPosition - _touchStartPosition;
+
+                    StopDragging();
+                }
+
+                break;
+        }
+    }
+
+    
+        private void OnDisable()
+    // MOUSE (EDITOR/PC)
+    else
+    {
+        if (UnityEngine.Input.GetMouseButtonDown(0))
+        {
+            if (Input.Instance != null)
+            if (HasPokeBall)
+            {
+                Input.Instance.Pointer.started -= OnPointerStarted;
+                Input.Instance.Pointer.performed -= OnPointerPerformed; 
+                Input.Instance.Pointer.canceled -= OnPointerCanceled;
+                _touchStartPosition = UnityEngine.Input.mousePosition;
+                StartDragging();
+>>>>>>> Stashed changes
+            }
+        }
+
+        if (UnityEngine.Input.GetMouseButton(0))
+        {
+            // A chamada foi movida para cá. Start() é executado depois que tudo foi inicializado.
+            _mainCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
+            //SpawnPokeBall();
+            if (_isDragging)
+            {
+                _currentPointerDelta =
+                    (Vector2)UnityEngine.Input.mousePosition - _touchStartPosition;
+
+                FollowPointer();
+            }
+        }
+
+        private void Update()
+        if (UnityEngine.Input.GetMouseButtonUp(0))
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            if (_isDragging)
+            {
+               SpawnPokeBall(); 
+                _touchEndPosition = UnityEngine.Input.mousePosition;
+
+                _currentPointerDelta =
+                    _touchEndPosition - _touchStartPosition;
+
+                StopDragging();
             }
             if (!_isDragging) return;
             // FollowPointer();
         }
+    }
+    }
 
         private void FixedUpdate()
         {
             if (!_isDragging) return;
             AddToque();
+        private IEnumerator DraggingEnumerator() 
+        { 
+            while (_isDragging) 
+            { 
+                yield return null; 
+            } 
         }
 
         private void StartDragging()
@@ -127,6 +231,10 @@ namespace PokemonGO.Code
             _pokeBall.DisableGravity();
             _pokeBall.ClearVelocities();
             _isDragging = true;
+            if (_dragParticles != null)
+            {
+            _dragParticles.Play();
+            }
             StartCoroutine(DraggingEnumerator());
         }
 
@@ -134,6 +242,7 @@ namespace PokemonGO.Code
         {
             _isDragging = false;
             float dot = Vector2.Dot(Input.Instance.AveragePointerDelta.normalized, Vector2.up);
+            float dot = Vector2.Dot(_currentPointerDelta.normalized, Vector2.up);;
             bool shouldThrow = dot > _minimumDot && Force > _minimumForce;
             if (shouldThrow)
                 Throw();
@@ -142,16 +251,58 @@ namespace PokemonGO.Code
         }
 
         private void FollowPointer()
+<<<<<<< Updated upstream
         {
             Vector3 pointerPosition = GetPointerPosition();
             Vector3 pokeBallPosition = _pokeBall.transform.position;
             _pokeBall.transform.position = Vector3.Slerp(pokeBallPosition, pointerPosition, Time.deltaTime * _followSpeed);
         }
+=======
+    {
+    if (!HasPokeBall || _mainCamera == null)
+        return;
+
+    Vector3 screenPosition;
+
+    // MOBILE
+    if (UnityEngine.Input.touchCount > 0)
+    {
+        screenPosition = UnityEngine.Input.GetTouch(0).position;
+    }
+    // PC
+    else
+    {
+        screenPosition = UnityEngine.Input.mousePosition;
+    }
+
+    // profundidade fixa da câmera
+    screenPosition.z = 1.0f;
+
+    Vector3 targetPosition =
+        _mainCamera.ScreenToWorldPoint(screenPosition);
+
+    _pokeBall.transform.position = Vector3.Lerp(
+        _pokeBall.transform.position,
+        targetPosition,
+        Time.deltaTime * _followSpeed
+    );
+
+    float rotationSpeed =
+    _currentPointerDelta.magnitude * 10f;
+
+    _pokeBall.transform.Rotate(
+    Vector3.up,
+    rotationSpeed * Time.deltaTime,
+    Space.World
+    );
+    }
+>>>>>>> Stashed changes
 
         private void AddToque()
         {
             // Pega o quanto o mouse se moveu desde o último frame (um vetor 2D)
             Vector2 pointerDelta = Input.Instance.PointerDelta;
+            Vector2 pointerDelta = _currentPointerDelta;
 
             // Nós queremos que o movimento horizontal do mouse (pointerDelta.x) gere um giro
             // em torno do eixo Y da bola (um giro para os lados, ou "sidespin").
@@ -167,6 +318,7 @@ namespace PokemonGO.Code
             _start.position = startPosition;
             Vector2 pointerInfluence = new Vector2(1f, 1f);
             Vector3 pointerDirection = Input.Instance.AveragePointerDelta.normalized;
+            Vector3 pointerDirection = _currentPointerDelta.normalized;
             Vector3 influencedPointerDirection = Vector3.Scale(pointerDirection, pointerInfluence);
 
             // Primeiro, separamos o arrasto em componentes horizontal (X) e vertical (Y)
@@ -214,8 +366,18 @@ namespace PokemonGO.Code
         
         public void SpawnPokeBall()
         {
+<<<<<<< Updated upstream
         _pokeBall = _pokeBallFactory.Create(Vector3.zero, Quaternion.identity);
         
+=======
+            /*
+            if(HasPokeBall)
+            {
+                Debug.Log("já existe uma pokebola ativa!");
+                return;
+            }
+            */
+>>>>>>> Stashed changes
         // Achar camera XR se _mainCamera não funcionar!
         //arCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
         
@@ -239,6 +401,19 @@ namespace PokemonGO.Code
         _pokeBall.transform.localPosition = new Vector3(0, -0.4f, 1f); // ajuste fino aqui
         _pokeBall.transform.localRotation = Quaternion.identity;
         _pokeBall.transform.localScale = _heldPokeBallScale;
+
+        Transform particleTransform =
+    _pokeBall.transform.Find("Visual/VFX/RotationVFX");
+
+        if (particleTransform != null)
+            {
+                _dragParticles =
+                particleTransform.GetComponent<ParticleSystem>();
+            }
+        else
+            {
+            Debug.LogWarning("RotationVFX não encontrado!");
+            }
         
         }
         
@@ -262,12 +437,41 @@ namespace PokemonGO.Code
         }
 
         private Vector3 GetPointerPosition()
+<<<<<<< Updated upstream
         {
             Vector2 pointerPosition = Input.Instance.PointerPosition;
             Ray ray = _mainCamera.ScreenPointToRay(pointerPosition);
             Physics.Raycast(ray, out RaycastHit grab, float.MaxValue, Layer.Mask.Pointer);
             return grab.point;
         }
+=======
+    {
+    if (_mainCamera == null)
+        return Vector3.zero;
+
+    Vector2 pointerPosition;
+
+    if (UnityEngine.Input.touchCount > 0)
+    {
+        pointerPosition = UnityEngine.Input.GetTouch(0).position;
+    }
+    else
+    {
+        pointerPosition = UnityEngine.Input.mousePosition;
+    }
+
+    Ray ray = _mainCamera.ScreenPointToRay(pointerPosition);
+
+    if (Physics.Raycast(ray, out RaycastHit grab, float.MaxValue))
+    {
+        return grab.point;
+    }
+
+    return _pokeBallSlot != null
+        ? _pokeBallSlot.position
+        : Vector3.zero;
+    }
+>>>>>>> Stashed changes
 
         private bool IsOnPointerCollider()
         {
