@@ -57,6 +57,5 @@
         "Temp/": true
     },
     "dotnet.defaultSolution": "QuantumGo-Atual.sln"
-    "QuantumGo-Atual.sln=======QuantumGo-Atual.slndotnet.defaultSolution": "QuantumGo.sln",
     "dotnet.defaultSolution": "QuantumGo.sln"
 }

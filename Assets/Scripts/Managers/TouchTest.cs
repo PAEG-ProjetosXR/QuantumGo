@@ -13,13 +13,21 @@ public class TouchTest : MonoBehaviour
     
     public static Canvas canvas;
     
-    public Canvas PhysicistCanvas;
-    public Canvas ObjectCanvas;
+    public GameObject PhysicistPanel;
+    public GameObject ObjectPanel;
     
     public GameObject namePanel;
     public GameObject infoPanel;
 
     [HideInInspector] public bool canInteract = true;
+
+    private void Awake()
+    {
+        PhysicistPanel = GameObject.Find("Physicist Panel");
+        ObjectPanel = GameObject.Find("Object Panel");
+    }
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,14 +62,14 @@ public class TouchTest : MonoBehaviour
 
                 if (hit.transform.CompareTag("Physicist"))
                 {
-                    PhysicistCanvas.gameObject.SetActive(true);
+                    PhysicistPanel.gameObject.SetActive(true);
                     Debug.Log(hit.transform.name + " : " + hit.transform.tag);
                     PhysicistInteraction(hit);
                 }
 
                 if (hit.transform.CompareTag("Object"))
                 {
-                    ObjectCanvas.gameObject.SetActive(true);
+                    ObjectPanel.gameObject.SetActive(true);
                     Debug.Log(hit.transform.name + " : " + hit.transform.tag);
                     ObjectInteraction(hit);
                 }
@@ -70,14 +78,14 @@ public class TouchTest : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (PhysicistCanvas.gameObject.activeInHierarchy)
+            if (PhysicistPanel.gameObject.activeInHierarchy)
             {
-                PhysicistCanvas.gameObject.SetActive(false);
+                PhysicistPanel.gameObject.SetActive(false);
             }
 
-            if (ObjectCanvas.gameObject.activeInHierarchy)
+            if (ObjectPanel.gameObject.activeInHierarchy)
             {
-                ObjectCanvas.gameObject.SetActive(false);
+                ObjectPanel.gameObject.SetActive(false);
             }
         }
     }
@@ -140,7 +148,7 @@ public class TouchTest : MonoBehaviour
                 }
             }
         
-            PhysicistCanvas.gameObject.SetActive(true);
+            PhysicistPanel.gameObject.SetActive(true);
             Debug.Log("Attempting dialogue");
             nameText.text = physicistName;
             infoText.text = info;
@@ -157,7 +165,7 @@ public class TouchTest : MonoBehaviour
             string objectName = objectTrigger.data.name;
             
             popupText.text = $"Encontrou e registrou um novo objeto: \n{objectName}!";
-            ObjectCanvas.gameObject.SetActive(true);
+            ObjectPanel.gameObject.SetActive(true);
         }
     }
 }
