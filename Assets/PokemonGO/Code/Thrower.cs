@@ -166,10 +166,8 @@ namespace PokemonGO.Code
     {
         if (UnityEngine.Input.GetMouseButtonDown(0))
         {
-            if (Input.Instance != null)
             if (HasPokeBall)
             {
-                Input.Instance.Pointer.started -= OnPointerStarted;
                 Input.Instance.Pointer.performed -= OnPointerPerformed; 
                 Input.Instance.Pointer.canceled -= OnPointerCanceled;
                 _touchStartPosition = UnityEngine.Input.mousePosition;
