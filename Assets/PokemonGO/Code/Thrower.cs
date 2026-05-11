@@ -4,7 +4,6 @@ using DG.Tweening;
 using Kynesis.Utilities;
 using PokemonGO.Global;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Unity.XR.CoreUtils;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
@@ -15,507 +14,248 @@ namespace PokemonGO.Code
     public class Thrower : MonoBehaviour
     {
         [Header("Dragging Settings")]
-        [SerializeField, Range(0f, 1f)] private float _verticalInfluence = 0.5f;
-        // [SerializeField] private Transform _playerInputAnchor;
-        [SerializeField] private LayerMask _pointerLayerMask;
-        [SerializeField] private float _followSpeed = 10;
-        [SerializeField] private float _torqueMultiplier = 0.3f;
-        [SerializeField] private Vector3 _heldPokeBallScale = Vector3.one; // Define (1,1,1) como padrão
+        [SerializeField, Range(0f, 1f)]
+        private float _verticalInfluence = 0.5f;
+
+        [SerializeField]
+        private LayerMask _pointerLayerMask;
+
+        [SerializeField]
+        private float _followSpeed = 10;
+
+        [SerializeField]
+        private float _torqueMultiplier = 0.3f;
+
+        [SerializeField]
+        private Vector3 _heldPokeBallScale = Vector3.one;
 
         [Header("Throw Settings")]
-        [SerializeField] private float _forceMultiplier = 6;
-        [SerializeField] private float _heightMultiplier = 0.5f;
-        [SerializeField] private float _curveInfluence = 5;
-        [SerializeField] private float _minimumForce = 1f;
-        [SerializeField, Range(-1f, 1f)] private float _minimumDot = 0.2f;
+        [SerializeField]
+        private float _forceMultiplier = 6;
+
+        [SerializeField]
+        private float _heightMultiplier = 0.5f;
+
+        [SerializeField]
+        private float _curveInfluence = 5;
+
+        [SerializeField]
+        private float _minimumForce = 1f;
+
+        [SerializeField, Range(-1f, 1f)]
+        private float _minimumDot = 0.2f;
 
         [Header("Help Settings")]
-        [SerializeField] private Vector3 _helpInfluence = new(0, 0, 0);
-        [SerializeField] private float _helpRadius = 2;
+        [SerializeField]
+        private Vector3 _helpInfluence = new(0, 0, 0);
+
+        [SerializeField]
+        private float _helpRadius = 2;
 
         [Header("Bezier")]
-        [SerializeField] private Transform _start;
-        [SerializeField] private Transform _mid;
-        [SerializeField] private Transform _end;
-        [SerializeField, Range(1, 10)] private float _extrapolation = 2;
-        [SerializeField, Range(3, 100)] private int _points = 10;
+        [SerializeField]
+        private Transform _start;
+
+        [SerializeField]
+        private Transform _mid;
+
+        [SerializeField]
+        private Transform _end;
+
+        [SerializeField, Range(1, 10)]
+        private float _extrapolation = 2;
+
+        [SerializeField, Range(3, 100)]
+        private int _points = 10;
 
         [Header("Bindings")]
-        [SerializeField] private PokeBall _pokeBall;
-        [SerializeField] private Transform _pokeBallSlot;
-        [SerializeField] private Collider _pointerCollider;
-        [SerializeField] private PokeBallFactory _pokeBallFactory;
+        [SerializeField]
+        private PokeBall _pokeBall;
+
+        [SerializeField]
+        private Transform _pokeBallSlot;
+
+        [SerializeField]
+        private Collider _pointerCollider;
+
+        [SerializeField]
+        private PokeBallFactory _pokeBallFactory;
+
         private ParticleSystem _dragParticles;
 
         private Camera _mainCamera;
+
         private bool _isDragging;
 
-<<<<<<< Updated upstream
-        private float Force => Input.Instance.AveragePointerDelta.magnitude * _forceMultiplier;
-        private bool HasPokeBall => _pokeBall != null;
-=======
         private Vector2 _touchStartPosition;
+
         private Vector2 _touchEndPosition;
+
         private Vector2 _currentPointerDelta;
-        private float Force => _currentPointerDelta.magnitude * _forceMultiplier;
-        private bool HasPokeBall => _pokeBall != null && _pokeBall.gameObject != null;
->>>>>>> Stashed changes
-        public static Thrower Instance; //Gerar Instancia de Thrower, espero não ser duplicado 
+
+        private float Force =>
+            _currentPointerDelta.magnitude * _forceMultiplier;
+
+        private bool HasPokeBall =>
+            _pokeBall != null && _pokeBall.gameObject != null;
+
+        public static Thrower Instance;
 
         private void Awake()
         {
-            if (Instance != null && Instance != this) { 
-                Destroy(gameObject); return; 
-            } 
-            Instance = this;
-            //_mainCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
-            // Se o _pokeBallSlot não foi atribuído no Inspector...
-            if (_pokeBallSlot == null)
+            if (Instance != null && Instance != this)
             {
-                // ...peça a referência diretamente ao nosso gerenciador.
-                _pokeBallSlot = CameraManager.Instance.PokeBallHoldPosition;
+                Destroy(gameObject);
+                return;
             }
 
-            Debug.Log("Thrower ativo em: " + gameObject.name + " | Cena: " + gameObject.scene.name);
+            Instance = this;
+
+            if (_pokeBallSlot == null &&
+                CameraManager.Instance != null)
+            {
+                _pokeBallSlot =
+                    CameraManager.Instance.PokeBallHoldPosition;
+            }
+
+            Debug.Log(
+                "Thrower ativo em: " +
+                gameObject.name +
+                " | Cena: " +
+                gameObject.scene.name
+            );
         }
-        
-        private void OnPointerPerformed(InputAction.CallbackContext context)
 
         private void Start()
         {
-            // Este método precisa existir para a inscrição do evento funcionar.
-            // O script Input.Instance provavelmente usa este evento para calcular o AveragePointerDelta.
-            // A chamada foi movida para cá. Start() é executado depois que tudo foi inicializado.
-            _mainCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
-            //SpawnPokeBall();
-        }
+            var xr = FindAnyObjectByType<XROrigin>();
 
-
-        private void Update()
-    {
-    // Spawn no PC
-    if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
-    {
-        if (!HasPokeBall)
-        {
-            if (Input.Instance != null)
-<<<<<<< Updated upstream
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            if (xr != null)
             {
-                Input.Instance.Pointer.started += OnPointerStarted;
-                Input.Instance.Pointer.performed += OnPointerPerformed;
-                Input.Instance.Pointer.canceled += OnPointerCanceled;
+                _mainCamera =
+                    xr.GetComponentInChildren<Camera>();
             }
-               SpawnPokeBall(); 
-=======
-            SpawnPokeBall();
-        }
-    }
 
-    // TOUCH MOBILE
-    if (UnityEngine.Input.touchCount > 0)
-    {
-        Touch touch = UnityEngine.Input.GetTouch(0);
-
-        switch (touch.phase)
-        {
-            case TouchPhase.Began:
-
-                Debug.Log("TOQUE COMEÇOU");
-
-                if (HasPokeBall)
-                {
-                    _touchStartPosition = touch.position;
-                    StartDragging();
-                }
-
-                break;
-
-            case TouchPhase.Moved:
-
-                if (_isDragging)
-                {
-                    _currentPointerDelta = touch.position - _touchStartPosition;
-
-                    FollowPointer();
-                }
-
-                break;
-
-            case TouchPhase.Ended:
-
-                Debug.Log("TOQUE TERMINOU");
-
-                if (_isDragging)
-                {
-                    _touchEndPosition = touch.position;
-
-                    _currentPointerDelta = _touchEndPosition - _touchStartPosition;
-
-                    StopDragging();
-                }
-
-                break;
-        }
-    }
-
-    
-        private void OnDisable()
-    // MOUSE (EDITOR/PC)
-    else
-    {
-        if (UnityEngine.Input.GetMouseButtonDown(0))
-        {
-            if (HasPokeBall)
+            if (_mainCamera == null)
             {
-                Input.Instance.Pointer.performed -= OnPointerPerformed; 
-                Input.Instance.Pointer.canceled -= OnPointerCanceled;
-                _touchStartPosition = UnityEngine.Input.mousePosition;
-                StartDragging();
->>>>>>> Stashed changes
+                Debug.LogError("Main Camera não encontrada!");
             }
-        }
 
-        if (UnityEngine.Input.GetMouseButton(0))
-        {
-            // A chamada foi movida para cá. Start() é executado depois que tudo foi inicializado.
-            _mainCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
-            //SpawnPokeBall();
-            if (_isDragging)
+            if (_start == null ||
+                _mid == null ||
+                _end == null)
             {
-                _currentPointerDelta =
-                    (Vector2)UnityEngine.Input.mousePosition - _touchStartPosition;
-
-                FollowPointer();
+                Debug.LogError("Bezier points não definidos!");
             }
         }
 
         private void Update()
-        if (UnityEngine.Input.GetMouseButtonUp(0))
         {
+            // Spawn no PC
             if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
-            if (_isDragging)
             {
-               SpawnPokeBall(); 
-                _touchEndPosition = UnityEngine.Input.mousePosition;
-
-                _currentPointerDelta =
-                    _touchEndPosition - _touchStartPosition;
-
-                StopDragging();
+                if (!HasPokeBall)
+                {
+                    SpawnPokeBall();
+                }
             }
-            if (!_isDragging) return;
-            // FollowPointer();
-        }
-    }
-    }
 
-        private void FixedUpdate()
-        {
-            if (!_isDragging) return;
-            AddToque();
-        private IEnumerator DraggingEnumerator() 
-        { 
-            while (_isDragging) 
-            { 
-                yield return null; 
-            } 
-        }
-
-        private void StartDragging()
-        {
-            // _pokeBall.transform.position = GetPointerPosition();
-            _pokeBall.transform.rotation = _pokeBallSlot.rotation;
-            _pokeBall.DisableGravity();
-            _pokeBall.ClearVelocities();
-            _isDragging = true;
-            if (_dragParticles != null)
+            // MOBILE
+            if (UnityEngine.Input.touchCount > 0)
             {
-            _dragParticles.Play();
-            }
-            StartCoroutine(DraggingEnumerator());
-        }
+                Touch touch =
+                    UnityEngine.Input.GetTouch(0);
 
-        private void StopDragging()
-        {
-            _isDragging = false;
-            float dot = Vector2.Dot(Input.Instance.AveragePointerDelta.normalized, Vector2.up);
-            float dot = Vector2.Dot(_currentPointerDelta.normalized, Vector2.up);;
-            bool shouldThrow = dot > _minimumDot && Force > _minimumForce;
-            if (shouldThrow)
-                Throw();
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+
+                        Debug.Log("TOQUE COMEÇOU");
+
+                        if (HasPokeBall)
+                        {
+                            _touchStartPosition =
+                                touch.position;
+
+                            StartDragging();
+                        }
+
+                        break;
+
+                    case TouchPhase.Moved:
+
+                        if (_isDragging)
+                        {
+                            _currentPointerDelta =
+                                touch.position -
+                                _touchStartPosition;
+
+                            FollowPointer();
+                        }
+
+                        break;
+
+                    case TouchPhase.Ended:
+
+                        Debug.Log("TOQUE TERMINOU");
+
+                        if (_isDragging)
+                        {
+                            _touchEndPosition =
+                                touch.position;
+
+                            _currentPointerDelta =
+                                _touchEndPosition -
+                                _touchStartPosition;
+
+                            StopDragging();
+                        }
+
+                        break;
+                }
+            }
+
+            // PC
             else
-                Reset();
-        }
-
-        private void FollowPointer()
-<<<<<<< Updated upstream
-        {
-            Vector3 pointerPosition = GetPointerPosition();
-            Vector3 pokeBallPosition = _pokeBall.transform.position;
-            _pokeBall.transform.position = Vector3.Slerp(pokeBallPosition, pointerPosition, Time.deltaTime * _followSpeed);
-        }
-=======
-    {
-    if (!HasPokeBall || _mainCamera == null)
-        return;
-
-    Vector3 screenPosition;
-
-    // MOBILE
-    if (UnityEngine.Input.touchCount > 0)
-    {
-        screenPosition = UnityEngine.Input.GetTouch(0).position;
-    }
-    // PC
-    else
-    {
-        screenPosition = UnityEngine.Input.mousePosition;
-    }
-
-    // profundidade fixa da câmera
-    screenPosition.z = 1.0f;
-
-    Vector3 targetPosition =
-        _mainCamera.ScreenToWorldPoint(screenPosition);
-
-    _pokeBall.transform.position = Vector3.Lerp(
-        _pokeBall.transform.position,
-        targetPosition,
-        Time.deltaTime * _followSpeed
-    );
-
-    float rotationSpeed =
-    _currentPointerDelta.magnitude * 10f;
-
-    _pokeBall.transform.Rotate(
-    Vector3.up,
-    rotationSpeed * Time.deltaTime,
-    Space.World
-    );
-    }
->>>>>>> Stashed changes
-
-        private void AddToque()
-        {
-            // Pega o quanto o mouse se moveu desde o último frame (um vetor 2D)
-            Vector2 pointerDelta = Input.Instance.PointerDelta;
-            Vector2 pointerDelta = _currentPointerDelta;
-
-            // Nós queremos que o movimento horizontal do mouse (pointerDelta.x) gere um giro
-            // em torno do eixo Y da bola (um giro para os lados, ou "sidespin").
-            // O sinal negativo em -pointerDelta.x é para que o giro pareça mais natural.
-            Vector3 torque = new Vector3(pointerDelta.y, -pointerDelta.x, 0) * _torqueMultiplier;
-
-            // O script PokeBall irá receber este torque e aplicar à sua física.
-            _pokeBall.AddTorque(torque);
-        }
-        private void Throw()
-        {
-            Vector3 startPosition = _pokeBall.transform.position;
-            _start.position = startPosition;
-            Vector2 pointerInfluence = new Vector2(1f, 1f);
-            Vector3 pointerDirection = Input.Instance.AveragePointerDelta.normalized;
-            Vector3 pointerDirection = _currentPointerDelta.normalized;
-            Vector3 influencedPointerDirection = Vector3.Scale(pointerDirection, pointerInfluence);
-
-            // Primeiro, separamos o arrasto em componentes horizontal (X) e vertical (Y)
-            Vector3 swipeDirection = influencedPointerDirection; // (O valor original do arrasto)
-
-            // Transformamos apenas o componente HORIZONTAL para o espaço do mundo.
-            Vector3 horizontalThrow = _mainCamera.transform.TransformDirection(new Vector3(swipeDirection.x, 0, 0));
-
-            // Pegamos o componente VERTICAL do arrasto e o multiplicamos pela nossa nova variável.
-            Vector3 verticalThrow = Vector3.up * swipeDirection.y * _verticalInfluence;
-
-            // O vetor final é a direção PARA FRENTE da câmera, mais a influência horizontal e a influência vertical controlada.
-            Vector3 throwVector = (_mainCamera.transform.forward + horizontalThrow + verticalThrow).normalized * Force;
-
-            Vector3 endPosition = startPosition + throwVector;
-            Vector3 midPosition = Vector3.Lerp(startPosition, endPosition, 0.5f);
-            midPosition.y += Force * _heightMultiplier * (_pokeBall.IsCharged ? 0.5f : 1);
-            _mid.position = midPosition;
-
-            if (_pokeBall.IsCharged)
             {
-                // Usamos a nossa variável 'horizontalThrow', que contém a direção
-                // do arrasto horizontal já convertida para o espaço do mundo.
-                Vector3 curveDirection = new Vector3(-horizontalThrow.x, 0, 0).normalized;
-                endPosition += curveDirection * _curveInfluence;
+                if (UnityEngine.Input.GetMouseButtonDown(0))
+                {
+                    if (HasPokeBall)
+                    {
+                        _touchStartPosition =
+                            UnityEngine.Input.mousePosition;
+
+                        StartDragging();
+                    }
+                }
+
+                if (UnityEngine.Input.GetMouseButton(0))
+                {
+                    if (_isDragging)
+                    {
+                        _currentPointerDelta =
+                            (Vector2)UnityEngine.Input.mousePosition -
+                            _touchStartPosition;
+
+                        FollowPointer();
+                    }
+                }
+
+                if (UnityEngine.Input.GetMouseButtonUp(0))
+                {
+                    if (_isDragging)
+                    {
+                        _touchEndPosition =
+                            UnityEngine.Input.mousePosition;
+
+                        _currentPointerDelta =
+                            _touchEndPosition -
+                            _touchStartPosition;
+
+                        StopDragging();
+                    }
+                }
             }
-
-            Transform pokemon = GameObject.FindWithTag("Physicist").transform; // Usando a sua tag
-            bool isOnHelpRange = Vector3.Distance(pokemon.position, endPosition) < _helpRadius;
-            if (isOnHelpRange)
-            {
-                endPosition.x = Mathf.Lerp(endPosition.x, pokemon.position.x, _helpInfluence.x);
-                endPosition.y = Mathf.Lerp(endPosition.y, pokemon.position.y, _helpInfluence.y);
-                endPosition.z = Mathf.Lerp(endPosition.z, pokemon.position.z, _helpInfluence.z);
-                _end.position = endPosition;
-            }
-
-            List<Vector3> path = Bezier.GetExtrapolatedPath(startPosition, midPosition, endPosition, 0f, _extrapolation, _points);
-
-            _pokeBall.Throw(path);
-            _pokeBall.transform.SetParent(null);
-            _pokeBall = null;
-            //DOVirtual.DelayedCall(1, SpawnPokeBall);
-        }
-        
-        public void SpawnPokeBall()
-        {
-<<<<<<< Updated upstream
-        _pokeBall = _pokeBallFactory.Create(Vector3.zero, Quaternion.identity);
-        
-=======
-            /*
-            if(HasPokeBall)
-            {
-                Debug.Log("já existe uma pokebola ativa!");
-                return;
-            }
-            */
->>>>>>> Stashed changes
-        // Achar camera XR se _mainCamera não funcionar!
-        //arCamera = FindAnyObjectByType<XROrigin>().GetComponentInChildren<Camera>();
-        
-        if (_mainCamera!= null && _pokeBall != null)
-        {
-            // Make the model a child of the AR Camera
-            _pokeBall.transform.SetParent(_mainCamera.transform);
-            // Set its local position to be forward relative to the camera
-            _pokeBall.transform.localPosition = new Vector3(0, 0, 4f);
-            // Reset its rotation so it faces forward
-            _pokeBall.transform.localRotation = Quaternion.identity;
-        }
-        else
-        {
-            Debug.LogError("AR Camera or Model to Place is not assigned!");
-        }
-        
-        Transform cam = _mainCamera.transform;
-
-        _pokeBall.transform.SetParent(cam);
-        _pokeBall.transform.localPosition = new Vector3(0, -0.4f, 1f); // ajuste fino aqui
-        _pokeBall.transform.localRotation = Quaternion.identity;
-        _pokeBall.transform.localScale = _heldPokeBallScale;
-
-        Transform particleTransform =
-    _pokeBall.transform.Find("Visual/VFX/RotationVFX");
-
-        if (particleTransform != null)
-            {
-                _dragParticles =
-                particleTransform.GetComponent<ParticleSystem>();
-            }
-        else
-            {
-            Debug.LogWarning("RotationVFX não encontrado!");
-            }
-        
-        }
-        
-
-        /*
-        public void SpawnPokeBall()
-        {
-            _pokeBall = _pokeBallFactory.Create(_pokeBallSlot.position, _pokeBallSlot.rotation);
-            _pokeBall.transform.SetParent(_pokeBallSlot);
-            _pokeBall.transform.localScale = _heldPokeBallScale;
-            Debug.Log("Spawnou pokebola: " + _pokeBall);
-            _pokeBall.transform.position = _mainCamera.transform.position + _mainCamera.transform.forward * 0.5f;
-        }
-        */
-
-        private void Reset()
-        {
-            _pokeBall.ClearVelocities();
-            _pokeBall.transform.position = _pokeBallSlot.position;
-            _pokeBall.transform.rotation = _pokeBallSlot.rotation;
-        }
-
-        private Vector3 GetPointerPosition()
-<<<<<<< Updated upstream
-        {
-            Vector2 pointerPosition = Input.Instance.PointerPosition;
-            Ray ray = _mainCamera.ScreenPointToRay(pointerPosition);
-            Physics.Raycast(ray, out RaycastHit grab, float.MaxValue, Layer.Mask.Pointer);
-            return grab.point;
-        }
-=======
-    {
-    if (_mainCamera == null)
-        return Vector3.zero;
-
-    Vector2 pointerPosition;
-
-    if (UnityEngine.Input.touchCount > 0)
-    {
-        pointerPosition = UnityEngine.Input.GetTouch(0).position;
-    }
-    else
-    {
-        pointerPosition = UnityEngine.Input.mousePosition;
-    }
-
-    Ray ray = _mainCamera.ScreenPointToRay(pointerPosition);
-
-    if (Physics.Raycast(ray, out RaycastHit grab, float.MaxValue))
-    {
-        return grab.point;
-    }
-
-    return _pokeBallSlot != null
-        ? _pokeBallSlot.position
-        : Vector3.zero;
-    }
->>>>>>> Stashed changes
-
-        private bool IsOnPointerCollider()
-        {
-            Debug.Log("3. Verificando colisão com o raio...");
-            var ray = _mainCamera.ScreenPointToRay(Input.Instance.PointerPosition);
-
-            // VAMOS DESENHAR O RAIO NA CENA PARA VERMOS ONDE ELE ESTÁ INDO.
-            // Ele será uma linha amarela por 2 segundos.
-            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.yellow, 2f);
-
-            bool hit = Physics.Raycast(ray, out _, float.MaxValue, _pointerLayerMask);
-
-            // Esta mensagem nos dirá a verdade absoluta se o raio atingiu ou não.
-            Debug.Log($"O raio atingiu a camada 'Pointer'? -> {hit}");
-            
-            return hit;
-        }
-
-        private void OnPointerStarted(InputAction.CallbackContext context)
-        {
-            Debug.Log("1. OnPointerStarted foi chamado!");
-
-            // Aceitar Mouse (Editor) e Touchscreen (mobile). Não filtrar por Mouse apenas.
-            var device = context.control?.device;
-            if (device != null && !(device is UnityEngine.InputSystem.Mouse) && !(device is UnityEngine.InputSystem.Touchscreen))
-            {
-                Debug.Log($"Ação ignorada: dispositivo não é Mouse nem Touchscreen ({device}).");
-                return;
-            }
-
-            Debug.Log("2. Clique / toque detectado.");
-
-            if (!HasPokeBall)
-            {
-                Debug.Log("Condição para iniciar o arrasto FALHOU.");
-                return;
-            }
-
-            Debug.Log("4. SUCESSO! Iniciando o arrasto! StartDragging() foi chamado.");
-            StartDragging();
-        }
-
-        private void OnPointerCanceled(InputAction.CallbackContext callbackContext)
-        {
-            if (!_isDragging) return;
-            StopDragging();
         }
 
         private IEnumerator DraggingEnumerator()
@@ -526,32 +266,416 @@ namespace PokemonGO.Code
             }
         }
 
+        private void StartDragging()
+        {
+            if (!HasPokeBall)
+                return;
+
+            _pokeBall.transform.rotation =
+                _pokeBallSlot.rotation;
+
+            _pokeBall.DisableGravity();
+
+            _pokeBall.ClearVelocities();
+
+            _isDragging = true;
+
+            if (_dragParticles != null)
+            {
+                _dragParticles.Play();
+            }
+
+            StartCoroutine(DraggingEnumerator());
+        }
+
+        private void StopDragging()
+        {
+            _isDragging = false;
+
+            if (_dragParticles != null)
+            {
+                _dragParticles.Stop();
+            }
+
+            float dot =
+                Vector2.Dot(
+                    _currentPointerDelta.normalized,
+                    Vector2.up
+                );
+
+            bool shouldThrow =
+                dot > _minimumDot &&
+                Force > _minimumForce;
+
+            if (shouldThrow)
+            {
+                Throw();
+            }
+            else
+            {
+                Reset();
+            }
+        }
+
+        private void FollowPointer()
+        {
+            if (!HasPokeBall || _mainCamera == null)
+                return;
+
+            Vector3 screenPosition;
+
+            // MOBILE
+            if (UnityEngine.Input.touchCount > 0)
+            {
+                screenPosition =
+                    UnityEngine.Input.GetTouch(0).position;
+            }
+            // PC
+            else
+            {
+                screenPosition =
+                    UnityEngine.Input.mousePosition;
+            }
+
+            screenPosition.z = 1.0f;
+
+            Vector3 targetPosition =
+                _mainCamera.ScreenToWorldPoint(
+                    screenPosition
+                );
+
+            _pokeBall.transform.position =
+                Vector3.Lerp(
+                    _pokeBall.transform.position,
+                    targetPosition,
+                    Time.deltaTime * _followSpeed
+                );
+
+            float rotationSpeed =
+                _currentPointerDelta.magnitude * 10f;
+
+            _pokeBall.transform.Rotate(
+                Vector3.up,
+                rotationSpeed * Time.deltaTime,
+                Space.World
+            );
+        }
+
+        private void FixedUpdate()
+        {
+            if (!_isDragging)
+                return;
+
+            AddTorque();
+        }
+
+        private void AddTorque()
+        {
+            if (!HasPokeBall)
+                return;
+
+            Vector2 pointerDelta =
+                _currentPointerDelta;
+
+            Vector3 torque =
+                new Vector3(
+                    pointerDelta.y,
+                    -pointerDelta.x,
+                    0
+                ) * _torqueMultiplier;
+
+            _pokeBall.AddTorque(torque);
+        }
+
+        private void Throw()
+        {
+            if (!HasPokeBall || _mainCamera == null)
+                return;
+
+            GameObject pokemonObj =
+                GameObject.FindWithTag("Physicist");
+
+            if (pokemonObj == null)
+            {
+                Debug.LogWarning(
+                    "Physicist não encontrado!"
+                );
+                return;
+            }
+
+            Transform pokemon =
+                pokemonObj.transform;
+
+            Vector3 startPosition =
+                _pokeBall.transform.position;
+
+            _start.position = startPosition;
+
+            Vector2 pointerInfluence =
+                new Vector2(1f, 1f);
+
+            Vector3 pointerDirection =
+                _currentPointerDelta.normalized;
+
+            Vector3 influencedPointerDirection =
+                Vector3.Scale(
+                    pointerDirection,
+                    pointerInfluence
+                );
+
+            Vector3 swipeDirection =
+                influencedPointerDirection;
+
+            Vector3 horizontalThrow =
+                _mainCamera.transform.TransformDirection(
+                    new Vector3(
+                        swipeDirection.x,
+                        0,
+                        0
+                    )
+                );
+
+            Vector3 verticalThrow =
+                Vector3.up *
+                swipeDirection.y *
+                _verticalInfluence;
+
+            Vector3 throwVector =
+                (
+                    _mainCamera.transform.forward +
+                    horizontalThrow +
+                    verticalThrow
+                ).normalized * Force;
+
+            Vector3 endPosition =
+                startPosition + throwVector;
+
+            Vector3 midPosition =
+                Vector3.Lerp(
+                    startPosition,
+                    endPosition,
+                    0.5f
+                );
+
+            midPosition.y +=
+                Force *
+                _heightMultiplier *
+                (_pokeBall.IsCharged ? 0.5f : 1);
+
+            _mid.position = midPosition;
+
+            if (_pokeBall.IsCharged)
+            {
+                Vector3 curveDirection =
+                    new Vector3(
+                        -horizontalThrow.x,
+                        0,
+                        0
+                    ).normalized;
+
+                endPosition +=
+                    curveDirection *
+                    _curveInfluence;
+            }
+
+            bool isOnHelpRange =
+                Vector3.Distance(
+                    pokemon.position,
+                    endPosition
+                ) < _helpRadius;
+
+            if (isOnHelpRange)
+            {
+                endPosition.x =
+                    Mathf.Lerp(
+                        endPosition.x,
+                        pokemon.position.x,
+                        _helpInfluence.x
+                    );
+
+                endPosition.y =
+                    Mathf.Lerp(
+                        endPosition.y,
+                        pokemon.position.y,
+                        _helpInfluence.y
+                    );
+
+                endPosition.z =
+                    Mathf.Lerp(
+                        endPosition.z,
+                        pokemon.position.z,
+                        _helpInfluence.z
+                    );
+
+                _end.position = endPosition;
+            }
+
+            List<Vector3> path =
+                Bezier.GetExtrapolatedPath(
+                    startPosition,
+                    midPosition,
+                    endPosition,
+                    0f,
+                    _extrapolation,
+                    _points
+                );
+
+            _pokeBall.Throw(path);
+
+            _pokeBall.transform.SetParent(null);
+
+            _pokeBall = null;
+        }
+
+        public void SpawnPokeBall()
+        {
+            if (HasPokeBall)
+            {
+                Debug.Log(
+                    "já existe uma pokebola ativa!"
+                );
+                return;
+            }
+
+            if (_mainCamera == null)
+            {
+                Debug.LogError(
+                    "AR Camera is not assigned!"
+                );
+                return;
+            }
+
+            _pokeBall =
+                _pokeBallFactory.Create(
+                    Vector3.zero,
+                    Quaternion.identity
+                );
+
+            if (_pokeBall == null)
+            {
+                Debug.LogError(
+                    "Model to Place is not assigned!"
+                );
+                return;
+            }
+
+            Transform cam =
+                _mainCamera.transform;
+
+            _pokeBall.transform.SetParent(cam);
+
+            _pokeBall.transform.localPosition =
+                new Vector3(0, -0.4f, 1f);
+
+            _pokeBall.transform.localRotation =
+                Quaternion.identity;
+
+            _pokeBall.transform.localScale =
+                _heldPokeBallScale;
+
+            Transform particleTransform =
+                _pokeBall.transform.Find(
+                    "Visual/VFX/RotationVFX"
+                );
+
+            if (particleTransform != null)
+            {
+                _dragParticles =
+                    particleTransform.GetComponent<ParticleSystem>();
+            }
+            else
+            {
+                Debug.LogWarning(
+                    "RotationVFX não encontrado!"
+                );
+            }
+        }
+
+        private void Reset()
+        {
+            if (!HasPokeBall)
+                return;
+
+            _pokeBall.ClearVelocities();
+
+            _pokeBall.transform.position =
+                _pokeBallSlot.position;
+
+            _pokeBall.transform.rotation =
+                _pokeBallSlot.rotation;
+        }
+
+        private Vector3 GetPointerPosition()
+        {
+            if (_mainCamera == null)
+                return Vector3.zero;
+
+            Vector2 pointerPosition;
+
+            if (UnityEngine.Input.touchCount > 0)
+            {
+                pointerPosition =
+                    UnityEngine.Input.GetTouch(0).position;
+            }
+            else
+            {
+                pointerPosition =
+                    UnityEngine.Input.mousePosition;
+            }
+
+            Ray ray =
+                _mainCamera.ScreenPointToRay(
+                    pointerPosition
+                );
+
+            if (
+                Physics.Raycast(
+                    ray,
+                    out RaycastHit grab,
+                    float.MaxValue
+                )
+            )
+            {
+                return grab.point;
+            }
+
+            return _pokeBallSlot != null
+                ? _pokeBallSlot.position
+                : Vector3.zero;
+        }
+
         private void OnDrawGizmos()
         {
-            if (_start == null || _mid == null || _end == null) return;
-            List<Vector3> path = Bezier.GetPath(_start.position, _mid.position, _end.position, _points);
+            if (_start == null ||
+                _mid == null ||
+                _end == null)
+            {
+                return;
+            }
+
+            List<Vector3> path =
+                Bezier.GetPath(
+                    _start.position,
+                    _mid.position,
+                    _end.position,
+                    _points
+                );
+
             foreach (Vector3 point in path)
+            {
                 Gizmos.DrawSphere(point, 0.05f);
+            }
         }
 
         private void LateUpdate()
         {
-            // VERIFICAÇÃO DE SEGURANÇA: Só continue se o CameraManager existir.
             if (CameraManager.Instance == null)
             {
-                return; // Para a execução deste método se não houver CameraManager.
+                return;
             }
 
-            // Pega a referência do âncora diretamente do nosso gerenciador global
-            Transform anchor = CameraManager.Instance.PlayerInputAnchor;
-            /*
-            // Garante que nosso "âncora" sempre siga a posição e rotação da câmera.
-            if (anchor != null)
-            {
-                anchor.position = _mainCamera.transform.position;
-                anchor.rotation = _mainCamera.transform.rotation;
-            }
-            */
+            Transform anchor =
+                CameraManager.Instance.PlayerInputAnchor;
         }
     }
 }
