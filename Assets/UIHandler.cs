@@ -40,7 +40,7 @@ public class UIHandler : MonoBehaviour
         objpediaCanvas = GameObject.Find("Objpedia Canvas");
         physpediaButton = GameObject.Find("Physpedia Button");
         objpediaButton = GameObject.Find("Objpedia Button");
-        objpediaButton = GameObject.Find("Capture Button");
+        captureButton = GameObject.Find("Capture Button");
         menuButton = GameObject.Find("Menu Button");
         detailCanvas = GameObject.Find("Detail Canvas");
         touchTest = GameObject.Find("XR Origin").GetComponent<TouchTest>();
