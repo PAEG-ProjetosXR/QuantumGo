@@ -17,6 +17,7 @@ public class EncounterManager : MonoBehaviour
         if (!foundPhysicists.Contains(physicistData))
         {
             foundPhysicists.Add(physicistData);
+            physpediaManager.physicistCards[physicistData.id].SetFound();
             Debug.Log($"Encontrou e registrou um novo físico: {physicistData.name}!");
         }
         else
@@ -24,10 +25,10 @@ public class EncounterManager : MonoBehaviour
             Debug.Log($"{physicistData.name} já tinha sido encontrado antes.");
         }
 
-        if (physicistData.quest.questCompleted)
-        {
-            physpediaManager.physicistCards[physicistData.id].SetFound();
-        }
+        //if (physicistData.quest.questCompleted)
+        //{
+            //physpediaManager.physicistCards[physicistData.id].SetFound();
+        //}
     }
 
     public void RegisterObjectEncounter(ObjectData objectData)

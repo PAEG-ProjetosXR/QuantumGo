@@ -86,6 +86,7 @@ namespace PokemonGO.Code
         private Camera _mainCamera;
 
         private bool _isDragging;
+        private Transform _pokemon;
 
         private Vector2 _touchStartPosition;
 
@@ -290,6 +291,8 @@ namespace PokemonGO.Code
 
         private void StopDragging()
         {
+            if (Input.Instance == null)
+                return;
             _isDragging = false;
 
             if (_dragParticles != null)

@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PhyspediaManager : MonoBehaviour
 {
     public List<PhysicistCard> physicistCards = new List<PhysicistCard>();
+    public GameObject physicistCardPrefab; // Assign in inspector: the prefab for a PhysicistCard
+    public GameObject physipediaContent; // Assign in inspector: the parent GameObject that holds all the PhysicistCard instances
+    public GameObject detailPanel; // Assign in inspector: the panel that shows detailed info about a physicist
     private EncounterManager encounterManager;
-    
-    
+
     public void Start()
     {
         encounterManager = FindObjectOfType<EncounterManager>();
@@ -21,10 +24,23 @@ public class PhyspediaManager : MonoBehaviour
     
     public void initializePhyspedia()
     {
+        PhysicistCard newCard = null;
+        for(int i = 0; i < encounterManager.physicistDatabase.allPhysicists.Count; i++)
+        {
+            // Add cards as necessary
+            GameObject physicistCardPrefabClone = Instantiate(physicistCardPrefab, physipediaContent.transform, false);
+
+            newCard = physicistCardPrefabClone.GetComponent<PhysicistCard>();
+
+            physicistCardPrefabClone.GetComponent<Button>().onClick.AddListener(newCard.OnClick);
+            
+            physicistCards.Add(newCard);
+            
+        }
+
         foreach (PhysicistData data in encounterManager.physicistDatabase.allPhysicists)
         {
-            // Match ID to card slot index
-            if (data.id >= 0 && data.id < physicistCards.Count)
+            if (data.id >= 0)
             {
                 addToPhyspedia(data, physicistCards[data.id]);
             }

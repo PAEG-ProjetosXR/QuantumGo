@@ -44,19 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e912e10c824fb2549830856c81c9b6bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicistCards:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  physicistCards: []
