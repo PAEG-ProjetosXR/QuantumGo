@@ -154,10 +154,10 @@ namespace PokemonGO.Code
             // Spawn no PC
             if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
             {
-                if (!HasPokeBall)
-                {
+                //if (!HasPokeBall)
+                //{
                     SpawnPokeBall();
-                }
+                //}
             }
 
             // MOBILE
@@ -529,13 +529,13 @@ namespace PokemonGO.Code
 
         public void SpawnPokeBall()
         {
-            if (HasPokeBall)
-            {
-                Debug.Log(
-                    "já existe uma pokebola ativa!"
-                );
-                return;
-            }
+            //if (HasPokeBall)
+            //{
+                //Debug.Log(
+                //    "já existe uma pokebola ativa!"
+                //);
+                //return;
+            //}
 
             if (_mainCamera == null)
             {
