@@ -12,7 +12,8 @@ public class ImageTracker : MonoBehaviour
 
     List<GameObject> ARObjects = new List<GameObject>();
 
-    /*void Update()
+
+    void Update()
     {
         outputTracking();
     }
@@ -44,7 +45,7 @@ public class ImageTracker : MonoBehaviour
             i++;
         }
     }
-    */
+    
     void Awake()
     {
         trackedImages = GetComponent<ARTrackedImageManager>();
@@ -114,10 +115,8 @@ private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage>
         {
             if(trackedImage.referenceImage.name == arPrefab.name)
             {
-                var obj = Instantiate(arPrefab);
-                    obj.transform.position = trackedImage.transform.position;
-                    obj.transform.rotation = trackedImage.transform.rotation;
-                    ARObjects.Add(obj);
+                var newPrefab = Instantiate(arPrefab, trackedImage.transform);
+                ARObjects.Add(newPrefab);
             }
         }
     }
@@ -131,6 +130,13 @@ private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage>
 
             if (arObject == null)
                 continue;
+
+            if (arObject.name.Replace("(Clone)", "") == trackedImage.referenceImage.name)
+            {
+                arObject.transform.position = trackedImage.transform.position;
+                arObject.transform.rotation = trackedImage.transform.rotation;
+                arObject.SetActive(trackedImage.trackingState == TrackingState.Tracking);
+            }
         }
     }
 
