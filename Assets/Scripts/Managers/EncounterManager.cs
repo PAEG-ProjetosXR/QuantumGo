@@ -22,6 +22,7 @@ public class EncounterManager : MonoBehaviour
         }
         else
         {
+            physpediaManager.physicistCards[physicistData.id].SetFoundAgain();
             Debug.Log($"{physicistData.name} já tinha sido encontrado antes.");
         }
 
