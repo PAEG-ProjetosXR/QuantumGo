@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
-    public GameObject physicistPanel;
-    public GameObject objectPanel;
-    public GameObject detailPanel;
-    public GameObject menuPanel;
-    public GameObject physpediaPanel;
-    public GameObject objpediaPanel;
-    public GameObject physpediaButton;
-    public GameObject objpediaButton;
-    public GameObject captureButton;
+    private GameObject physicistCanvas;
+    private GameObject objectCanvas;
+    private GameObject detailCanvas;
+    private GameObject menuCanvas;
+    private GameObject closeMenuButton;
+    private GameObject goBackButton;
+    private GameObject menuButton;
+    private GameObject physpediaCanvas;
+    private GameObject objpediaCanvas;
+    private GameObject physpediaButton;
+    private GameObject objpediaButton;
+    private GameObject captureButton;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
@@ -23,18 +26,23 @@ public class UIHandler : MonoBehaviour
     void Awake()
     {
         getComponents();
-    }
-
-    private void Start()
-    {
         hideUI();
     }
 
     private void getComponents()
     {
-
-        //objpediaButton = GameObject.Find("Capture Button"); ????????????????
-
+        physicistCanvas = GameObject.Find("Physicist Canvas");
+        objectCanvas = GameObject.Find("Object Canvas");
+        closeMenuButton = GameObject.Find("Close Menu Button");
+        menuCanvas = GameObject.Find("MenuCanvas");
+        goBackButton = GameObject.Find("Go Back Button");
+        physpediaCanvas = GameObject.Find("Physpedia Canvas");
+        objpediaCanvas = GameObject.Find("Objpedia Canvas");
+        physpediaButton = GameObject.Find("Physpedia Button");
+        objpediaButton = GameObject.Find("Objpedia Button");
+        captureButton = GameObject.Find("Capture Button");
+        menuButton = GameObject.Find("Menu Button");
+        detailCanvas = GameObject.Find("Detail Canvas");
         touchTest = GameObject.Find("XR Origin").GetComponent<TouchTest>();
         if (Thrower.Instance == null)
         {
@@ -44,9 +52,9 @@ public class UIHandler : MonoBehaviour
     
     public void DisplayPhysicistDetails(PhysicistData data)
     {
-        detailPanel.SetActive(true);
+        detailCanvas.SetActive(true);
         detailImage.sprite = data.icon;
-        if (data.found)
+        if (data.quest.questCompleted)
         {
             detailImage.color = Color.white;
             detailName.text = "Nome: " + data.name;
@@ -59,18 +67,18 @@ public class UIHandler : MonoBehaviour
             detailBio.text = "?????";
         }
         
-        physpediaPanel.SetActive(false);
+        physpediaCanvas.SetActive(false);
         physpediaButton.SetActive(true);
         objpediaButton.SetActive(true);
     }
     
     public void DisplayObjectDetails(ObjectData data)
     {
-        detailPanel.SetActive(true);
+        detailCanvas.SetActive(true);
         detailImage.sprite = data.icon;
         detailName.text = "Nome: " + data.name;
         detailBio.text = "Descrição: \n" + data.description;
-        objpediaPanel.SetActive(false);
+        objpediaCanvas.SetActive(false);
         physpediaButton.SetActive(true);
         objpediaButton.SetActive(true);
         captureButton.SetActive(true);
@@ -78,21 +86,21 @@ public class UIHandler : MonoBehaviour
     
     private void hideUI()
     {
-        physicistPanel.SetActive(false);
-        objectPanel.SetActive(false);
-        physpediaPanel.SetActive(false);
-        objpediaPanel.SetActive(false);
-        detailPanel.SetActive(false);
+        physicistCanvas.SetActive(false);
+        objectCanvas.SetActive(false);
+        physpediaCanvas.SetActive(false);
+        objpediaCanvas.SetActive(false);
+        detailCanvas.SetActive(false);
     }
 
     public void returnToGame()
     {
-        physpediaButton?.SetActive(true);
-        objpediaButton?.SetActive(true);
-        objpediaPanel?.SetActive(false);
-        physpediaPanel?.SetActive(false);
-        detailPanel?.SetActive(false);
-        captureButton?.SetActive(true);
+        physpediaButton.SetActive(true);
+        objpediaButton.SetActive(true);
+        objpediaCanvas.SetActive(false);
+        physpediaCanvas.SetActive(false);
+        detailCanvas.SetActive(false);
+        captureButton.SetActive(true);
         //pokeSpawn.SpawnPokeBall();
         touchTest.canInteract = true;
     }
@@ -113,10 +121,10 @@ public class UIHandler : MonoBehaviour
 
     public void closeMenu()
     {
-        physpediaPanel.SetActive(false);
-        objpediaPanel.SetActive(false);
-        physicistPanel.SetActive(false);
-        objectPanel.SetActive(false);
+        physpediaCanvas.SetActive(false);
+        objpediaCanvas.SetActive(false);
+        physicistCanvas.SetActive(false);
+        objectCanvas.SetActive(false);
         captureButton.SetActive(true);
     }
 
@@ -169,21 +177,21 @@ public class UIHandler : MonoBehaviour
 
     public void openPhyspedia()
     {
-        physpediaButton?.SetActive(false);
-        objpediaButton?.SetActive(false);
-        physpediaPanel?.SetActive(true);
-        detailPanel?.SetActive(false);
-        captureButton?.SetActive(false);
+        physpediaButton.SetActive(false);
+        objpediaButton.SetActive(false);
+        physpediaCanvas.SetActive(true);
+        detailCanvas.SetActive(false);
+        captureButton.SetActive(false);
         touchTest.canInteract = false;
     }
 
     public void openObjpedia()
     {
-        physpediaButton?.SetActive(false);
-        objpediaButton?.SetActive(false);
-        objpediaPanel?.SetActive(true);
-        detailPanel?.SetActive(false);
-        captureButton?.SetActive(false);
+        physpediaButton.SetActive(false);
+        objpediaButton.SetActive(false);
+        objpediaCanvas.SetActive(true);
+        detailCanvas.SetActive(false);
+        captureButton.SetActive(false);
         touchTest.canInteract = false;
     }
 
