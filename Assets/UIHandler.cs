@@ -1,5 +1,8 @@
 using PokemonGO.Code;
+using System.Globalization;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,11 +49,13 @@ public class UIHandler : MonoBehaviour
     {
         detailPanel.SetActive(true);
         detailImage.sprite = data.icon;
-        if (data.found)
+        
+        if (data.foundTimes > 0)
         {
+            string[] descriptionParts = data.description.Split('\n');
             detailImage.color = Color.white;
             detailName.text = "Nome: " + data.name;
-            detailBio.text = "Descrição: \n" + data.description;
+            detailBio.text = "Descrição: \n" + string.Join("\n",descriptionParts.Take(data.foundTimes));
         }
         else
         {

@@ -15,17 +15,21 @@ public class PhysicistCard : MonoBehaviour
     public void SetFound()
     {
         GetComponent<Image>().color = Color.white;
-        data.found = true;
+        data.foundTimes++;
+    }
+    public void SetFoundAgain()
+    {
+        data.foundTimes++;
     }
     public void SetUnfound()
     {
         GetComponent<Image>().color = unfoundColor;
-        data.found = false;
+        data.foundTimes = 0;
     }
 
     public void OnClick()
     {
-        if (data != null && data.found)
+        if (data != null && data.foundTimes > 0)
         {
             FindAnyObjectByType<UIHandler>().DisplayPhysicistDetails(data);
         }
