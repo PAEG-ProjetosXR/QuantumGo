@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class ObjectCard : MonoBehaviour
 {
     private ObjectData data;
+    public Color32 unfoundColor = new Color32(180, 180, 180, 255);
 
     public void SetData(ObjectData newData)
     {
@@ -14,17 +15,22 @@ public class ObjectCard : MonoBehaviour
     public void SetFound()
     {
         GetComponent<Image>().color = Color.white;
+        data.foundTimes++;
+    }
+    public void SetFoundAgain()
+    {
+        data.foundTimes++;
     }
     public void SetUnfound()
     {
-        GetComponent<Image>().color = Color.black;
-    } 
-    
+        GetComponent<Image>().color = unfoundColor;
+        data.foundTimes = 0;
+    }
+
     public void OnClick()
     {
-        if (data != null)
+        if (data != null && data.foundTimes > 0)
         {
-            //Era FindObjectOfType
             FindAnyObjectByType<UIHandler>().DisplayObjectDetails(data);
         }
     }
