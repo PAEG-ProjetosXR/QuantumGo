@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
-    public GameObject physicistPanel;
-    public GameObject objectPanel;
     public GameObject detailPanel;
     public GameObject menuPanel;
     public GameObject physpediaPanel;
@@ -56,6 +54,12 @@ public class UIHandler : MonoBehaviour
             detailImage.color = Color.white;
             detailName.text = "Nome: " + data.name;
             detailBio.text = "Descrição: \n" + string.Join("\n",descriptionParts.Take(data.foundTimes));
+            int timesLeft = descriptionParts.Length - data.foundTimes;
+            string timesText = timesLeft == 1 ? " vez" : " vezes";
+            if (timesLeft > 0)
+            {
+                detailBio.text += "\n[Capturar mais " + timesLeft + timesText + " para desbloquear a descrição completa!]";
+            }
         }
         else
         {
@@ -83,8 +87,6 @@ public class UIHandler : MonoBehaviour
     
     private void hideUI()
     {
-        physicistPanel.SetActive(false);
-        objectPanel.SetActive(false);
         physpediaPanel.SetActive(false);
         objpediaPanel.SetActive(false);
         detailPanel.SetActive(false);
@@ -120,8 +122,6 @@ public class UIHandler : MonoBehaviour
     {
         physpediaPanel.SetActive(false);
         objpediaPanel.SetActive(false);
-        physicistPanel.SetActive(false);
-        objectPanel.SetActive(false);
         captureButton.SetActive(true);
     }
 
