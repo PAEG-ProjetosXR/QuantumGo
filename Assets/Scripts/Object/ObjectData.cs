@@ -11,4 +11,6 @@ public class ObjectData : ScriptableObject
     public Sprite icon;                              // icone para a enciclopédia
     public GameObject modelPrefab;                   //O modelo 3D do físico
     public AudioClip presentationAudio;              //O áudio da apresentação
+
+    public int foundTimes = 0;                       // Indica se o físico foi encontrado ou não
 }
