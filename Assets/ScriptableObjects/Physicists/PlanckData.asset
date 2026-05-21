@@ -25,11 +25,12 @@ MonoBehaviour:
     ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
     lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem
     ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-    lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+    lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum\nPar
+    3"
   dialogue: {fileID: 11400000, guid: 4477af45733cffd44b80f4d7eee1dd75, type: 2}
   quest: {fileID: 11400000, guid: 24fb2798006e64e479b6329608b8c40b, type: 2}
   icon: {fileID: 21300000, guid: 6531020ee672d1f4dae95e79d3d8665c, type: 3}
   modelPrefab: {fileID: 0}
   presentationAudio: {fileID: 0}
   correctIcon: {fileID: 0}
-  foundTimes: 2
+  foundTimes: 4

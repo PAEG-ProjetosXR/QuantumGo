@@ -6,32 +6,15 @@ using UnityEngine.UI;
 public class TouchTest : MonoBehaviour
 {
     private EncounterManager encounterManager;
-    public TMP_Text popupText;
 
-    public TMP_Text nameText;
-    public TMP_Text infoText;
-    
-    public static Canvas canvas;
-    
-    public GameObject PhysicistPanel;
-    public GameObject ObjectPanel;
-    
-    public GameObject namePanel;
-    public GameObject infoPanel;
 
     [HideInInspector] public bool canInteract = true;
-
-    private void Awake()
-    {
-        PhysicistPanel = GameObject.Find("Physicist Panel");
-        ObjectPanel = GameObject.Find("Object Panel");
-    }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        encounterManager = FindObjectOfType<EncounterManager>();
+        encounterManager = FindAnyObjectByType<EncounterManager>();
     }
 
     // Update is called once per frame
@@ -62,30 +45,17 @@ public class TouchTest : MonoBehaviour
 
                 if (hit.transform.CompareTag("Physicist"))
                 {
-                    PhysicistPanel.gameObject.SetActive(true);
+                     
                     Debug.Log(hit.transform.name + " : " + hit.transform.tag);
                     PhysicistInteraction(hit);
                 }
 
                 if (hit.transform.CompareTag("Object"))
                 {
-                    ObjectPanel.gameObject.SetActive(true);
+                    
                     Debug.Log(hit.transform.name + " : " + hit.transform.tag);
                     ObjectInteraction(hit);
                 }
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (PhysicistPanel.gameObject.activeInHierarchy)
-            {
-                PhysicistPanel.gameObject.SetActive(false);
-            }
-
-            if (ObjectPanel.gameObject.activeInHierarchy)
-            {
-                ObjectPanel.gameObject.SetActive(false);
             }
         }
     }
@@ -94,11 +64,13 @@ public class TouchTest : MonoBehaviour
     {
         PhysicistTrigger physicistTrigger = hit.transform.GetComponent<PhysicistTrigger>();
         PhysicistData physicistData = physicistTrigger.data;
-        namePanel.GetComponent<Image>().color = physicistData.dialogue.lines[0].Color;
-        infoPanel.GetComponent<Image>().color = physicistData.dialogue.lines[0].Color;
+        //namePanel.GetComponent<Image>().color = physicistData.dialogue.lines[0].Color;
+        //infoPanel.GetComponent<Image>().color = physicistData.dialogue.lines[0].Color;
         if (physicistTrigger != null)
         {
             physicistTrigger.TriggerEncounter();
+
+            /*
             string physicistName = physicistData.name;
             string info;
             if (physicistTrigger.interactionCount == 0)
@@ -146,12 +118,8 @@ public class TouchTest : MonoBehaviour
                         }
                     }
                 }
-            }
+            }*/
         
-            PhysicistPanel.gameObject.SetActive(true);
-            Debug.Log("Attempting dialogue");
-            nameText.text = physicistName;
-            infoText.text = info;
         }
     }
 
@@ -162,10 +130,6 @@ public class TouchTest : MonoBehaviour
         if (objectTrigger != null)
         {
             objectTrigger.TriggerEncounter();
-            string objectName = objectTrigger.data.name;
-            
-            popupText.text = $"Encontrou e registrou um novo objeto: \n{objectName}!";
-            ObjectPanel.gameObject.SetActive(true);
         }
     }
 }
