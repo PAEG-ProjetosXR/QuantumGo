@@ -11,6 +11,8 @@ public static class SaveSystem
         public List<ObjectDataPack> foundObjectsDataPacks;
     }
 
+    private static string saveFilePath = Application.persistentDataPath + "/saveData.save";
+
 
     [System.Serializable]
     public struct PhysicistDataPack
@@ -26,22 +28,16 @@ public static class SaveSystem
         public int foundTimes;
     }
 
-    private static string GetFilePath()
-    {
-        Debug.Log("Save file path: " + Application.persistentDataPath);
-        return Application.persistentDataPath + "/saveData.save"; //C:/Users/[user]/AppData/LocalLow/DefaultCompany/Quantum GO
-        
-    }
-
     public static void Save(ref SaveData currentSaveData)
     {
         string json = JsonUtility.ToJson(currentSaveData, true);
-        File.WriteAllText(GetFilePath(), json);
+        File.WriteAllText(saveFilePath, json);
     }
 
     public static bool Load(ref SaveData loadData)
     {
-        string filePath = GetFilePath();
+        Debug.Log("Caminho do arquivo de save:" + saveFilePath);
+        string filePath = saveFilePath;
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
