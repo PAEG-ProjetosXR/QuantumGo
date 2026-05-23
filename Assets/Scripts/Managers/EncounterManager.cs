@@ -74,6 +74,7 @@ public class EncounterManager : MonoBehaviour
         }
         else
         {
+            objpediaManager.objectCards[objectData.id].SetFoundAgain();
             Debug.Log($"{objectData.name} já tinha sido encontrado antes.");
         }
 

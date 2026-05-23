@@ -28,7 +28,9 @@ public static class SaveSystem
 
     private static string GetFilePath()
     {
+        Debug.Log("Save file path: " + Application.persistentDataPath);
         return Application.persistentDataPath + "/saveData.save"; //C:/Users/[user]/AppData/LocalLow/DefaultCompany/Quantum GO
+        
     }
 
     public static void Save(ref SaveData currentSaveData)
