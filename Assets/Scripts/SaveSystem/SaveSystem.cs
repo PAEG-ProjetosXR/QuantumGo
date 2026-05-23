@@ -7,13 +7,28 @@ public static class SaveSystem
     [System.Serializable]
     public struct SaveData
     {
-        public List<PhysicistData> foundPhysicistsList;
-        public List<ObjectData> foundObjectsList;
+        public List<PhysicistDataPack> foundPhysicistsDataPacks;
+        public List<ObjectDataPack> foundObjectsDataPacks;
+    }
+
+
+    [System.Serializable]
+    public struct PhysicistDataPack
+    {
+        public int id;
+        public int foundTimes;
+    }
+
+    [System.Serializable]
+    public struct ObjectDataPack
+    {
+        public int id;
+        public int foundTimes;
     }
 
     private static string GetFilePath()
     {
-        return Application.persistentDataPath + "/saveData.save"; //C:/Users/arthu/AppData/LocalLow/DefaultCompany/Quantum GO
+        return Application.persistentDataPath + "/saveData.save"; //C:/Users/[user]/AppData/LocalLow/DefaultCompany/Quantum GO
     }
 
     public static void Save(ref SaveData currentSaveData)

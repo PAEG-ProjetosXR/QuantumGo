@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Object", menuName = "QuantumGo/Object")]
@@ -12,5 +13,6 @@ public class ObjectData : ScriptableObject
     public GameObject modelPrefab;                   //O modelo 3D do físico
     public AudioClip presentationAudio;              //O áudio da apresentação
 
+    [NonSerialized]
     public int foundTimes = 0;                       // Indica se o físico foi encontrado ou não
 }

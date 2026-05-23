@@ -16,11 +16,8 @@ public class PhyspediaManager : MonoBehaviour
     public void Start()
     {
         encounterManager = FindAnyObjectByType<EncounterManager>();
-        Debug.Log(encounterManager.physicistDatabase.allPhysicists.Count);
         initializePhyspedia();
     }
-    
-    
     
     public void initializePhyspedia()
     {
