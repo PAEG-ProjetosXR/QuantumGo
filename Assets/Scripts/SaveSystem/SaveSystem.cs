@@ -36,7 +36,7 @@ public static class SaveSystem
 
     public static bool Load(ref SaveData loadData)
     {
-        Debug.Log("Caminho do arquivo de save:" + saveFilePath);
+        Debug.Log("Caminho do arquivo de save: " + saveFilePath);
         string filePath = saveFilePath;
         if (File.Exists(filePath))
         {
