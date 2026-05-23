@@ -1,4 +1,5 @@
 using Fog.Dialogue;
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Physicist", menuName = "QuantumGo/Physicist")]     //opção no menu para criar novos Físicos no editor 
@@ -16,6 +17,7 @@ public class PhysicistData : ScriptableObject
     public AudioClip presentationAudio;              //O áudio da apresentação
     public ObjectData correctIcon;                   // Correlação Feito/fisico
 
+    [NonSerialized]
     public int foundTimes = 0;                       // Indica se o físico foi encontrado ou não
 
 }

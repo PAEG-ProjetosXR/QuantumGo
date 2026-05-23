@@ -33,4 +33,3 @@ MonoBehaviour:
   modelPrefab: {fileID: 0}
   presentationAudio: {fileID: 0}
   correctIcon: {fileID: 0}
-  foundTimes: 4
