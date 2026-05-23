@@ -14,7 +14,6 @@ public class ObjpediaManager : MonoBehaviour
     public void Start()
     {
         encounterManager = FindAnyObjectByType<EncounterManager>();
-        Debug.Log(encounterManager.objectDatabase.allObjects.Count);
         initializeObjspedia();
     }
     
