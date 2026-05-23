@@ -4188,6 +4188,9 @@ MonoBehaviour:
   objectDatabase: {fileID: 11400000, guid: c44624e66b9ad6c4a854ba8ca53ef745, type: 2}
   objpediaManager: {fileID: 1415739808}
   physpediaManager: {fileID: 1968352109}
+  currentSaveData:
+    foundPhysicistsDataPacks: []
+    foundObjectsDataPacks: []
 --- !u!1 &1126989165
 GameObject:
   m_ObjectHideFlags: 0
