@@ -18,8 +18,6 @@ public class ObjpediaManager : MonoBehaviour
         initializeObjspedia();
     }
     
-    
-    
     public void initializeObjspedia()
     {
         ObjectCard newCard = null;

@@ -11,7 +11,8 @@ public class EncounterManager : MonoBehaviour
     public ObjectDatabase objectDatabase;
     public ObjpediaManager objpediaManager;
     public PhyspediaManager physpediaManager;
-    
+    public SaveSystem.SaveData currentSaveData;
+
     public void RegisterPhysicistEncounter(PhysicistData physicistData)  //método que outros scripts vão chamar para registrar um encontro
     {
         if (!foundPhysicists.Contains(physicistData))
@@ -26,10 +27,7 @@ public class EncounterManager : MonoBehaviour
             Debug.Log($"{physicistData.name} já tinha sido encontrado antes.");
         }
 
-        //if (physicistData.quest.questCompleted)
-        //{
-            //physpediaManager.physicistCards[physicistData.id].SetFound();
-        //}
+        SaveSystem.Save(ref currentSaveData);
     }
 
     public void RegisterObjectEncounter(ObjectData objectData)
@@ -44,6 +42,8 @@ public class EncounterManager : MonoBehaviour
         {
             Debug.Log($"{objectData.name} já tinha sido encontrado antes.");
         }
+
+        SaveSystem.Save(ref currentSaveData);
     }
 
     private void ResetAllQuests()
@@ -54,10 +54,32 @@ public class EncounterManager : MonoBehaviour
             quest.questCompleted = false;
         }
     }
+
+    private void SetSaveData()
+    {
+        currentSaveData.foundPhysicistsList = foundPhysicists;
+        currentSaveData.foundObjectsList = foundObjects;
+    }
+
+    private void LoadSaveData()
+    {
+        bool loadedSuccess = SaveSystem.Load(ref currentSaveData);
+
+        if (!loadedSuccess)
+        {
+            return;
+        }
+
+        foundPhysicists = currentSaveData.foundPhysicistsList;
+        foundObjects = currentSaveData.foundObjectsList;
+    }
     
     private void Start()
     {
+        currentSaveData = new SaveSystem.SaveData();
         
+        LoadSaveData();
+        SetSaveData();
         ResetAllQuests();
     }
 }
