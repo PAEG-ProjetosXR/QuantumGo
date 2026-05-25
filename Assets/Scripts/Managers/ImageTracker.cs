@@ -112,14 +112,29 @@ private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage>
     {
         foreach (var arPrefab in ArPrefabs)
         {
-            if(trackedImage.referenceImage.name == arPrefab.name)
-            {
-                var obj = Instantiate(arPrefab);
+                if (trackedImage.referenceImage.name == arPrefab.name)
+                {
+                    // 1. Instancia o prefab do cientista na posição da imagem
+                    var obj = Instantiate(arPrefab);
                     obj.transform.position = trackedImage.transform.position;
                     obj.transform.rotation = trackedImage.transform.rotation;
                     ARObjects.Add(obj);
+
+                    // 2. Procura pelo componente ARObjectIdentity no objeto que acabou de nascer
+                    ARObjectIdentity identidade = obj.GetComponent<ARObjectIdentity>();
+
+                    if (identidade != null)
+                    {
+                        // 3. Batiza o cientista passando a imagem detectada pelo AR Foundation
+                        identidade.ConfigurarIdentidade(trackedImage);
+                        Debug.Log($"[ImageTracker] Sucesso! Cientista vinculado à imagem: {trackedImage.referenceImage.name}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[ImageTracker] Aviso: O prefab '{arPrefab.name}' não possui o componente ARObjectIdentity anexado!");
+                    }
+                }
             }
-        }
     }
     
     //Update tracking position

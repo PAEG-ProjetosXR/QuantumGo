@@ -81,6 +81,14 @@ namespace PokemonGO.Code
             {
                 Debug.Log("Acertou o Physicist! Iniciando lógica de captura...");
 
+                // Buscamos se o objeto atingido possui uma identidade anexada
+                ARObjectIdentity identidade = other.gameObject.GetComponent<ARObjectIdentity>();
+                if (identidade != null)
+                {
+                    // Avisa o Thrower para disparar o evento global de captura
+                    Thrower.TriggerCaptureEvent(identidade.nomeDaImagemOrigem, identidade.indexDaImagem);
+                }
+
                 //Conecta com a physipedia (ainda não foi feita a lógica da objepedia, todos os objs são cientistas por enquanto)
                 if (other.gameObject.transform.CompareTag("Physicist"))
                 {

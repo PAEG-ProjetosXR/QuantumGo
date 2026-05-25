@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using Kynesis.Utilities;
 using PokemonGO.Global;
-using UnityEngine;
-using Unity.XR.CoreUtils;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.XR.CoreUtils;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 namespace PokemonGO.Code
 {
     public class Thrower : MonoBehaviour
     {
+        // Evento que o ImageTracker vai escutar. Passa o nome e o índice da imagem mãe.
+        public static event Action<string, int> OnObjectCaptured;
+
         [Header("Dragging Settings")]
         [SerializeField, Range(0f, 1f)]
         private float _verticalInfluence = 0.5f;
@@ -101,6 +105,12 @@ namespace PokemonGO.Code
             _pokeBall != null && _pokeBall.gameObject != null;
 
         public static Thrower Instance;
+
+        // Função auxiliar para disparar o evento
+        public static void TriggerCaptureEvent(string nomeImagem, int indiceImagem)
+        {
+            OnObjectCaptured?.Invoke(nomeImagem, indiceImagem);
+        }
 
         private void Awake()
         {
