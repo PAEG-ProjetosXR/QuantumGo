@@ -41,8 +41,15 @@ public class CaptureInfo
         this.captureTime = captureTime;
     }
 
-    public override String ToString()
+    public override string ToString()
     {
-        return $"CaptureInfo: [trackedImage: {trackedImage.name}, model: {model.name}, captureTime: {captureTime}]";
+        string imageName = trackedImage == null ? "NULL" : trackedImage.name;
+        string modelName = model == null ? "NULL" : model.name;
+
+        return
+            $"CaptureInfo\n" +
+            $"  Tracked Image: {imageName}\n" +
+            $"  Model:         {modelName}\n" +
+            $"  Capture Time:  {captureTime:yyyy-MM-dd HH:mm:ss}";
     }
 }

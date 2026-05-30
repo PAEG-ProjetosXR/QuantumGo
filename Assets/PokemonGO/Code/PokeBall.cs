@@ -76,8 +76,14 @@ namespace PokemonGO.Code
             _lastFramePosition = _rigidbody.position;
         }
 
+        bool hasCollided = false; // Variável para garantir que a colisão seja processada apenas uma vez
         private void OnCollisionEnter(Collision other)
         {
+            if (hasCollided)
+                return;
+
+            hasCollided = true;
+
             // PRIMEIRO, checamos se o objeto tem a tag correta
             if (other.gameObject.CompareTag("Physicist"))
             {
