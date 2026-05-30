@@ -82,11 +82,10 @@ namespace PokemonGO.Code
             if (hasCollided)
                 return;
 
-            hasCollided = true;
-
             // PRIMEIRO, checamos se o objeto tem a tag correta
-            if (other.gameObject.CompareTag("Physicist"))
+            if (other.gameObject.CompareTag("Physicist") || other.gameObject.CompareTag("Object"))
             {
+                hasCollided = true;
                 Debug.Log("Acertou o Physicist! Iniciando lógica de captura...");
 
                 //Conecta com a physipedia (ainda não foi feita a lógica da objepedia, todos os objs são cientistas por enquanto)
@@ -112,6 +111,7 @@ namespace PokemonGO.Code
 
                 } else if (other.gameObject.transform.CompareTag("Object"))
                 {
+                    hasCollided = true;
                     ObjectTrigger objectTrigger = other.gameObject.transform.GetComponent<ObjectTrigger>();
                     ObjectData objectData = objectTrigger.data;
                     ARTrackedImage trackedImage = null; // TODO: Adicionar tempo em cima da img.

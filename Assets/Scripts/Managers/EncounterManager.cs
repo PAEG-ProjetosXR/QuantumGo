@@ -16,6 +16,7 @@ public class EncounterManager : MonoBehaviour
 
     public void RegisterPhysicistEncounter(PhysicistData physicistData)  //método que outros scripts vão chamar para registrar um encontro
     {
+
         if (!foundPhysicists.Contains(physicistData))
         {
             foundPhysicists.Add(physicistData);
