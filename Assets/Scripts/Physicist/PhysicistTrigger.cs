@@ -17,6 +17,7 @@ public class PhysicistTrigger : MonoBehaviour
     {
         if (data != null && encounterManager != null)
         {
+            data.physicistCaptureInfo.ForEach(info => { Debug.Log(info.ToString()); });
             encounterManager.RegisterPhysicistEncounter(data);
         }
     }

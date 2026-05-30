@@ -16,6 +16,7 @@ public class ObjectTrigger : MonoBehaviour
     {
         if (data != null && encounterManager != null)
         {
+            data.objectCaptureInfo.ForEach(info => { Debug.Log(info.ToString()); });
             encounterManager.RegisterObjectEncounter(data);
         }
     }
