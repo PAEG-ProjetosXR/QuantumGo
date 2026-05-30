@@ -86,7 +86,7 @@ namespace PokemonGO.Code
             if (other.gameObject.CompareTag("Physicist") || other.gameObject.CompareTag("Object"))
             {
                 hasCollided = true;
-                Debug.Log("Acertou o Physicist! Iniciando lógica de captura...");
+                //Debug.Log("Acertou o Physicist! Iniciando lógica de captura...");
 
                 //Conecta com a physipedia (ainda não foi feita a lógica da objepedia, todos os objs são cientistas por enquanto)
                 if (other.gameObject.transform.CompareTag("Physicist"))

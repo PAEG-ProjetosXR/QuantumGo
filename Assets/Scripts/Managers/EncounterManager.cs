@@ -72,7 +72,6 @@ public class EncounterManager : MonoBehaviour
             foundObjects.Add(objectData);
             objpediaManager.objectCards[objectData.id].SetFound();
             Debug.Log($"Encontrou e registrou um novo físico: {objectData.name}!");
-            objectData.objectCaptureInfo.ForEach(info => { Debug.Log(info); });
         }
         else
         {
