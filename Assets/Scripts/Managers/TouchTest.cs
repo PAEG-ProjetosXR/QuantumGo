@@ -2,10 +2,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using System;
 
 public class TouchTest : MonoBehaviour
 {
     private EncounterManager encounterManager;
+    public static event Action<GameObject> Chosen;
 
 
     [HideInInspector] public bool canInteract = true;
@@ -40,23 +42,24 @@ public class TouchTest : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-                if (hit.transform.CompareTag("Physicist"))
+                if (hit.transform.CompareTag("Physicist") || hit.transform.CompareTag("Object"))
                 {
-                     
-                    Debug.Log(hit.transform.name + " : " + hit.transform.tag);
-                    PhysicistInteraction(hit);
-                }
 
-                if (hit.transform.CompareTag("Object"))
-                {
-                    
                     Debug.Log(hit.transform.name + " : " + hit.transform.tag);
-                    ObjectInteraction(hit);
+                    Interaction(hit);
                 }
             }
         }
     }
 
+    private void Interaction(RaycastHit hit)
+    {
+        GameObject objHit = hit.transform.gameObject;
+        Chosen?.Invoke(objHit);
+    }
+}
+
+    /*
     private void PhysicistInteraction(RaycastHit hit)
     {
         PhysicistTrigger physicistTrigger = hit.transform.GetComponent<PhysicistTrigger>();
@@ -115,7 +118,7 @@ public class TouchTest : MonoBehaviour
                         }
                     }
                 }
-            }*/
+            }
         
         }
     }
@@ -129,4 +132,4 @@ public class TouchTest : MonoBehaviour
             objectTrigger.TriggerEncounter();
         }
     }
-}
+}*/

@@ -8,6 +8,7 @@ using UnityEngine.XR.ARSubsystems;
 public class ImageTracker : MonoBehaviour
 {
     private ARTrackedImageManager trackedImages;
+    public GameObject obj_escolhido;
     public GameObject[] ArPrefabs;
 
     List<GameObject> ARObjects = new List<GameObject>();
@@ -59,12 +60,14 @@ public class ImageTracker : MonoBehaviour
 
     void OnEnable()
     {
-    trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
+        trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
+        TouchTest.Chosen += AoSelecionarObjeto;
     }
 
     void OnDisable()
     {
-    trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
+        trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
+        TouchTest.Chosen -= AoSelecionarObjeto;
     }
     /*
     void OnEnable()
@@ -78,40 +81,45 @@ public class ImageTracker : MonoBehaviour
         trackedImages.trackablesChanged -= OnTrackedImagesChanged;
     }
     */
-/*
-    void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
-{
-    // Imagens detectadas pela primeira vez
-    foreach (var trackedImage in eventArgs.added)
+    /*
+        void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
-        Debug.Log($"Imagem nova detectada: {trackedImage.referenceImage.name}");
-    }
-
-    // Imagens que se moveram ou mudaram de estado
-    foreach (var trackedImage in eventArgs.updated)
-    {
-        // Exemplo: verificar se a imagem ainda está sendo rastreada
-        if (trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking)
+        // Imagens detectadas pela primeira vez
+        foreach (var trackedImage in eventArgs.added)
         {
-            // Atualizar posição de um objeto 3D, por exemplo
+            Debug.Log($"Imagem nova detectada: {trackedImage.referenceImage.name}");
+        }
+
+        // Imagens que se moveram ou mudaram de estado
+        foreach (var trackedImage in eventArgs.updated)
+        {
+            // Exemplo: verificar se a imagem ainda está sendo rastreada
+            if (trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking)
+            {
+                // Atualizar posição de um objeto 3D, por exemplo
+            }
+        }
+
+        // Imagens que saíram do rastreio ou foram removidas
+        foreach (var kvp in eventArgs.removed)
+        {
+            var trackedImage = kvp.Value;
+            Debug.Log($"Imagem removida: {trackedImage.referenceImage.name}");
         }
     }
-
-    // Imagens que saíram do rastreio ou foram removidas
-    foreach (var kvp in eventArgs.removed)
+    */
+    private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
-        var trackedImage = kvp.Value;
-        Debug.Log($"Imagem removida: {trackedImage.referenceImage.name}");
-    }
-}
-*/
-private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
-{
-    //Create object based on image tracked
-    foreach (var trackedImage in eventArgs.added)
-    {
-        foreach (var arPrefab in ArPrefabs)
+        //Create object based on image tracked
+        foreach (var trackedImage in eventArgs.added)
         {
+            if (obj_escolhido != null)
+            {
+                break;
+            }
+
+            foreach (var arPrefab in ArPrefabs)
+            {
                 if (trackedImage.referenceImage.name == arPrefab.name)
                 {
                     // 1. Instancia o prefab do cientista na posição da imagem
@@ -135,26 +143,47 @@ private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage>
                     }
                 }
             }
-    }
-    
-    //Update tracking position
-    foreach (var trackedImage in eventArgs.updated)
-    {
-        for (int i = ARObjects.Count - 1; i >= 0; i--)
-        {
-            var arObject = ARObjects[i];
+        }
 
-            if (arObject == null)
-                continue;
+        //Update tracking position
+        foreach (var trackedImage in eventArgs.updated)
+        {
+            for (int i = ARObjects.Count - 1; i >= 0; i--)
+            {
+                var arObject = ARObjects[i];
+
+                if (arObject == null)
+                    continue;
+            }
+        }
+
+        //Opcional: lidar com removidos
+        foreach (var trackedImage in eventArgs.removed)
+        {
+            // lógica se quiser destruir ou esconder objetos
         }
     }
-
-    //Opcional: lidar com removidos
-    foreach (var trackedImage in eventArgs.removed)
+    private void AoSelecionarObjeto(GameObject objTouched)
     {
-        // lógica se quiser destruir ou esconder objetos
+        Debug.Log("O ImageTracker recebeu o evento! O objeto tocado foi: " + objTouched.name);
+        obj_escolhido = objTouched;
+
+        // Rodamos de trás para frente (Count - 1) porque vamos deletar itens da lista
+        for (int i = ARObjects.Count - 1; i >= 0; i--)
+        {
+            GameObject atual = ARObjects[i];
+
+            // Se o objeto da lista NÃO for o que o jogador escolheu
+            if (atual != obj_escolhido)
+            {
+                // Remove da lista interna para não pesar
+                ARObjects.RemoveAt(i);
+
+                // Destrói o objeto do mundo 3D
+                Destroy(atual);
+            }
+        }
     }
-}
 }
 /*
     // Event Handler
