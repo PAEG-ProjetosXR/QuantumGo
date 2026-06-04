@@ -102,6 +102,7 @@ namespace PokemonGO.Code
                         {
                             capInfo.captureTime = DateTime.Now;
                             trackedImage = capInfo.trackedImage;
+                            capInfo.recaptureTime = DateTime.Now.AddSeconds(physicistData.waitRecaptureSecs);
                             break;
                         }
                     }
@@ -123,6 +124,7 @@ namespace PokemonGO.Code
                         {
                             capInfo.captureTime = DateTime.Now;
                             trackedImage = capInfo.trackedImage;
+                            capInfo.recaptureTime = DateTime.Now.AddSeconds(objectData.waitRecaptureSecs);
                             break;
                         }
                     }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87cd672228196c941b93c2d27297e2da, type: 3}
   m_Name: MarieCurieData
   m_EditorClassIdentifier: 
+  id: 0
   name: 
   description: "Marie Curie foi uma f\xEDsica e qu\xEDmica pioneira no campo da radioatividade.
     Seus trabalhos levaram \xE0 descoberta de dois novos elementos, Pol\xF4nio e
@@ -22,3 +23,5 @@ MonoBehaviour:
   icon: {fileID: 0}
   modelPrefab: {fileID: 0}
   presentationAudio: {fileID: 0}
+  correctIcon: {fileID: 0}
+  waitRecaptureSecs: 10

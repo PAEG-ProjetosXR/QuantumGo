@@ -23,3 +23,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 161c5422cb8eb6f41a5771325006f039, type: 3}
   modelPrefab: {fileID: 0}
   presentationAudio: {fileID: 0}
+  correctIcon: {fileID: 0}
+  waitRecaptureSecs: 10
