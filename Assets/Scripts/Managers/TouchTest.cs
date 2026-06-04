@@ -23,7 +23,6 @@ public class TouchTest : MonoBehaviour
         // Handle both mouse click and first touch
         if ((Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)) && canInteract)
         {
-            Debug.Log("Input detected");
 
             Vector3 inputPosition;
 
@@ -41,8 +40,6 @@ public class TouchTest : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-                Debug.Log("Hit something");
-
                 if (hit.transform.CompareTag("Physicist"))
                 {
                      

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class ImageTracker : MonoBehaviour
 {
     private ARTrackedImageManager trackedImages;
     public GameObject[] ArPrefabs;
+    public PhysicistDatabase physicistDatabase;
+    public ObjectDatabase objectDatabase;
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -59,12 +62,12 @@ public class ImageTracker : MonoBehaviour
 
     void OnEnable()
     {
-    trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
+        trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
     }
 
     void OnDisable()
     {
-    trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
+        trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
     }
     /*
     void OnEnable()
@@ -78,68 +81,93 @@ public class ImageTracker : MonoBehaviour
         trackedImages.trackablesChanged -= OnTrackedImagesChanged;
     }
     */
-/*
-    void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
-{
-    // Imagens detectadas pela primeira vez
-    foreach (var trackedImage in eventArgs.added)
+    /*
+        void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
-        Debug.Log($"Imagem nova detectada: {trackedImage.referenceImage.name}");
-    }
-
-    // Imagens que se moveram ou mudaram de estado
-    foreach (var trackedImage in eventArgs.updated)
-    {
-        // Exemplo: verificar se a imagem ainda está sendo rastreada
-        if (trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking)
+        // Imagens detectadas pela primeira vez
+        foreach (var trackedImage in eventArgs.added)
         {
-            // Atualizar posição de um objeto 3D, por exemplo
+            Debug.Log($"Imagem nova detectada: {trackedImage.referenceImage.name}");
+        }
+
+        // Imagens que se moveram ou mudaram de estado
+        foreach (var trackedImage in eventArgs.updated)
+        {
+            // Exemplo: verificar se a imagem ainda está sendo rastreada
+            if (trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking)
+            {
+                // Atualizar posição de um objeto 3D, por exemplo
+            }
+        }
+
+        // Imagens que saíram do rastreio ou foram removidas
+        foreach (var kvp in eventArgs.removed)
+        {
+            var trackedImage = kvp.Value;
+            Debug.Log($"Imagem removida: {trackedImage.referenceImage.name}");
         }
     }
-
-    // Imagens que saíram do rastreio ou foram removidas
-    foreach (var kvp in eventArgs.removed)
+    */
+    private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
-        var trackedImage = kvp.Value;
-        Debug.Log($"Imagem removida: {trackedImage.referenceImage.name}");
-    }
-}
-*/
-private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
-{
-    //Create object based on image tracked
-    foreach (var trackedImage in eventArgs.added)
-    {
-        foreach (var arPrefab in ArPrefabs)
+        //Create object based on image tracked
+        foreach (var trackedImage in eventArgs.added)
         {
-            if(trackedImage.referenceImage.name == arPrefab.name)
+            foreach (var arPrefab in ArPrefabs)
             {
-                var obj = Instantiate(arPrefab);
+                if (trackedImage.referenceImage.name == arPrefab.name)
+                {
+                    var obj = Instantiate(arPrefab);
                     obj.transform.position = trackedImage.transform.position;
                     obj.transform.rotation = trackedImage.transform.rotation;
                     ARObjects.Add(obj);
+
+                    if (obj.CompareTag("Physicist"))
+                    {
+                        PhysicistTrigger physicistTrigger = obj.transform.GetComponent<PhysicistTrigger>();
+                        PhysicistData physicistData = physicistTrigger.data;
+                        if (physicistData.physicistCaptureInfo is null)
+                        {
+                            physicistData.physicistCaptureInfo = new List<CaptureInfo>();
+                        }
+                        physicistData.physicistCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null));
+                    }
+                    else if (obj.CompareTag("Object"))
+                    {
+                        ObjectTrigger objectTrigger = obj.transform.GetComponent<ObjectTrigger>();
+                        ObjectData objectData = objectTrigger.data;
+                        if (objectData.objectCaptureInfo is null)
+                        {
+                            objectData.objectCaptureInfo = new List<CaptureInfo>();
+                        }
+                        objectData.objectCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null));
+                    }
+                }
+
             }
         }
-    }
-    
-    //Update tracking position
-    foreach (var trackedImage in eventArgs.updated)
-    {
-        for (int i = ARObjects.Count - 1; i >= 0; i--)
-        {
-            var arObject = ARObjects[i];
 
-            if (arObject == null)
-                continue;
+        //Update tracking position
+        foreach (var trackedImage in eventArgs.updated)
+        {
+            for (int i = ARObjects.Count - 1; i >= 0; i--)
+            {
+                var arObject = ARObjects[i];
+
+                if (arObject == null)
+                {
+                    continue;
+                }
+
+            }
+        }
+
+        //Opcional: lidar com removidos
+        foreach (var trackedImage in eventArgs.removed)
+        {
+            // lógica se quiser destruir ou esconder objetos
         }
     }
-
-    //Opcional: lidar com removidos
-    foreach (var trackedImage in eventArgs.removed)
-    {
-        // lógica se quiser destruir ou esconder objetos
-    }
-}
 }
 /*
     // Event Handler

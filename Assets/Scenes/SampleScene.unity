@@ -1113,11 +1113,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 595839341}
   m_Direction: 2
   m_Value: 0
-<<<<<<< Updated upstream
   m_Size: 1
-=======
-  m_Size: 0.9999999
->>>>>>> Stashed changes
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2688,6 +2684,8 @@ MonoBehaviour:
   - {fileID: 2456875847418413604, guid: 3933ac905a03911429f94890d3a52a48, type: 3}
   - {fileID: 1734518943506872899, guid: 3144d144a3207144bb9d0ff6722362f8, type: 3}
   - {fileID: 545080610674363962, guid: 3d28fb06fd135ff4087aa9535e61e83c, type: 3}
+  physicistDatabase: {fileID: 0}
+  objectDatabase: {fileID: 0}
 --- !u!114 &724357208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4192,6 +4190,9 @@ MonoBehaviour:
   objectDatabase: {fileID: 11400000, guid: c44624e66b9ad6c4a854ba8ca53ef745, type: 2}
   objpediaManager: {fileID: 1415739808}
   physpediaManager: {fileID: 1968352109}
+  currentSaveData:
+    foundPhysicistsDataPacks: []
+    foundObjectsDataPacks: []
 --- !u!1 &1126989165
 GameObject:
   m_ObjectHideFlags: 0
