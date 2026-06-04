@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +8,8 @@ using UnityEngine.XR.ARSubsystems;
 public class ImageTracker : MonoBehaviour
 {
     private ARTrackedImageManager trackedImages;
+    public GameObject obj_escolhido;
     public GameObject[] ArPrefabs;
-    public PhysicistDatabase physicistDatabase;
-    public ObjectDatabase objectDatabase;
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -63,11 +61,13 @@ public class ImageTracker : MonoBehaviour
     void OnEnable()
     {
         trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
+        TouchTest.Chosen += AoSelecionarObjeto;
     }
 
     void OnDisable()
     {
         trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
+        TouchTest.Chosen -= AoSelecionarObjeto;
     }
     /*
     void OnEnable()
@@ -113,37 +113,35 @@ public class ImageTracker : MonoBehaviour
         //Create object based on image tracked
         foreach (var trackedImage in eventArgs.added)
         {
+            if (obj_escolhido != null)
+            {
+                break;
+            }
+
             foreach (var arPrefab in ArPrefabs)
             {
                 if (trackedImage.referenceImage.name == arPrefab.name)
                 {
+                    // 1. Instancia o prefab do cientista na posição da imagem
                     var obj = Instantiate(arPrefab);
                     obj.transform.position = trackedImage.transform.position;
                     obj.transform.rotation = trackedImage.transform.rotation;
                     ARObjects.Add(obj);
 
-                    if (obj.CompareTag("Physicist"))
+                    // 2. Procura pelo componente ARObjectIdentity no objeto que acabou de nascer
+                    ARObjectIdentity identidade = obj.GetComponent<ARObjectIdentity>();
+
+                    if (identidade != null)
                     {
-                        PhysicistTrigger physicistTrigger = obj.transform.GetComponent<PhysicistTrigger>();
-                        PhysicistData physicistData = physicistTrigger.data;
-                        if (physicistData.physicistCaptureInfo is null)
-                        {
-                            physicistData.physicistCaptureInfo = new List<CaptureInfo>();
-                        }
-                        physicistData.physicistCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null));
+                        // 3. Batiza o cientista passando a imagem detectada pelo AR Foundation
+                        identidade.ConfigurarIdentidade(trackedImage);
+                        Debug.Log($"[ImageTracker] Sucesso! Cientista vinculado à imagem: {trackedImage.referenceImage.name}");
                     }
-                    else if (obj.CompareTag("Object"))
+                    else
                     {
-                        ObjectTrigger objectTrigger = obj.transform.GetComponent<ObjectTrigger>();
-                        ObjectData objectData = objectTrigger.data;
-                        if (objectData.objectCaptureInfo is null)
-                        {
-                            objectData.objectCaptureInfo = new List<CaptureInfo>();
-                        }
-                        objectData.objectCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null));
+                        Debug.LogWarning($"[ImageTracker] Aviso: O prefab '{arPrefab.name}' não possui o componente ARObjectIdentity anexado!");
                     }
                 }
-
             }
         }
 
@@ -155,10 +153,7 @@ public class ImageTracker : MonoBehaviour
                 var arObject = ARObjects[i];
 
                 if (arObject == null)
-                {
                     continue;
-                }
-
             }
         }
 
@@ -166,6 +161,27 @@ public class ImageTracker : MonoBehaviour
         foreach (var trackedImage in eventArgs.removed)
         {
             // lógica se quiser destruir ou esconder objetos
+        }
+    }
+    private void AoSelecionarObjeto(GameObject objTouched)
+    {
+        Debug.Log("O ImageTracker recebeu o evento! O objeto tocado foi: " + objTouched.name);
+        obj_escolhido = objTouched;
+
+        // Rodamos de trás para frente (Count - 1) porque vamos deletar itens da lista
+        for (int i = ARObjects.Count - 1; i >= 0; i--)
+        {
+            GameObject atual = ARObjects[i];
+
+            // Se o objeto da lista NÃO for o que o jogador escolheu
+            if (atual != obj_escolhido)
+            {
+                // Remove da lista interna para não pesar
+                ARObjects.RemoveAt(i);
+
+                // Destrói o objeto do mundo 3D
+                Destroy(atual);
+            }
         }
     }
 }

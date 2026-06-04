@@ -1,10 +1,8 @@
-using DG.Tweening;
-using Kynesis.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using DG.Tweening;
+using Kynesis.Utilities;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 
 namespace PokemonGO.Code
 {
@@ -76,65 +74,33 @@ namespace PokemonGO.Code
             _lastFramePosition = _rigidbody.position;
         }
 
-        bool hasCollided = false; // Variável para garantir que a colisão seja processada apenas uma vez
         private void OnCollisionEnter(Collision other)
         {
-            if (hasCollided)
-                return;
-
             // PRIMEIRO, checamos se o objeto tem a tag correta
-            if (other.gameObject.CompareTag("Physicist") || other.gameObject.CompareTag("Object"))
+            if (other.gameObject.CompareTag("Physicist"))
             {
-                hasCollided = true;
-                //Debug.Log("Acertou o Physicist! Iniciando lógica de captura...");
+                Debug.Log("Acertou o Physicist! Iniciando lógica de captura...");
 
+                // Buscamos se o objeto atingido possui uma identidade anexada
+                ARObjectIdentity identidade = other.gameObject.GetComponent<ARObjectIdentity>();
+                if (identidade != null)
+                {
+                    // Avisa o Thrower para disparar o evento global de captura
+                    Thrower.TriggerCaptureEvent(identidade.nomeDaImagemOrigem, identidade.indexDaImagem);
+                }
+
+                //Conecta com a physipedia (ainda não foi feita a lógica da objepedia, todos os objs são cientistas por enquanto)
                 if (other.gameObject.transform.CompareTag("Physicist"))
                 {
                     PhysicistTrigger physicistTrigger = other.gameObject.transform.GetComponent<PhysicistTrigger>();
                     PhysicistData physicistData = physicistTrigger.data;
-                    ARTrackedImage trackedImage = null; // TODO: Adicionar tempo em cima da img.
-
-                    for (int i = 0; i < physicistData.physicistCaptureInfo.Count; i++)
-                    {
-                        var capInfo = physicistData.physicistCaptureInfo[i];
-
-                        if (capInfo.model == other.gameObject)
-                        {
-                            capInfo.captureTime = DateTime.Now;
-                            trackedImage = capInfo.trackedImage;
-                            break;
-                        }
-                    }
-
                     physicistTrigger.TriggerEncounter();
-
-                } else if (other.gameObject.transform.CompareTag("Object"))
-                {
-                    hasCollided = true;
-                    ObjectTrigger objectTrigger = other.gameObject.transform.GetComponent<ObjectTrigger>();
-                    ObjectData objectData = objectTrigger.data;
-                    ARTrackedImage trackedImage = null; // TODO: Adicionar tempo em cima da img.
-
-                    for (int i = 0; i < objectData.objectCaptureInfo.Count; i++)
-                    {
-                        var capInfo = objectData.objectCaptureInfo[i];
-
-                        if (capInfo.model == other.gameObject)
-                        {
-                            capInfo.captureTime = DateTime.Now;
-                            trackedImage = capInfo.trackedImage;
-                            break;
-                        }
-                    }
-
-                    objectTrigger.TriggerEncounter();
                 }
-
 
                 // Aqui é onde a animação de captura começaria.
                 // Por enquanto, vamos apenas parar a pokébola e destruir os objetos.
                 if (IsFollowingPath) _followPathTween.Kill(true); // O 'true' finaliza a animação da trajetória imediatamente
-
+                
                 Destroy(other.gameObject);   // Destrói o alvo
                 Destroy(this.gameObject, 2f); // Destrói a pokébola depois de 2 segundos para dar tempo de ver
 

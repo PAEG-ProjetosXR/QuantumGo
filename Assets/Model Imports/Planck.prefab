@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 547070395624113936}
   - component: {fileID: 7756730552086834040}
   - component: {fileID: 4302060789488561260}
+  - component: {fileID: 586440578488905201}
   m_Layer: 0
   m_Name: Planck
   m_TagString: Physicist
@@ -123,3 +124,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: e71a75ee99932f04d98ac10b9254c5b6, type: 2}
   interactionCount: 0
+--- !u!114 &586440578488905201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734518943506872899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23fc9f56c21c3446a67a1d2ed241cca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nomeDaImagemOrigem: 
+  indexDaImagem: 0
