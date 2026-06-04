@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87cd672228196c941b93c2d27297e2da, type: 3}
   m_Name: EinsteinData
   m_EditorClassIdentifier: 
+  id: 0
   name: 
   description: "Embora famoso pela relatividade, Albert Einstein ganhou o Pr\xEAmio
     Nobel por sua explica\xE7\xE3o do Efeito Fotoel\xE9trico. Ele demonstrou que
@@ -22,3 +23,5 @@ MonoBehaviour:
   icon: {fileID: 0}
   modelPrefab: {fileID: 0}
   presentationAudio: {fileID: 0}
+  correctIcon: {fileID: 0}
+  waitRecaptureSecs: 10

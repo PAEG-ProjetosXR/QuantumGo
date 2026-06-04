@@ -2679,7 +2679,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d828d8a7b63a76a43a7f17903caff7c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obj_escolhido: {fileID: 0}
   ArPrefabs:
   - {fileID: 8275639863567630962, guid: bcef7d9b67da6ab47a2e2cbceec19dd6, type: 3}
   - {fileID: 2456875847418413604, guid: 3933ac905a03911429f94890d3a52a48, type: 3}

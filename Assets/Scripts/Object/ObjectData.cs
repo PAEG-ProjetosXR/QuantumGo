@@ -15,6 +15,8 @@ public class ObjectData : ScriptableObject
     public GameObject modelPrefab;                   //O modelo 3D do objeto
     public AudioClip presentationAudio;              //O áudio da apresentação
 
+    public int waitRecaptureSecs;
+
     [NonSerialized]
     public int foundTimes = 0;                       // Indica se o objeto foi encontrado ou não
 

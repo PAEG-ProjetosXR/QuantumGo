@@ -20,6 +20,8 @@ public class PhysicistData : ScriptableObject
     public AudioClip presentationAudio;              //O áudio da apresentação
     public ObjectData correctIcon;                   // Correlação Feito/fisico
 
+    public int waitRecaptureSecs;
+
     [NonSerialized]
     public int foundTimes = 0;                       // Indica se o físico foi encontrado ou não
 
@@ -34,11 +36,13 @@ public class CaptureInfo
     public ARTrackedImage trackedImage;
     public GameObject model;
     public DateTime? captureTime;
-    public CaptureInfo(ARTrackedImage trackedImage, GameObject model, DateTime? captureTime)
+    public DateTime? recaptureTime;
+    public CaptureInfo(ARTrackedImage trackedImage, GameObject model, DateTime? captureTime, DateTime? recaptureTime = null)
     {
         this.trackedImage = trackedImage;
         this.model = model;
         this.captureTime = captureTime;
+        this.recaptureTime = recaptureTime;
     }
 
     public override string ToString()
@@ -50,6 +54,7 @@ public class CaptureInfo
             $"CaptureInfo\n" +
             $"  Tracked Image: {imageName}\n" +
             $"  Model:         {modelName}\n" +
-            $"  Capture Time:  {captureTime:yyyy-MM-dd HH:mm:ss}";
+            $"  Capture Time:  {captureTime:yyyy-MM-dd HH:mm:ss}" +
+            $"  Recapture Time:  {recaptureTime:yyyy-MM-dd HH:mm:ss}";
     }
 }
