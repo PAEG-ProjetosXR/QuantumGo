@@ -15,6 +15,8 @@ public class UIHandler : MonoBehaviour
     public GameObject physpediaButton;
     public GameObject objpediaButton;
     public GameObject captureButton;
+    public GameObject atomballButton;
+    public GameObject atomballMenu;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
@@ -33,9 +35,6 @@ public class UIHandler : MonoBehaviour
 
     private void getComponents()
     {
-
-        //objpediaButton = GameObject.Find("Capture Button"); ????????????????
-
         touchTest = GameObject.Find("XR Origin").GetComponent<TouchTest>();
         if (Thrower.Instance == null)
         {
@@ -45,6 +44,7 @@ public class UIHandler : MonoBehaviour
     
     public void DisplayPhysicistDetails(PhysicistData data)
     {
+        hideUIWithExcept(detailPanel);
         detailPanel.SetActive(true);
         detailImage.sprite = data.icon;
         
@@ -67,45 +67,40 @@ public class UIHandler : MonoBehaviour
             detailName.text = "Nome: ???" ;
             detailBio.text = "?????";
         }
-        
-        physpediaPanel.SetActive(false);
-        physpediaButton.SetActive(true);
-        objpediaButton.SetActive(true);
     }
     
     public void DisplayObjectDetails(ObjectData data)
     {
+        hideUIWithExcept(detailPanel);
         detailPanel.SetActive(true);
         detailImage.sprite = data.icon;
         detailName.text = "Nome: " + data.name;
         detailBio.text = "Descrição: \n" + data.description;
-        objpediaPanel.SetActive(false);
-        physpediaButton.SetActive(true);
-        objpediaButton.SetActive(true);
-        captureButton.SetActive(true);
     }
     
+    private void hideUIWithExcept(GameObject exceptThis)
+    {
+        var state = exceptThis.activeInHierarchy;
+
+        physpediaPanel.SetActive(false);
+        objpediaPanel.SetActive(false);
+        detailPanel.SetActive(false);
+        atomballMenu.SetActive(false);
+
+        exceptThis.SetActive(state);
+    }
+
     private void hideUI()
     {
         physpediaPanel.SetActive(false);
         objpediaPanel.SetActive(false);
         detailPanel.SetActive(false);
-    }
-
-    public void returnToGame()
-    {
-        physpediaButton?.SetActive(true);
-        objpediaButton?.SetActive(true);
-        objpediaPanel?.SetActive(false);
-        physpediaPanel?.SetActive(false);
-        detailPanel?.SetActive(false);
-        captureButton?.SetActive(true);
-        //pokeSpawn.SpawnPokeBall();
-        touchTest.canInteract = true;
+        atomballMenu.SetActive(false);
     }
 
     public void pokeballButton()
     {
+        hideUI();
         if (Thrower.Instance != null)
         {
             Thrower.Instance.SpawnPokeBall();
@@ -118,78 +113,24 @@ public class UIHandler : MonoBehaviour
 
     }
 
-    public void closeMenu()
-    {
-        physpediaPanel.SetActive(false);
-        objpediaPanel.SetActive(false);
-        captureButton.SetActive(true);
-    }
-
-    public void goBack()
-    {
-        Transform current = transform;
-        GameObject parentCanvas = null;
-        GameObject grandparentCanvas = null;
-
-        // Step 1: Find parent canvas
-        while (current.parent != null)
-        {
-            current = current.parent;
-            if (current.GetComponent<Canvas>() != null)
-            {
-                parentCanvas = current.gameObject;
-                break;
-            }
-        }
-
-        if (parentCanvas == null)
-        {
-            Debug.LogWarning("Parent canvas not found.");
-            return;
-        }
-
-        // Step 2: From parent, look for grandparent canvas
-        current = current.parent;
-        while (current != null)
-        {
-            if (current.GetComponent<Canvas>() != null)
-            {
-                grandparentCanvas = current.gameObject;
-                break;
-            }
-            current = current.parent;
-        }
-
-        if (grandparentCanvas == null)
-        {
-            Debug.LogWarning("Grandparent canvas not found.");
-            return;
-        }
-
-        // Step 3: Toggle canvases
-        parentCanvas.SetActive(false);
-        grandparentCanvas.SetActive(true);
-    
-    }
-
     public void openPhyspedia()
     {
-        physpediaButton?.SetActive(false);
-        objpediaButton?.SetActive(false);
-        physpediaPanel?.SetActive(true);
-        detailPanel?.SetActive(false);
-        captureButton?.SetActive(false);
-        touchTest.canInteract = false;
+        hideUIWithExcept(physpediaPanel);
+        physpediaPanel.SetActive(!physpediaPanel.activeInHierarchy);
+        //touchTest.canInteract = false;
     }
 
     public void openObjpedia()
     {
-        physpediaButton?.SetActive(false);
-        objpediaButton?.SetActive(false);
-        objpediaPanel?.SetActive(true);
-        detailPanel?.SetActive(false);
-        captureButton?.SetActive(false);
-        touchTest.canInteract = false;
+        hideUIWithExcept(objpediaPanel);
+        objpediaPanel.SetActive(!objpediaPanel.activeInHierarchy);
+        //touchTest.canInteract = false;
+    }
+
+    public void openAtomballMenu()
+    {
+        hideUIWithExcept(atomballMenu);
+        atomballMenu.SetActive(!atomballMenu.activeInHierarchy);
     }
 
 }
