@@ -130,7 +130,7 @@ public class ImageTracker : MonoBehaviour
                         {
                             physicistData.physicistCaptureInfo = new List<CaptureInfo>();
                         }
-                        physicistData.physicistCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null));
+                        physicistData.physicistCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null, DateTime.Now));
                     }
                     else if (obj.CompareTag("Object"))
                     {
