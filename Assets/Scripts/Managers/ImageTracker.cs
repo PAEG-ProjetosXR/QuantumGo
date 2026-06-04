@@ -9,7 +9,6 @@ using UnityEngine.XR.ARSubsystems;
 public class ImageTracker : MonoBehaviour
 {
     private ARTrackedImageManager trackedImages;
-    public GameObject obj_escolhido;
     public GameObject[] ArPrefabs;
     public PhysicistDatabase physicistDatabase;
     public ObjectDatabase objectDatabase;
@@ -64,13 +63,11 @@ public class ImageTracker : MonoBehaviour
     void OnEnable()
     {
         trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
-        TouchTest.Chosen += AoSelecionarObjeto;
     }
 
     void OnDisable()
     {
         trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
-        TouchTest.Chosen -= AoSelecionarObjeto;
     }
     /*
     void OnEnable()
