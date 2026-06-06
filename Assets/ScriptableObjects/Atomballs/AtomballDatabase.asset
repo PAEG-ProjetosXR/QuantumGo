@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78aa29e920f57844b3e276a8a432f09, type: 3}
+  m_Name: AtomballDatabase
+  m_EditorClassIdentifier: 
+  atomballs:
+  - {fileID: 11400000, guid: 72cdb4495d7c9dd4ea9370076dd2e4b0, type: 2}
+  - {fileID: 11400000, guid: e084eac1c6e44e345ae911529662d1b5, type: 2}
+  - {fileID: 11400000, guid: 85090abf1446e394caff4b2321e23447, type: 2}

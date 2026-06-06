@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 273333d9e4b12b24ea506f65777c3964
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - atomballDatabase: {fileID: 11400000, guid: 04f0a8afff2f14a4298f9ac444ea8737, type: 2}
+  - atomballMenu: {instanceID: 0}
+  - atomballViewContent: {instanceID: 0}
+  - atomballCardBtnPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
