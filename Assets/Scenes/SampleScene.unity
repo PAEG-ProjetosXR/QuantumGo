@@ -5631,6 +5631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3046e8ac21d79bb45acf530235c802ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  database: {fileID: 0}
   outline: {fileID: 1221457217}
   id: 0
 --- !u!1 &1259125399

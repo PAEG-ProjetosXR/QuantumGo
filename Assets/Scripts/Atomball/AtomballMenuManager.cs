@@ -12,6 +12,7 @@ public class AtomballMenuManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bool firstTime = true;
         foreach(var atom in atomballDatabase.atomballs)
         {
             var newCard = Instantiate(atomballCardBtnPrefab);
@@ -20,9 +21,16 @@ public class AtomballMenuManager : MonoBehaviour
 
             AtomballCard card = newCard.GetComponent<AtomballCard>();
             card.id = atom.id;
+            card.database = atomballDatabase;
 
             Button button = newCard.GetComponent<Button>();
             button.onClick.AddListener(card.SelectCard);
+
+            if (firstTime)
+            {
+                card.SelectCard();
+                firstTime = false;
+            }
 
             newCard.transform.SetParent(atomballViewContent.transform, false);
         }
