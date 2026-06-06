@@ -17,6 +17,8 @@ public class UIHandler : MonoBehaviour
     public GameObject captureButton;
     public GameObject atomballButton;
     public GameObject atomballMenu;
+    public GridLayoutGroup atomballGridLayout;
+    public float atomballMenuMaxWidth;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
@@ -127,10 +129,44 @@ public class UIHandler : MonoBehaviour
         //touchTest.canInteract = false;
     }
 
+    public static void UpdateCellSizeAtomball(
+    GridLayoutGroup grid,
+    int columns)
+
+    {
+        RectTransform rect = grid.GetComponent<RectTransform>();
+
+        float totalWidth = rect.rect.width;
+        float spacing = grid.spacing.x;
+        float padding = grid.padding.left + grid.padding.right;
+
+        float cellWidth =
+            (totalWidth - padding - spacing * (columns - 1))
+            / columns;
+
+        grid.cellSize = new Vector2(cellWidth, cellWidth);
+    }
+
     public void openAtomballMenu()
     {
         hideUIWithExcept(atomballMenu);
         atomballMenu.SetActive(!atomballMenu.activeInHierarchy);
+        if (atomballMenu.activeInHierarchy)
+        {
+            Canvas.ForceUpdateCanvases();
+
+            RectTransform rect = atomballMenu.GetComponent<RectTransform>();
+
+            float width = Mathf.Min(
+                ((RectTransform)rect.parent).rect.width,
+                atomballMenuMaxWidth);
+
+            rect.SetSizeWithCurrentAnchors(
+                RectTransform.Axis.Horizontal,
+                width);
+
+            UpdateCellSizeAtomball(atomballGridLayout, 2);
+        }
     }
 
 }
