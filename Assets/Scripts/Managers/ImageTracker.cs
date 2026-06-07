@@ -62,12 +62,14 @@ public class ImageTracker : MonoBehaviour
     void OnEnable()
     {
         trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
+        PhysicistTrigger.OnPhysicistDestroyed += HandleDestroyed;
         TouchTest.Chosen += AoSelecionarObjeto;
     }
 
     void OnDisable()
     {
         trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
+        PhysicistTrigger.OnPhysicistDestroyed -= HandleDestroyed;
         TouchTest.Chosen -= AoSelecionarObjeto;
     }
     /*
@@ -239,7 +241,13 @@ public class ImageTracker : MonoBehaviour
         }
     }
 
+    private void HandleDestroyed(PhysicistTrigger instance)
+{
+    if (instance.gameObject != obj_escolhido)
+        return;
 
+    obj_escolhido = null;
+}
 
 }
 /*
