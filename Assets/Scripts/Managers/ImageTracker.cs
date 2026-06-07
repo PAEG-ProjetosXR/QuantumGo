@@ -172,17 +172,22 @@ public class ImageTracker : MonoBehaviour
 
                     // 2. Procura pelo componente no objeto que acabou de nascer
                     PhysicistData identidade = obj.GetComponent<PhysicistTrigger>().data;
+                    if(identidade.physicistCaptureInfo is null)
+                    {
+                        identidade.physicistCaptureInfo = new List<CaptureInfo>();
+                    }
                     CaptureInfo isOnList = HasTrackedImage(identidade, trackedImage);
                     obj.GetComponent<PhysicistTrigger>().info = isOnList; // se tem CaptureInfo dado aquela imagem, anexa ao físico gerado
                     if (isOnList != null)
                     {
                         // 3. Batiza o cientista passando a imagem detectada pelo AR Foundation
                         //identidade.physicistCaptureInfo.Find(trackedImage) = trackedImage;
-                        Debug.Log($"[ImageTracker] Sucesso! Cientista vinculado à imagem: {trackedImage.referenceImage.name}");
+                        Debug.Log($"[ImageTracker] Cientista já vinculado à imagem: {trackedImage.referenceImage.name}");
                     }
                     else
                     {
-                        Debug.LogWarning($"[ImageTracker] Aviso: O prefab '{arPrefab.name}' não possui o componente PhysicistData devidamente anexado!");
+                        identidade.physicistCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null, DateTime.Now));
+                        Debug.LogWarning($"[ImageTracker] Aviso: O prefab '{arPrefab.name}' não possui Capture Info, criando...");
                     }
                 }
             }
