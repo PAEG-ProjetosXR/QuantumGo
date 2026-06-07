@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -9,9 +9,8 @@ using UnityEngine.XR.ARSubsystems;
 public class ImageTracker : MonoBehaviour
 {
     private ARTrackedImageManager trackedImages;
+    public GameObject obj_escolhido;
     public GameObject[] ArPrefabs;
-    public PhysicistDatabase physicistDatabase;
-    public ObjectDatabase objectDatabase;
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -63,11 +62,13 @@ public class ImageTracker : MonoBehaviour
     void OnEnable()
     {
         trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
+        TouchTest.Chosen += AoSelecionarObjeto;
     }
 
     void OnDisable()
     {
         trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
+        TouchTest.Chosen -= AoSelecionarObjeto;
     }
     /*
     void OnEnable()
@@ -108,42 +109,82 @@ public class ImageTracker : MonoBehaviour
         }
     }
     */
+    public CaptureInfo HasTrackedImage(PhysicistData identidade, ARTrackedImage tracked)
+    {
+    if (identidade == null ||
+        identidade.physicistCaptureInfo == null ||
+        tracked == null)
+    {
+        return null;
+    }
+
+    foreach (CaptureInfo info in identidade.physicistCaptureInfo)
+    {
+        if (info.trackedImage == tracked)
+        {
+            return info;
+        }
+    }
+
+    return null;
+    }
+
+    public bool CheckAndUpdateCapture(PhysicistData identidade, ARTrackedImage tracked)
+    {
+    if (identidade == null ||
+        identidade.physicistCaptureInfo == null ||
+        tracked == null)
+    {
+        return false;
+    }
+
+    foreach (CaptureInfo info in identidade.physicistCaptureInfo)
+    {
+        if (info.trackedImage == tracked)
+        {
+            info.recaptureTime = DateTime.Now;
+            return true;
+        }
+    }
+
+    return false;
+    }
+
     private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
         //Create object based on image tracked
         foreach (var trackedImage in eventArgs.added)
         {
+            if (obj_escolhido != null)
+            {
+                break;
+            }
+
             foreach (var arPrefab in ArPrefabs)
             {
                 if (trackedImage.referenceImage.name == arPrefab.name)
                 {
+                    // 1. Instancia o prefab do cientista na posição da imagem
                     var obj = Instantiate(arPrefab);
                     obj.transform.position = trackedImage.transform.position;
                     obj.transform.rotation = trackedImage.transform.rotation;
                     ARObjects.Add(obj);
 
-                    if (obj.CompareTag("Physicist"))
+                    // 2. Procura pelo componente no objeto que acabou de nascer
+                    PhysicistData identidade = obj.GetComponent<PhysicistTrigger>().data;
+                    CaptureInfo isOnList = HasTrackedImage(identidade, trackedImage);
+                    obj.GetComponent<PhysicistTrigger>().info = isOnList; // se tem CaptureInfo dado aquela imagem, anexa ao físico gerado
+                    if (isOnList != null)
                     {
-                        PhysicistTrigger physicistTrigger = obj.transform.GetComponent<PhysicistTrigger>();
-                        PhysicistData physicistData = physicistTrigger.data;
-                        if (physicistData.physicistCaptureInfo is null)
-                        {
-                            physicistData.physicistCaptureInfo = new List<CaptureInfo>();
-                        }
-                        physicistData.physicistCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null, DateTime.Now));
+                        // 3. Batiza o cientista passando a imagem detectada pelo AR Foundation
+                        //identidade.physicistCaptureInfo.Find(trackedImage) = trackedImage;
+                        Debug.Log($"[ImageTracker] Sucesso! Cientista vinculado à imagem: {trackedImage.referenceImage.name}");
                     }
-                    else if (obj.CompareTag("Object"))
+                    else
                     {
-                        ObjectTrigger objectTrigger = obj.transform.GetComponent<ObjectTrigger>();
-                        ObjectData objectData = objectTrigger.data;
-                        if (objectData.objectCaptureInfo is null)
-                        {
-                            objectData.objectCaptureInfo = new List<CaptureInfo>();
-                        }
-                        objectData.objectCaptureInfo.Add(new CaptureInfo(trackedImage, obj, null));
+                        Debug.LogWarning($"[ImageTracker] Aviso: O prefab '{arPrefab.name}' não possui o componente PhysicistData devidamente anexado!");
                     }
                 }
-
             }
         }
 
@@ -155,10 +196,7 @@ public class ImageTracker : MonoBehaviour
                 var arObject = ARObjects[i];
 
                 if (arObject == null)
-                {
                     continue;
-                }
-
             }
         }
 
@@ -168,6 +206,36 @@ public class ImageTracker : MonoBehaviour
             // lógica se quiser destruir ou esconder objetos
         }
     }
+    private void AoSelecionarObjeto(GameObject objTouched)
+    {
+        Debug.Log("O ImageTracker recebeu o evento! O objeto tocado foi: " + objTouched.name);
+        obj_escolhido = objTouched;
+        PhysicistTrigger trig = objTouched.GetComponent<PhysicistTrigger>();
+        
+        if(trig != null)
+        {
+            trig.foiEscolhido = true;
+        }
+
+        // Rodamos de trás para frente (Count - 1) porque vamos deletar itens da lista
+        for (int i = ARObjects.Count - 1; i >= 0; i--)
+        {
+            GameObject atual = ARObjects[i];
+
+            // Se o objeto da lista NÃO for o que o jogador escolheu
+            if (atual != obj_escolhido)
+            {
+                // Remove da lista interna para não pesar
+                ARObjects.RemoveAt(i);
+
+                // Destrói o objeto do mundo 3D
+                Destroy(atual);
+            }
+        }
+    }
+
+
+
 }
 /*
     // Event Handler
