@@ -43,6 +43,8 @@ namespace PokemonGO.Code
 
         public EncounterManager encounterManager;
 
+        private bool targetDied;
+        
         // ==========================================================
         //  MÉTODO ADICIONADO PARA CORRIGIR O ERRO DE REFERÊNCIA
         // ==========================================================
@@ -107,6 +109,7 @@ namespace PokemonGO.Code
                         }
                     }
 
+                    targetDied = physicistTrigger.ReduceHp();
                     physicistTrigger.TriggerEncounter();
 
                 } else if (other.gameObject.transform.CompareTag("Object"))
@@ -137,7 +140,7 @@ namespace PokemonGO.Code
                 // Por enquanto, vamos apenas parar a pokébola e destruir os objetos.
                 if (IsFollowingPath) _followPathTween.Kill(true); // O 'true' finaliza a animação da trajetória imediatamente
 
-                Destroy(other.gameObject);   // Destrói o alvo
+                if (targetDied) { Destroy(other.gameObject); } // Destrói o alvo
                 Destroy(this.gameObject, 2f); // Destrói a pokébola depois de 2 segundos para dar tempo de ver
 
                 // O return é importante para não executar a lógica de quicar abaixo

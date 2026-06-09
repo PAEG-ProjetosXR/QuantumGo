@@ -122,4 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: e71a75ee99932f04d98ac10b9254c5b6, type: 2}
+  foiEscolhido: 0
   interactionCount: 0
+  hpBase: 1
+  hpScale: 1
