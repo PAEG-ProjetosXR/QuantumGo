@@ -124,4 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 921682f3906aa6b48af3b263ff898bef, type: 2}
+  foiEscolhido: 0
   interactionCount: 0
+  hpBase: 3
+  hpScale: 0.1

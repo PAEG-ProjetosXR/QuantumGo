@@ -2,29 +2,76 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using System;
 using System.Text.RegularExpressions;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class PhysicistTrigger : MonoBehaviour
 {
     public PhysicistData data;
     public CaptureInfo info;   // Imagem que gerou esse objeto, NÃO fica no SO pois é própria de cada instância
     public bool foiEscolhido = false; // auxiliar para evitar muito OnDestroy sendo disparado
-     public static event Action<PhysicistTrigger> OnPhysicistDestroyed;
+    public static event Action<PhysicistTrigger> OnPhysicistDestroyed;
     public int interactionCount = 0;
-    
+
+
+    [Header("Physicist Stats")]
+    [SerializeField] private float hpBase; // HP base do físico
+    [SerializeField] private float hpScale; // Escala do aumento de HP do físico
+
+    private float hpMax; // HP max do físico
+    private int hpCurrent; // HP atual do físico
+
     private EncounterManager encounterManager;
 
-    void Start()
+    private void Start()
     {
-        encounterManager = FindAnyObjectByType<EncounterManager>();    //encontra o "cerebro" na cena para poder se comunicar com ele
+        encounterManager = FindAnyObjectByType<EncounterManager>();//encontra o "cerebro" na cena para poder se comunicar com ele
+        CalculateHp();
+    }
+
+    private void OnEnable()
+    {
+        CalculateHp();
+    }
+
+    private void CalculateHp() // Definir HP maximo do fisico quando ele for encontrado
+    {
+        Debug.Log("Hora de calcular HP do Físico!");
+
+        if (encounterManager != null)
+        {
+            hpMax = hpBase + data.foundTimes * hpScale;
+            hpCurrent = (int) hpMax;
+            Debug.Log("Resultado: o HP max dele será " + hpCurrent + " ! (antes tava como " + hpMax + ")");
+        }
+        else
+        {
+            hpCurrent = 1;
+            Debug.LogWarning("Como encounterManager = NULL, botamos vida do Físico como " + hpCurrent + " !");
+        }
+            
+    }
+
+    public bool ReduceHp() // Reduzir o HP do fisico quando ele for atingido pela pokebola
+    {
+        hpCurrent = hpCurrent - 1;
+        Debug.Log("O alvo perdeu HP. Agora ele esta com " + hpCurrent + " de vida!");
+        if (hpCurrent <= 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void TriggerEncounter()  //função que sera chamada quando o jogador interagir com este objeto
-
     {
         if (data != null && encounterManager != null)
         {
-            data.physicistCaptureInfo.ForEach(info => { Debug.Log(info.ToString()); });
-            encounterManager.RegisterPhysicistEncounter(data);
+            if (hpCurrent <= 0)
+            {
+                data.physicistCaptureInfo.ForEach(info => { Debug.Log(info.ToString()); });
+                encounterManager.RegisterPhysicistEncounter(data);
+            }
         }
     }
 
