@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Atomball1
   m_EditorClassIdentifier: 
   id: 0
-  atomballPrefab: {fileID: 4132679313565060239, guid: ed2d9974a2e3d314f8bb90cbbfd17403, type: 3}
+  atomballPrefab: {fileID: 708347375556551933, guid: 8e9fd9d24946f134fa7cacd4cb752422, type: 3}
   menuIcon: {fileID: 21300000, guid: 3abe4fa05d597d542ae50fbd4c10a9ce, type: 3}
   damageToHealth: 10
   captureTimes: 1
