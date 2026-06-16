@@ -11,6 +11,7 @@ public class ImageTracker : MonoBehaviour
     private ARTrackedImageManager trackedImages;
     public GameObject obj_escolhido;
     public GameObject[] ArPrefabs;
+    public UIHandler uiHandler;
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -50,6 +51,11 @@ public class ImageTracker : MonoBehaviour
     void Awake()
     {
         trackedImages = GetComponent<ARTrackedImageManager>();
+    }
+
+    private void Start()
+    {
+        uiHandler = FindAnyObjectByType<UIHandler>();
     }
 
     /*
@@ -239,6 +245,8 @@ public class ImageTracker : MonoBehaviour
                 Destroy(atual);
             }
         }
+
+        uiHandler.enableCapture();
     }
 
     private void HandleDestroyed(PhysicistTrigger instance)

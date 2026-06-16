@@ -94,6 +94,8 @@ namespace PokemonGO.Code
 
         private Vector2 _currentPointerDelta;
 
+        private AtomballMenuManager atomballMenuManager;
+
         private float Force =>
             _currentPointerDelta.magnitude * _forceMultiplier;
 
@@ -129,6 +131,8 @@ namespace PokemonGO.Code
 
         private void Start()
         {
+            atomballMenuManager = FindAnyObjectByType<AtomballMenuManager>();
+
             var xr = FindAnyObjectByType<XROrigin>();
 
             if (xr != null)
@@ -548,11 +552,9 @@ namespace PokemonGO.Code
                 return;
             }
 
-            _pokeBall =
-                _pokeBallFactory.Create(
-                    Vector3.zero,
-                    Quaternion.identity
-                );
+            PokeBall pokeball = atomballMenuManager.atomballDatabase.GetChosenAtomball().atomballPrefab.GetComponent<PokeBall>();
+            _pokeBall = Instantiate(pokeball, Vector3.zero, Quaternion.identity);
+            _pokeBall.healthDamage = atomballMenuManager.atomballDatabase.GetChosenAtomball().damageToHealth;
 
             if (_pokeBall == null)
             {

@@ -14,7 +14,7 @@ public class UIHandler : MonoBehaviour
     public GameObject objpediaPanel;
     public GameObject physpediaButton;
     public GameObject objpediaButton;
-    public GameObject captureButton;
+    public Button captureButton;
     public GameObject atomballButton;
     public GameObject atomballMenu;
     public GridLayoutGroup atomballGridLayout;
@@ -33,6 +33,7 @@ public class UIHandler : MonoBehaviour
     private void Start()
     {
         hideUI();
+        disableCapture();
     }
 
     private void getComponents()
@@ -98,6 +99,16 @@ public class UIHandler : MonoBehaviour
         objpediaPanel.SetActive(false);
         detailPanel.SetActive(false);
         atomballMenu.SetActive(false);
+    }
+
+    public void enableCapture()
+    {
+        captureButton.interactable = true;
+    }
+
+    public void disableCapture()
+    {
+        captureButton.interactable = false;
     }
 
     public void pokeballButton()

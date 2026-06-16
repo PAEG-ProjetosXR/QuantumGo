@@ -29,15 +29,8 @@ public class PhysicistTrigger : MonoBehaviour
         CalculateHp();
     }
 
-    private void OnEnable()
-    {
-        CalculateHp();
-    }
-
     private void CalculateHp() // Definir HP maximo do fisico quando ele for encontrado
     {
-        Debug.Log("Hora de calcular HP do Físico!");
-
         if (encounterManager != null)
         {
             hpMax = hpBase + data.foundTimes * hpScale;
@@ -52,9 +45,9 @@ public class PhysicistTrigger : MonoBehaviour
             
     }
 
-    public bool ReduceHp() // Reduzir o HP do fisico quando ele for atingido pela pokebola
+    public bool ReduceHp(int ammount) // Reduzir o HP do fisico quando ele for atingido pela pokebola
     {
-        hpCurrent = hpCurrent - 1;
+        hpCurrent = hpCurrent - ammount;
         Debug.Log("O alvo perdeu HP. Agora ele esta com " + hpCurrent + " de vida!");
         if (hpCurrent <= 0)
         {

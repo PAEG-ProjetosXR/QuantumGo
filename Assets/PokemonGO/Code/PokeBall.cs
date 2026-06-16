@@ -27,6 +27,9 @@ namespace PokemonGO.Code
         [Header("Bindings")]
         [SerializeField] private Rigidbody _rigidbody;
 
+        [NonSerialized]
+        public int healthDamage;
+
         private bool _isCharged;
         private Vector3 _lastFramePosition;
         private Tween _followPathTween;
@@ -109,7 +112,7 @@ namespace PokemonGO.Code
                         }
                     }
 
-                    targetDied = physicistTrigger.ReduceHp();
+                    targetDied = physicistTrigger.ReduceHp(this.healthDamage);
                     physicistTrigger.TriggerEncounter();
 
                 } else if (other.gameObject.transform.CompareTag("Object"))

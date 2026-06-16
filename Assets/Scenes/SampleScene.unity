@@ -3182,6 +3182,7 @@ MonoBehaviour:
   - {fileID: 2456875847418413604, guid: 3933ac905a03911429f94890d3a52a48, type: 3}
   - {fileID: 1734518943506872899, guid: 3144d144a3207144bb9d0ff6722362f8, type: 3}
   - {fileID: 545080610674363962, guid: 3d28fb06fd135ff4087aa9535e61e83c, type: 3}
+  uiHandler: {fileID: 0}
 --- !u!114 &724357208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7081,7 +7082,7 @@ MonoBehaviour:
   objpediaPanel: {fileID: 841368094}
   physpediaButton: {fileID: 1297408394}
   objpediaButton: {fileID: 26119992}
-  captureButton: {fileID: 416443714}
+  captureButton: {fileID: 416443716}
   atomballButton: {fileID: 697043475}
   atomballMenu: {fileID: 1209251718}
   atomballGridLayout: {fileID: 1173752970}
