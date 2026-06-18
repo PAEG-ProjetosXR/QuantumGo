@@ -24,6 +24,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField] private TMP_Text detailName;
     [SerializeField] private TMP_Text detailBio;
     [SerializeField] private Image spawnButtonImage;
+    public TMP_Text cooldownLabelPrefab;
+    public RectTransform cooldownContainer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {

@@ -107,7 +107,12 @@ namespace PokemonGO.Code
                         {
                             capInfo.captureTime = DateTime.Now;
                             trackedImage = capInfo.trackedImage;
-                            capInfo.recaptureTime = DateTime.Now.AddSeconds(physicistData.waitRecaptureSecs);
+                             DateTime atual = DateTime.Now;
+                            int recapMod = 0;
+                            recapMod = UnityEngine.Random.Range(3,6);
+                            DateTime prox = atual.AddMinutes(recapMod);
+                            capInfo.recaptureTime = prox;
+                            Debug.Log($"RECAPTURE DEFINIDO: {capInfo.recaptureTime}");
                             break;
                         }
                     }

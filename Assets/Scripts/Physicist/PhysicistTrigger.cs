@@ -72,16 +72,16 @@ public class PhysicistTrigger : MonoBehaviour
     {
         if (foiEscolhido && info != null)
         {
-            DateTime atual = DateTime.Now;
-            int recapMod = 0;
-            recapMod = UnityEngine.Random.Range(3,6);
-            DateTime prox = atual.AddMinutes(recapMod);
-            foreach (CaptureInfo ci in data.physicistCaptureInfo)
-                if(ci == info)
-                {
-                    ci.captureTime = atual;
-                    ci.recaptureTime = prox;
-                }
+            //DateTime atual = DateTime.Now;
+            //int recapMod = 0;
+            //recapMod = UnityEngine.Random.Range(3,6);
+            //DateTime prox = atual.AddMinutes(recapMod);
+            //foreach (CaptureInfo ci in data.physicistCaptureInfo)
+            //    if(ci == info)
+            //    {
+            //        ci.captureTime = atual;
+            //        ci.recaptureTime = prox;
+            //    }
 
             OnPhysicistDestroyed?.Invoke(this);
         }
