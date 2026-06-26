@@ -53,17 +53,6 @@ public class AtomballCard : MonoBehaviour
         }
     }
 
-    public static void selectCardById(int id)
-    {
-        foreach (var card in allCards)
-        {
-            if (card.id == id)
-            {
-                card.SelectCard();
-            }
-        }
-    }
-
     public void SelectCard()
     {
         if (selectedCard != null && selectedCard.id != database.selectedBallId)
