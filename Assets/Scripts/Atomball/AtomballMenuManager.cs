@@ -9,6 +9,9 @@ public class AtomballMenuManager : MonoBehaviour
     public GameObject atomballMenu;
     public GameObject atomballViewContent;
     public GameObject atomballCardBtnPrefab;
+    public TextMeshProUGUI atomballSelectInfoDescText;
+    public TextMeshProUGUI atomballSelectInfoTitle;
+    public GameObject atomballSelectInfo;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +25,9 @@ public class AtomballMenuManager : MonoBehaviour
             AtomballCard card = newCard.GetComponent<AtomballCard>();
             card.id = atom.id;
             card.database = atomballDatabase;
+            card.atomballSelectInfo = atomballSelectInfo;
+            card.atomballSelectInfoDescText = atomballSelectInfoDescText;
+            card.atomballSelectInfoTitle = atomballSelectInfoTitle;
 
             Button button = newCard.GetComponent<Button>();
             button.onClick.AddListener(card.SelectCard);
