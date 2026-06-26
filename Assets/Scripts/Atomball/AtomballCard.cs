@@ -1,20 +1,25 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AtomballCard : MonoBehaviour
 {
+    private static List<AtomballCard> allCards = new List<AtomballCard>();
     private static AtomballCard selectedCard;
-    public AtomballDatabase database;
+    public static AtomballDatabase database;
     public TextMeshProUGUI atomballSelectInfoDescText;
     public TextMeshProUGUI atomballSelectInfoTitle;
     public GameObject atomballSelectInfo;
+    public static Button selectAtomballBtn;
 
     public Outline outline;
     public int id;
     
     private void Start()
     {
+        allCards.Add(this);
         outline.enabled = false;
         if (selectedCard == this)
         {
@@ -24,25 +29,57 @@ public class AtomballCard : MonoBehaviour
 
     public static string generateAtomballText(Atomball atomball)
     {
-        return $"Descrição curta da atomball" +
-            $"\n\nDano: {atomball.damageToHealth} Vida{(atomball.damageToHealth > 1 ? "s" : "")}" +
-            $"\nN° Paragráfos: {atomball.captureTimes}";
+        return $"\n\nDano: {atomball.damageToHealth} Vida{(atomball.damageToHealth > 1 ? "s" : "")}" +
+               $"\nN° Paragráfos: {atomball.captureTimes}";
+
+    }
+
+    public static void disableOutlineAllCards()
+    {
+        foreach (var card in allCards)
+        {
+            card.outline.enabled = false;
+        }
     }
 
     public void SelectCard()
     {
-        if (selectedCard != null)
+        if (selectedCard != null && selectedCard.id != database.selectedBallId)
             selectedCard.outline.enabled = false;
 
-        selectedCard = this;
         outline.enabled = true;
-        database.selectedBallId = id;
+
+        if (database.selectedBallId == id)
+        {
+            outline.effectColor = Color.red;
+        }
+        else
+        {
+            outline.effectColor = Color.black;
+        }
+
+        selectedCard = this;
+        
 
         // UI info changes. This should happen AFTER the database update!
         atomballSelectInfo.SetActive(true);
         Atomball selectedAtomball = database.GetChosenAtomball();
         atomballSelectInfoTitle.text = selectedAtomball.name;
         atomballSelectInfoDescText.text = generateAtomballText(selectedAtomball);
+        selectAtomballBtn.onClick.RemoveAllListeners();
+        selectAtomballBtn.onClick.AddListener(selectAtomball);
+    }
 
+    public void selectAtomball()
+    {
+        disableOutlineAllCards();
+        database.selectedBallId = id;
+        outline.effectColor = Color.red;
+        outline.enabled = true;
+    }
+
+    public void OnDestroy()
+    {
+        allCards.Remove(this);
     }
 }

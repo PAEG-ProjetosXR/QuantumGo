@@ -12,10 +12,15 @@ public class AtomballMenuManager : MonoBehaviour
     public TextMeshProUGUI atomballSelectInfoDescText;
     public TextMeshProUGUI atomballSelectInfoTitle;
     public GameObject atomballSelectInfo;
+    public Button selectAtomballBtnInfoMenu;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         bool firstTime = true;
+
+        AtomballCard.database = atomballDatabase;
+        AtomballCard.selectAtomballBtn = selectAtomballBtnInfoMenu;
+
         foreach(var atom in atomballDatabase.atomballs)
         {
             var newCard = Instantiate(atomballCardBtnPrefab);
@@ -24,7 +29,6 @@ public class AtomballMenuManager : MonoBehaviour
 
             AtomballCard card = newCard.GetComponent<AtomballCard>();
             card.id = atom.id;
-            card.database = atomballDatabase;
             card.atomballSelectInfo = atomballSelectInfo;
             card.atomballSelectInfoDescText = atomballSelectInfoDescText;
             card.atomballSelectInfoTitle = atomballSelectInfoTitle;
@@ -34,16 +38,12 @@ public class AtomballMenuManager : MonoBehaviour
 
             if (firstTime)
             {
+                atomballDatabase.selectedBallId = atom.id;
                 card.SelectCard();
                 firstTime = false;
             }
 
             newCard.transform.SetParent(atomballViewContent.transform, false);
         }
-    }
-
-    private void OnButtonClick()
-    {
-
     }
 }
