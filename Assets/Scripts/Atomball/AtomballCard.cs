@@ -42,6 +42,28 @@ public class AtomballCard : MonoBehaviour
         }
     }
 
+    public static void disableOutlinesExceptForAtomballSelected()
+    {
+        foreach (var card in allCards)
+        {
+            if (card.id != database.selectedBallId)
+            {
+                card.outline.enabled = false;
+            }
+        }
+    }
+
+    public static void selectCardById(int id)
+    {
+        foreach (var card in allCards)
+        {
+            if (card.id == id)
+            {
+                card.SelectCard();
+            }
+        }
+    }
+
     public void SelectCard()
     {
         if (selectedCard != null && selectedCard.id != database.selectedBallId)
@@ -81,4 +103,5 @@ public class AtomballCard : MonoBehaviour
     {
         allCards.Remove(this);
     }
+
 }

@@ -179,6 +179,8 @@ public class UIHandler : MonoBehaviour
                 width);
 
             UpdateCellSizeAtomball(atomballGridLayout, 2);
+
+            AtomballCard.disableOutlinesExceptForAtomballSelected();
         }
     }
 
