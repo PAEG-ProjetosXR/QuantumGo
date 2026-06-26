@@ -63,7 +63,7 @@ public class AtomballCard : MonoBehaviour
 
         // UI info changes. This should happen AFTER the database update!
         atomballSelectInfo.SetActive(true);
-        Atomball selectedAtomball = database.GetChosenAtomball();
+        Atomball selectedAtomball = database.GetById(id);
         atomballSelectInfoTitle.text = selectedAtomball.name;
         atomballSelectInfoDescText.text = generateAtomballText(selectedAtomball);
         selectAtomballBtn.onClick.RemoveAllListeners();
@@ -74,8 +74,7 @@ public class AtomballCard : MonoBehaviour
     {
         disableOutlineAllCards();
         database.selectedBallId = id;
-        outline.effectColor = Color.red;
-        outline.enabled = true;
+        SelectCard();
     }
 
     public void OnDestroy()

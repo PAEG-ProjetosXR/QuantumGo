@@ -20,4 +20,15 @@ public class AtomballDatabase : ScriptableObject
 
         return null;
     }
+
+    public Atomball GetById(int id)
+    {
+        foreach (Atomball atomball in atomballs)
+        {
+            if (atomball.id == id)
+                return atomball;
+        }
+
+        return null;
+    }
 }
