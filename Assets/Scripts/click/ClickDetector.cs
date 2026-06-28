@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ClickDetector : MonoBehaviour
@@ -16,7 +17,8 @@ public class ClickDetector : MonoBehaviour
 
                 if (trigger != null)
                 {
-                    trigger.TriggerEncounter();
+                    throw new Exception("ISSO NÃO DEVERIA SER ASSIM");
+                    //trigger.TriggerEncounter();
                 }
             }
         }

@@ -79,8 +79,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708347375556551933}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.1679488, y: 0.414527, z: -0.07813743, w: -0.8909855}
-  m_LocalPosition: {x: -0.17185651, y: 0.21623105, z: 0.15791209}
+  m_LocalRotation: {x: 0.06966906, y: 0.5506482, z: 0.04619052, w: -0.83054155}
+  m_LocalPosition: {x: -0.617633, y: 0.5159866, z: 0.15369193}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -156,6 +156,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _rigidbody: {fileID: 5162269219345963103}
   encounterManager: {fileID: 0}
+  atomballInfo: {fileID: 11400000, guid: 72cdb4495d7c9dd4ea9370076dd2e4b0, type: 2}
 --- !u!1 &2239457904536027156
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,6 +529,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _rigidbody: {fileID: 0}
   encounterManager: {fileID: 0}
+  atomballInfo: {fileID: 0}
 --- !u!1001 &2016656509625246570
 PrefabInstance:
   m_ObjectHideFlags: 0

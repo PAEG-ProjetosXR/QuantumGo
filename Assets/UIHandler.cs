@@ -19,6 +19,7 @@ public class UIHandler : MonoBehaviour
     public GameObject atomballMenu;
     public GridLayoutGroup atomballGridLayout;
     public float atomballMenuMaxWidth;
+    public GameObject atomballSelectInfo;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
@@ -26,6 +27,7 @@ public class UIHandler : MonoBehaviour
     [SerializeField] private Image spawnButtonImage;
     public TMP_Text cooldownLabelPrefab;
     public RectTransform cooldownContainer;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -82,15 +84,12 @@ public class UIHandler : MonoBehaviour
         detailName.text = "Nome: " + data.name;
         detailBio.text = "Descrição: \n" + data.description;
     }
-    
+
     private void hideUIWithExcept(GameObject exceptThis)
     {
         var state = exceptThis.activeInHierarchy;
 
-        physpediaPanel.SetActive(false);
-        objpediaPanel.SetActive(false);
-        detailPanel.SetActive(false);
-        atomballMenu.SetActive(false);
+        hideUI();
 
         exceptThis.SetActive(state);
     }
@@ -101,6 +100,7 @@ public class UIHandler : MonoBehaviour
         objpediaPanel.SetActive(false);
         detailPanel.SetActive(false);
         atomballMenu.SetActive(false);
+        atomballSelectInfo.SetActive(false);
     }
 
     public void enableCapture()
@@ -179,6 +179,8 @@ public class UIHandler : MonoBehaviour
                 width);
 
             UpdateCellSizeAtomball(atomballGridLayout, 2);
+
+            AtomballCard.disableOutlinesExceptForAtomballSelected();
         }
     }
 

@@ -14,9 +14,9 @@ public class EncounterManager : MonoBehaviour
     public PhyspediaManager physpediaManager;
     public SaveSystem.SaveData currentSaveData;
 
-    public void RegisterPhysicistEncounter(PhysicistData physicistData)  //método que outros scripts vão chamar para registrar um encontro
+    public void RegisterPhysicistEncounter(PhysicistData physicistData, int foundTimes)  //método que outros scripts vão chamar para registrar um encontro
     {
-
+        physicistData.foundTimes += foundTimes;
         if (!foundPhysicists.Contains(physicistData))
         {
             foundPhysicists.Add(physicistData);
@@ -41,7 +41,7 @@ public class EncounterManager : MonoBehaviour
                 SaveSystem.PhysicistDataPack packCopy = currentSaveData.foundPhysicistsDataPacks[i];
 
                 // 2. Modify the copy
-                packCopy.foundTimes++;
+                packCopy.foundTimes = physicistData.foundTimes;
 
                 // 3. Shove the modified copy back into the list
                 currentSaveData.foundPhysicistsDataPacks[i] = packCopy;
@@ -65,8 +65,9 @@ public class EncounterManager : MonoBehaviour
 
     }
 
-    public void RegisterObjectEncounter(ObjectData objectData)
+    public void RegisterObjectEncounter(ObjectData objectData, int foundTimes)
     {
+        objectData.foundTimes += foundTimes;
         if (!foundObjects.Contains(objectData))
         {
             foundObjects.Add(objectData);
