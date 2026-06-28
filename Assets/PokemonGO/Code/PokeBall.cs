@@ -45,6 +45,7 @@ namespace PokemonGO.Code
         public Vector3 AngularVelocity => _rigidbody.angularVelocity;
 
         public EncounterManager encounterManager;
+        public Atomball atomballInfo;
 
         private bool targetDied;
         
@@ -118,7 +119,7 @@ namespace PokemonGO.Code
                     }
 
                     targetDied = physicistTrigger.ReduceHp(this.healthDamage);
-                    physicistTrigger.TriggerEncounter();
+                    physicistTrigger.TriggerEncounter(atomballInfo.captureTimes);
 
                 } else if (other.gameObject.transform.CompareTag("Object"))
                 {
@@ -140,7 +141,7 @@ namespace PokemonGO.Code
                         }
                     }
 
-                    objectTrigger.TriggerEncounter();
+                    objectTrigger.TriggerEncounter(atomballInfo.captureTimes);
                 }
 
 

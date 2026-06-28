@@ -552,7 +552,9 @@ namespace PokemonGO.Code
                 return;
             }
 
-            PokeBall pokeball = atomballMenuManager.atomballDatabase.GetChosenAtomball().atomballPrefab.GetComponent<PokeBall>();
+            Atomball choosen = atomballMenuManager.atomballDatabase.GetChosenAtomball();
+            PokeBall pokeball = choosen.atomballPrefab.GetComponent<PokeBall>();
+            pokeball.atomballInfo = choosen;
             _pokeBall = Instantiate(pokeball, Vector3.zero, Quaternion.identity);
             _pokeBall.healthDamage = atomballMenuManager.atomballDatabase.GetChosenAtomball().damageToHealth;
 

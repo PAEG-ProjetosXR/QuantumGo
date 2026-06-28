@@ -11,13 +11,13 @@ public class ObjectTrigger : MonoBehaviour
         encounterManager = FindObjectOfType<EncounterManager>();    //encontra o "cerebro" na cena para poder se comunicar com ele
     }
 
-    public void TriggerEncounter()  //função que sera chamada quando o jogador interagir com este objeto
+    public void TriggerEncounter(int foundTimes)  //função que sera chamada quando o jogador interagir com este objeto
 
     {
         if (data != null && encounterManager != null)
         {
             data.objectCaptureInfo.ForEach(info => { Debug.Log(info.ToString()); });
-            encounterManager.RegisterObjectEncounter(data);
+            encounterManager.RegisterObjectEncounter(data, foundTimes);
         }
     }
 }

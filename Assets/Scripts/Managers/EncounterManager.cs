@@ -65,8 +65,9 @@ public class EncounterManager : MonoBehaviour
 
     }
 
-    public void RegisterObjectEncounter(ObjectData objectData)
+    public void RegisterObjectEncounter(ObjectData objectData, int foundTimes)
     {
+        objectData.foundTimes += foundTimes;
         if (!foundObjects.Contains(objectData))
         {
             foundObjects.Add(objectData);

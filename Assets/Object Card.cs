@@ -15,11 +15,9 @@ public class ObjectCard : MonoBehaviour
     public void SetFound()
     {
         GetComponent<Image>().color = Color.white;
-        data.foundTimes++;
     }
     public void SetFoundAgain()
     {
-        data.foundTimes++;
     }
     public void SetUnfound()
     {

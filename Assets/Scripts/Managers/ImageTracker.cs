@@ -123,7 +123,8 @@ public class ImageTracker : MonoBehaviour
     private void UpdateLabelPosition(ARTrackedImage trackedImage, TMP_Text label)
     {
     Vector3 screenPos = arCamera.WorldToScreenPoint(trackedImage.transform.position);
-    label.rectTransform.position = screenPos;
+    label.rectTransform.position = screenPos + new Vector3(0,0,10);
+
     }
 
 
