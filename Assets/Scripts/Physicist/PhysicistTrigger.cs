@@ -56,14 +56,14 @@ public class PhysicistTrigger : MonoBehaviour
         return false;
     }
 
-    public void TriggerEncounter()  //função que sera chamada quando o jogador interagir com este objeto
+    public void TriggerEncounter(int foundTimes)  //função que sera chamada quando o jogador interagir com este objeto
     {
         if (data != null && encounterManager != null)
         {
             if (hpCurrent <= 0)
             {
                 data.physicistCaptureInfo.ForEach(info => { Debug.Log(info.ToString()); });
-                encounterManager.RegisterPhysicistEncounter(data);
+                encounterManager.RegisterPhysicistEncounter(data, foundTimes);
             }
         }
     }
