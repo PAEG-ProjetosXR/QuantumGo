@@ -13,6 +13,7 @@ public class AtomballCard : MonoBehaviour
     public TextMeshProUGUI atomballSelectInfoTitle;
     public GameObject atomballSelectInfo;
     public static Button selectAtomballBtn;
+    public static TextMeshProUGUI selectAtomballBtnText;
 
     public Outline outline;
     public int id;
@@ -63,10 +64,14 @@ public class AtomballCard : MonoBehaviour
         if (database.selectedBallId == id)
         {
             outline.effectColor = Color.red;
+            selectAtomballBtn.interactable = false;
+            selectAtomballBtnText.text = "Selecionado (x1)";
         }
         else
         {
             outline.effectColor = Color.black;
+            selectAtomballBtn.interactable = true;
+            selectAtomballBtnText.text = "Selecionar (x1)";
         }
 
         selectedCard = this;

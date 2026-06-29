@@ -13,6 +13,7 @@ public class AtomballMenuManager : MonoBehaviour
     public TextMeshProUGUI atomballSelectInfoTitle;
     public GameObject atomballSelectInfo;
     public Button selectAtomballBtnInfoMenu;
+    public TextMeshProUGUI selectAtomballBtnText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,6 +21,7 @@ public class AtomballMenuManager : MonoBehaviour
 
         AtomballCard.database = atomballDatabase;
         AtomballCard.selectAtomballBtn = selectAtomballBtnInfoMenu;
+        AtomballCard.selectAtomballBtnText = selectAtomballBtnText;
 
         foreach(var atom in atomballDatabase.atomballs)
         {
