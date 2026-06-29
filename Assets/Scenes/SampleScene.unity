@@ -8015,6 +8015,7 @@ MonoBehaviour:
   atomballSelectInfoTitle: {fileID: 757244300}
   atomballSelectInfo: {fileID: 1414461244}
   selectAtomballBtnInfoMenu: {fileID: 656091054}
+  selectAtomballBtnText: {fileID: 708517274}
 --- !u!1 &1688097530
 GameObject:
   m_ObjectHideFlags: 0
