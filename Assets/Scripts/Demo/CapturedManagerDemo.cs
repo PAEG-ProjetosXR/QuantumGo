@@ -15,7 +15,7 @@ public class CapturedManagerDemo : MonoBehaviour
         Object.DontDestroyOnLoad(this.gameObject);
     }
 
-    public void GrabCapturable(bool newIsObject, int newId, string newName, string newDescription, Dialogue newDialogue, QuestData newQuest, Sprite newIcon, GameObject newModel, AudioClip newAudio, QuizData newCorrectIcon)
+    public void GrabCapturable(bool newIsObject, int newId, string newName, string newDescription, Dialogue newDialogue, QuestData newQuest, Sprite newIcon, GameObject newModel, AudioClip newAudio, ObjectData newCorrectIcon)
     {
         if(newIsObject)
         {

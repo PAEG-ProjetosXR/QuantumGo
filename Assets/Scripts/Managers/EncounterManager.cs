@@ -6,11 +6,11 @@ using UnityEngine;
 public class EncounterManager : MonoBehaviour
 {
     public List<PhysicistData> foundPhysicists = new List<PhysicistData>(); //lista pública para vermos no inspector quais físicos foram encontrados
-    public List<QuizData> foundObjects = new List<QuizData>();
+    public List<ObjectData> foundObjects = new List<ObjectData>();
     public QuestDatabase questDatabase;
     public PhysicistDatabase physicistDatabase;
     public ObjectDatabase objectDatabase;
-    public QuizpediaManager objpediaManager;
+    public ObjpediaManager objpediaManager;
     public PhyspediaManager physpediaManager;
     public SaveSystem.SaveData currentSaveData;
 
@@ -65,35 +65,35 @@ public class EncounterManager : MonoBehaviour
 
     }
 
-    public void RegisterObjectEncounter(QuizData objectData, int foundTimes)
+    public void RegisterObjectEncounter(ObjectData objectData, int foundTimes)
     {
         objectData.foundTimes += foundTimes;
         if (!foundObjects.Contains(objectData))
         {
             foundObjects.Add(objectData);
-            objpediaManager.quizCards[objectData.id].SetFound();
+            objpediaManager.objectCards[objectData.id].SetFound();
             Debug.Log($"Encontrou e registrou um novo físico: {objectData.name}!");
         }
         else
         {
-            objpediaManager.quizCards[objectData.id].SetFoundAgain();
+            objpediaManager.objectCards[objectData.id].SetFoundAgain();
             Debug.Log($"{objectData.name} já tinha sido encontrado antes.");
         }
 
         bool objectFound = false;
-        for (int i = 0; i < currentSaveData.foundQuizzesDataPacks.Count; i++)
+        for (int i = 0; i < currentSaveData.foundObjectsDataPacks.Count; i++)
         {
-            if (currentSaveData.foundQuizzesDataPacks[i].id == objectData.id)
+            if (currentSaveData.foundObjectsDataPacks[i].id == objectData.id)
             {
                objectFound = true;
                 // 1. Pull out the temporary copy
-                SaveSystem.QuizDataPack packCopy = currentSaveData.foundQuizzesDataPacks[i];
+                SaveSystem.ObjectDataPack packCopy = currentSaveData.foundObjectsDataPacks[i];
 
                 // 2. Modify the copy
                 packCopy.foundTimes = objectData.foundTimes;
 
                 // 3. Shove the modified copy back into the list
-                currentSaveData.foundQuizzesDataPacks[i] = packCopy;
+                currentSaveData.foundObjectsDataPacks[i] = packCopy;
 
                 SaveSystem.Save(ref currentSaveData);
                 break;
@@ -102,7 +102,7 @@ public class EncounterManager : MonoBehaviour
 
         if (!objectFound)
         {
-            currentSaveData.foundQuizzesDataPacks.Add(new SaveSystem.QuizDataPack
+            currentSaveData.foundObjectsDataPacks.Add(new SaveSystem.ObjectDataPack
             {
                 id = objectData.id,
                 foundTimes = objectData.foundTimes
@@ -143,14 +143,14 @@ public class EncounterManager : MonoBehaviour
             }
         });
 
-        objectDatabase.allQuizzes.ForEach(obj =>
+        objectDatabase.allObjects.ForEach(obj =>
         {
             // Find the position of the pack in the list (-1 if missing)
-            int index = currentSaveData.foundQuizzesDataPacks.FindIndex(pack => pack.id == obj.id);
+            int index = currentSaveData.foundObjectsDataPacks.FindIndex(pack => pack.id == obj.id);
 
             if (index != -1)
             {
-                var match = currentSaveData.foundQuizzesDataPacks[index];
+                var match = currentSaveData.foundObjectsDataPacks[index];
                 obj.foundTimes = match.foundTimes;
                 foundObjects.Add(obj);
             }
@@ -162,7 +162,7 @@ public class EncounterManager : MonoBehaviour
         currentSaveData = new SaveSystem.SaveData();
         // Explicitly initialize the lists so they aren't null
         currentSaveData.foundPhysicistsDataPacks = new List<SaveSystem.PhysicistDataPack>();
-        currentSaveData.foundQuizzesDataPacks = new List<SaveSystem.QuizDataPack>();
+        currentSaveData.foundObjectsDataPacks = new List<SaveSystem.ObjectDataPack>();
 
         LoadSaveData();
         ResetAllQuests();

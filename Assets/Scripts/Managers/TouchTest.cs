@@ -52,7 +52,7 @@ public class TouchTest : MonoBehaviour
         }
     }
 
-    // responsavel pelo evento de
+    // responsavel pelo evento de 
     private void Interaction(RaycastHit hit)
     {
         GameObject objHit = hit.transform.gameObject;

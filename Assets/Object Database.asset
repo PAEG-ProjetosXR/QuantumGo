@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa211cfbaecc1fe478282a61eafd83e7, type: 3}
-  m_Name: GatoEstaVivo
+  m_Script: {fileID: 11500000, guid: 0b4f5fb75c1a26c46a8da744911490a8, type: 3}
+  m_Name: Object Database
   m_EditorClassIdentifier: 
-  text: "O gato est\xE1 vivo"
-  isCorrect: 0
+  allObjects:
+  - {fileID: 11400000, guid: 0b200d0e24e733c43bb25c52a85f410b, type: 2}

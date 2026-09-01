@@ -4,24 +4,27 @@ using UnityEngine.UI;
 public class PhysicistCard : MonoBehaviour
 {
     public Color32 unfoundColor = new Color32(180, 180, 180, 255);
+
+    [SerializeField]
+    private Image physicistImage;
     private PhysicistData data;
 
     public void SetData(PhysicistData newData)
     {
         data = newData;
-        GetComponent<Image>().sprite = data.icon;
+        physicistImage.sprite = data.icon;
     }
 
     public void SetFound()
     {
-        GetComponent<Image>().color = Color.white;
+        physicistImage.color = Color.white;
     }
     public void SetFoundAgain()
     {
     }
     public void SetUnfound()
     {
-        GetComponent<Image>().color = unfoundColor;
+        physicistImage.color = unfoundColor;
         data.foundTimes = 0;
     }
 

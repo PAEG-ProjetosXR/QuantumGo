@@ -8,7 +8,7 @@ public class ConditionalSpriteDisplay : MonoBehaviour
 
     // Escolha UMA das opções abaixo para definir o pré-requisito
     public PhysicistData requiredPhysicist;
-    public QuizData requiredObject;
+    public ObjectData requiredObject;
 
     private EncounterManager encounterManager; // Referência para o EncounterManager
 

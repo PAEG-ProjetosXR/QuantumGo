@@ -23,7 +23,7 @@ public class IconCreationTool
         }
         // -----------------------------------------------------------
 
-        QuizData newIconData = ScriptableObject.CreateInstance<QuizData>(); // cria uma "ficha" de QuizData vazia
+        ObjectData newIconData = ScriptableObject.CreateInstance<ObjectData>(); // cria uma "ficha" de ObjectData vazia
 
         //preenche a "ficha" com os dados
         newIconData.name = selectedImage.name;      //usa o campo "name" da ficha

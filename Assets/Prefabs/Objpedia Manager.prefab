@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5426156967212958195}
   - component: {fileID: 7057939433354960917}
   m_Layer: 0
-  m_Name: Quizpedia Manager
+  m_Name: Objpedia Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,6 +56,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  objectCardPrefab: {fileID: 0}
-  objepediaContent: {fileID: 0}
-  detailPanel: {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

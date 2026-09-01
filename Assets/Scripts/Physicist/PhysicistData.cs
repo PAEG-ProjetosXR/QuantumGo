@@ -18,7 +18,7 @@ public class PhysicistData : ScriptableObject
     public Sprite icon;                              // icone para a enciclopédia
     public GameObject modelPrefab;                   //O modelo 3D do físico
     public AudioClip presentationAudio;              //O áudio da apresentação
-    public QuizData correctIcon;                   // Correlação Feito/fisico
+    public ObjectData correctIcon;                   // Correlação Feito/fisico
 
     public int waitRecaptureSecs;
 

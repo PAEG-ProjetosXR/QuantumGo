@@ -128,7 +128,7 @@ namespace PokemonGO.Code
                 {
                     hasCollided = true;
                     ObjectTrigger objectTrigger = other.gameObject.transform.GetComponent<ObjectTrigger>();
-                    QuizData objectData = objectTrigger.data;
+                    ObjectData objectData = objectTrigger.data;
                     ARTrackedImage trackedImage = null; // TODO: Adicionar tempo em cima da img.
 
                     for (int i = 0; i < objectData.objectCaptureInfo.Count; i++)

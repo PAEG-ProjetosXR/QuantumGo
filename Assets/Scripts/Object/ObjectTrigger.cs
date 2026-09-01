@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ObjectTrigger : MonoBehaviour
 {
-    public QuizData data;
+    public ObjectData data;
     
     private EncounterManager encounterManager;
 

@@ -14,7 +14,7 @@ public class CatchManagerDemo : MonoBehaviour
         }
     }
 
-    IEnumerator CatchObject(GameObject FisOrObj, bool newIsObject, int newId, string newName, string newDescription, Dialogue newDialogue, QuestData newQuest, Sprite newIcon, GameObject newModel, AudioClip newAudio, QuizData newCorrectIcon)
+    IEnumerator CatchObject(GameObject FisOrObj, bool newIsObject, int newId, string newName, string newDescription, Dialogue newDialogue, QuestData newQuest, Sprite newIcon, GameObject newModel, AudioClip newAudio, ObjectData newCorrectIcon)
     {
         this.GetComponent<Rigidbody>().useGravity = false;
         this.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
