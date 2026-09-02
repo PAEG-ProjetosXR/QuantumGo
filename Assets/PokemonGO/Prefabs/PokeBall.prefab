@@ -79,8 +79,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708347375556551933}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.1679488, y: 0.414527, z: -0.07813743, w: -0.8909855}
-  m_LocalPosition: {x: -0.15953271, y: 0.30406386, z: 0.13724391}
+  m_LocalRotation: {x: -0.22136907, y: 0.5217429, z: -0.14232722, w: -0.81149435}
+  m_LocalPosition: {x: -0.16478553, y: 0.09545837, z: -0.00040596092}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -115,7 +115,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &6193605886694613461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,30 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chargedAngularSpeedPercentage: 0.32
   _bounceMultiplier: 2
-  _speedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 10
-      value: 7
-      inSlope: 0.125
-      outSlope: 0.125
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 50
-      value: 12
-      inSlope: 0.125
-      outSlope: 0.125
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  _gravityMultiplier: 0.2
   _rigidbody: {fileID: 5162269219345963103}
   encounterManager: {fileID: 0}
   atomballInfo: {fileID: 11400000, guid: 72cdb4495d7c9dd4ea9370076dd2e4b0, type: 2}
@@ -521,12 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chargedAngularSpeedPercentage: 0
   _bounceMultiplier: 2
-  _speedCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  _gravityMultiplier: 0.5
   _rigidbody: {fileID: 0}
   encounterManager: {fileID: 0}
   atomballInfo: {fileID: 0}

@@ -3,6 +3,7 @@ using Kynesis.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -22,7 +23,10 @@ namespace PokemonGO.Code
         [Header("Settings")]
         [SerializeField] private float _chargedAngularSpeedPercentage;
         [SerializeField] private float _bounceMultiplier = 2;
-        [SerializeField] private AnimationCurve _speedCurve;
+        // SERÁ REMOVIDO
+        //[SerializeField] private AnimationCurve _speedCurve;
+        [SerializeField]
+        private float _gravityMultiplier = 0.2f;
 
         [Header("Bindings")]
         [SerializeField] private Rigidbody _rigidbody;
@@ -32,7 +36,8 @@ namespace PokemonGO.Code
 
         private bool _isCharged;
         private Vector3 _lastFramePosition;
-        private Tween _followPathTween;
+        // SERÁ REMOVIDO
+       // private Tween _followPathTween;
 
         // Eventos que o PokeBallVisual precisa
         public event Action OnCharged;
@@ -41,12 +46,13 @@ namespace PokemonGO.Code
         public event Action<Collision> OnCollision;
 
         public bool IsCharged => _isCharged;
-        private bool IsFollowingPath => _followPathTween is { active: true } && !_followPathTween.IsComplete();
+        //private bool IsFollowingPath => _followPathTween is { active: true } && !_followPathTween.IsComplete();
         public Vector3 AngularVelocity => _rigidbody.angularVelocity;
 
         public EncounterManager encounterManager;
         public Atomball atomballInfo;
 
+        private bool _isThrown = false;
         private bool targetDied;
         
         // ==========================================================
@@ -79,58 +85,76 @@ namespace PokemonGO.Code
 
         private void FixedUpdate()
         {
-            _lastFramePosition = _rigidbody.position;
+           // _lastFramePosition = _rigidbody.position;
+
+           if (!_isThrown)
+                return;
+
+            _rigidbody.AddForce(
+                Physics.gravity * _gravityMultiplier,
+                ForceMode.Acceleration
+            );
         }
 
         bool hasCollided = false; // Variável para garantir que a colisão seja processada apenas uma vez
         private void OnCollisionEnter(Collision other)
         {
+            
             if (hasCollided)
                 return;
 
-            // PRIMEIRO, checamos se o objeto tem a tag correta
-            if (other.gameObject.CompareTag("Physicist") || other.gameObject.CompareTag("Object"))
+            if (other.gameObject.CompareTag("Physicist"))
             {
                 hasCollided = true;
-                //Debug.Log("Acertou o Physicist! Iniciando lógica de captura...");
-
-                if (other.gameObject.transform.CompareTag("Physicist"))
+                PhysicistTrigger physicistTrigger =
+                    other.gameObject.GetComponent<PhysicistTrigger>();
+                if (physicistTrigger != null)
                 {
-                    PhysicistTrigger physicistTrigger = other.gameObject.transform.GetComponent<PhysicistTrigger>();
                     PhysicistData physicistData = physicistTrigger.data;
-                    ARTrackedImage trackedImage = null; // TODO: Adicionar tempo em cima da img.
-
+                    // Procura as informações de captura correspondentes
                     for (int i = 0; i < physicistData.physicistCaptureInfo.Count; i++)
                     {
                         var capInfo = physicistData.physicistCaptureInfo[i];
-
                         if (capInfo.model == other.gameObject)
                         {
-                            //capInfo.captureTime = DateTime.Now;
-                            //trackedImage = capInfo.trackedImage;
-                            //DateTime atual = DateTime.Now;
-                            //int recapMod = 0;
-                            //recapMod = UnityEngine.Random.Range(3,6);
-                            //DateTime prox = atual.AddMinutes(recapMod);
-                            //capInfo.recaptureTime = prox;
-                            Debug.Log($"colidiu");
+                            Debug.Log("Colidiu com Physicist!");
                             break;
                         }
                     }
 
-                    targetDied = physicistTrigger.ReduceHp(this.healthDamage);
-                    if(targetDied)
-                        { 
-                        physicistTrigger.TriggerEncounter(atomballInfo.captureTimes); 
-                        }
+                    // Reduz a vida do Physicist
+                    targetDied = physicistTrigger.ReduceHp(healthDamage);
 
-                } else if (other.gameObject.transform.CompareTag("Object"))
+                    // Se a vida chegou a zero, inicia o encontro/captura
+                    if (targetDied)
+                    {
+                        physicistTrigger.TriggerEncounter(atomballInfo.captureTimes);
+                    }
+                }
+
+                // Destrói o Physicist se ele morreu
+                if (targetDied)
                 {
-                    hasCollided = true;
-                    ObjectTrigger objectTrigger = other.gameObject.transform.GetComponent<ObjectTrigger>();
-                    ObjectData objectData = objectTrigger.data;
-                    ARTrackedImage trackedImage = null; // TODO: Adicionar tempo em cima da img.
+                    Destroy(other.gameObject);
+                }
 
+                // Destrói a Atomball depois de 2 segundos
+                Destroy(gameObject, 2f);
+
+                return;
+            }
+
+            if (other.gameObject.CompareTag("Object"))
+            {
+                hasCollided = true;
+
+                ObjectTrigger objectTrigger =
+                    other.gameObject.GetComponent<ObjectTrigger>();
+
+                if (objectTrigger != null)
+                {
+                    ObjectData objectData = objectTrigger.data;
+                    // Procura as informações de captura correspondentes
                     for (int i = 0; i < objectData.objectCaptureInfo.Count; i++)
                     {
                         var capInfo = objectData.objectCaptureInfo[i];
@@ -138,38 +162,31 @@ namespace PokemonGO.Code
                         if (capInfo.model == other.gameObject)
                         {
                             capInfo.captureTime = DateTime.Now;
-                            trackedImage = capInfo.trackedImage;
-                            capInfo.recaptureTime = DateTime.Now.AddSeconds(objectData.waitRecaptureSecs);
+
+                            ARTrackedImage trackedImage =
+                                capInfo.trackedImage;
+
+                            capInfo.recaptureTime =
+                                DateTime.Now.AddSeconds(objectData.waitRecaptureSecs);
                             break;
                         }
                     }
 
-                    objectTrigger.TriggerEncounter(atomballInfo.captureTimes);
+                    // Inicia o encontro
+                    objectTrigger.TriggerEncounter(
+                        atomballInfo.captureTimes
+                    );
                 }
 
+                // Destrói a Atomball depois de 2 segundos
+                Destroy(gameObject, 2f);
 
-                // Aqui é onde a animação de captura começaria.
-                // Por enquanto, vamos apenas parar a pokébola e destruir os objetos.
-                if (IsFollowingPath) _followPathTween.Kill(true); // O 'true' finaliza a animação da trajetória imediatamente
-
-                if (targetDied) { 
-                    Destroy(other.gameObject); } // Destrói o alvo
-                Destroy(this.gameObject, 2f); // Destrói a pokébola depois de 2 segundos para dar tempo de ver
-
-                // O return é importante para não executar a lógica de quicar abaixo
                 return;
             }
 
-            // Se NÃO acertou o alvo, executa a lógica de quicar no chão/paredes
-            if (!IsFollowingPath)
-                return;
+            // A física do Rigidbody agora cuida do movimento.
+            // SimulateBounce(other.GetContact(0)); // LEGADO
 
-            _followPathTween.Kill();
-
-            EnableGravity();
-
-            ContactPoint contact = other.GetContact(0);
-            SimulateBounce(contact);
 
             OnCollision?.Invoke(other);
         }
@@ -207,25 +224,29 @@ namespace PokemonGO.Code
             _rigidbody.AddTorque(torque);
         }
 
-        public void Throw(List<Vector3> path)
+        // novo throw
+        public void Throw(Vector3 force)
         {
-            float magnitude = path.Magnitude();
-            float duration = magnitude / _speedCurve.Evaluate(magnitude);
+            _rigidbody.isKinematic = false;
+            // só ao arremessar ativa gravidade!
+            _isThrown = true;
 
-            _followPathTween = transform.DOPath(path.ToArray(), duration)
-                .SetUpdate(UpdateType.Fixed)
-                .SetEase(Ease.Linear)
-                .OnComplete(OnCompletePath);
+            //ignora velocidade do "arrasto", tudo sera pela force do arremesso final
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+
+            _rigidbody.AddForce(force, ForceMode.Impulse);
 
             OnThrown?.Invoke();
         }
 
-        private void OnCompletePath()
-        {
-            EnableGravity();
-            Vector3 lastMotion = _rigidbody.position - _lastFramePosition;
-            _rigidbody.AddForce(lastMotion, ForceMode.Impulse);
-        }
+        
+        //private void OnCompletePath()
+        //{
+        //    EnableGravity();
+        //    Vector3 lastMotion = _rigidbody.position - _lastFramePosition;
+        //    _rigidbody.AddForce(lastMotion, ForceMode.Impulse);
+        //}
 
         private void SimulateBounce(ContactPoint contact)
         {

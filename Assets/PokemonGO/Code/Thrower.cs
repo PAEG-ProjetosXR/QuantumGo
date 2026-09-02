@@ -32,7 +32,7 @@ namespace PokemonGO.Code
 
         [Header("Throw Settings")]
         [SerializeField]
-        private float _forceMultiplier = 6;
+        private float _forceMultiplier = 1;
 
         [SerializeField]
         private float _heightMultiplier = 0.5f;
@@ -53,21 +53,21 @@ namespace PokemonGO.Code
         [SerializeField]
         private float _helpRadius = 2;
 
-        [Header("Bezier")]
-        [SerializeField]
-        private Transform _start;
+        //[Header("Bezier")]
+        //[SerializeField]
+        //private Transform _start;
 
-        [SerializeField]
-        private Transform _mid;
+        //[SerializeField]
+        //private Transform _mid;
 
-        [SerializeField]
-        private Transform _end;
+        //[SerializeField]
+        //private Transform _end;
 
-        [SerializeField, Range(1, 10)]
-        private float _extrapolation = 2;
+        //[SerializeField, Range(1, 10)]
+        //private float _extrapolation = 2;
 
-        [SerializeField, Range(3, 100)]
-        private int _points = 10;
+        //[SerializeField, Range(3, 100)]
+        //private int _points = 10;
 
         [Header("Bindings")]
         [SerializeField]
@@ -147,12 +147,12 @@ namespace PokemonGO.Code
                 Debug.LogError("Main Camera não encontrada!");
             }
 
-            if (_start == null ||
-                _mid == null ||
-                _end == null)
-            {
-                Debug.LogError("Bezier points não definidos!");
-            }
+            //if (_start == null ||
+            //    _mid == null ||
+            //    _end == null)
+            //{
+            //    Debug.LogError("Bezier points não definidos!");
+            //}
         }
 
         private void Update()
@@ -414,10 +414,10 @@ namespace PokemonGO.Code
             Transform pokemon =
                 pokemonObj.transform;
 
-            Vector3 startPosition =
-                _pokeBall.transform.position;
+            //Vector3 startPosition =
+            //    _pokeBall.transform.position;
 
-            _start.position = startPosition;
+            //_start.position = startPosition;
 
             Vector2 pointerInfluence =
                 new Vector2(1f, 1f);
@@ -443,92 +443,14 @@ namespace PokemonGO.Code
                     )
                 );
 
-            Vector3 verticalThrow =
-                Vector3.up *
-                swipeDirection.y *
+            Vector3 verticalThrow = Vector3.up * swipeDirection.y *
                 _verticalInfluence;
 
-            Vector3 throwVector =
-                (
-                    _mainCamera.transform.forward +
-                    horizontalThrow +
-                    verticalThrow
-                ).normalized * Force;
+            Vector3 throwDirection = ( _mainCamera.transform.forward + horizontalThrow + verticalThrow).normalized;
 
-            Vector3 endPosition =
-                startPosition + throwVector;
+            Vector3 throwForce = throwDirection * Force;
 
-            Vector3 midPosition =
-                Vector3.Lerp(
-                    startPosition,
-                    endPosition,
-                    0.5f
-                );
-
-            midPosition.y +=
-                Force *
-                _heightMultiplier *
-                (_pokeBall.IsCharged ? 0.5f : 1);
-
-            _mid.position = midPosition;
-
-            if (_pokeBall.IsCharged)
-            {
-                Vector3 curveDirection =
-                    new Vector3(
-                        -horizontalThrow.x,
-                        0,
-                        0
-                    ).normalized;
-
-                endPosition +=
-                    curveDirection *
-                    _curveInfluence;
-            }
-
-            bool isOnHelpRange =
-                Vector3.Distance(
-                    pokemon.position,
-                    endPosition
-                ) < _helpRadius;
-
-            if (isOnHelpRange)
-            {
-                endPosition.x =
-                    Mathf.Lerp(
-                        endPosition.x,
-                        pokemon.position.x,
-                        _helpInfluence.x
-                    );
-
-                endPosition.y =
-                    Mathf.Lerp(
-                        endPosition.y,
-                        pokemon.position.y,
-                        _helpInfluence.y
-                    );
-
-                endPosition.z =
-                    Mathf.Lerp(
-                        endPosition.z,
-                        pokemon.position.z,
-                        _helpInfluence.z
-                    );
-
-                _end.position = endPosition;
-            }
-
-            List<Vector3> path =
-                Bezier.GetExtrapolatedPath(
-                    startPosition,
-                    midPosition,
-                    endPosition,
-                    0f,
-                    _extrapolation,
-                    _points
-                );
-
-            _pokeBall.Throw(path);
+            _pokeBall.Throw(throwForce);
 
             //ativar gravidade ajuda?
             //_pokeBall.GetComponent<Rigidbody>().useGravity = true;
@@ -661,6 +583,7 @@ namespace PokemonGO.Code
                 : Vector3.zero;
         }
 
+        /*
         private void OnDrawGizmos()
         {
             if (_start == null ||
@@ -683,6 +606,7 @@ namespace PokemonGO.Code
                 Gizmos.DrawSphere(point, 0.05f);
             }
         }
+        */
 
         private void LateUpdate()
         {

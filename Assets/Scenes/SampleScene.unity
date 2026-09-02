@@ -6239,25 +6239,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19f46dfae6730984fbdb4b43b040df99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _verticalInfluence: 0.5
+  _verticalInfluence: 0.75
   _pointerLayerMask:
     serializedVersion: 2
     m_Bits: 0
   _followSpeed: 10
-  _torqueMultiplier: 0.3
+  _torqueMultiplier: 0.4
   _heldPokeBallScale: {x: 1, y: 1, z: 1}
-  _forceMultiplier: 6
+  _forceMultiplier: 0.1
   _heightMultiplier: 0.5
   _curveInfluence: 5
   _minimumForce: 1
   _minimumDot: 0.2
   _helpInfluence: {x: 0, y: 0, z: 0}
   _helpRadius: 2
-  _start: {fileID: 1324922393}
-  _mid: {fileID: 212394648}
-  _end: {fileID: 881668244}
-  _extrapolation: 2
-  _points: 10
   _pokeBall: {fileID: 6193605886694613461, guid: 8e9fd9d24946f134fa7cacd4cb752422, type: 3}
   _pokeBallSlot: {fileID: 120485370}
   _pointerCollider: {fileID: 0}
@@ -11011,6 +11006,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d96b3b079ad231479021fa3ae6de815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unfoundColor:
+    serializedVersion: 2
+    rgba: 4290032820
 --- !u!1 &1992197233
 GameObject:
   m_ObjectHideFlags: 0
