@@ -8,6 +8,7 @@ using Unity.XR.CoreUtils;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 namespace PokemonGO.Code
 {
@@ -529,6 +530,9 @@ namespace PokemonGO.Code
 
             _pokeBall.Throw(path);
 
+            //ativar gravidade ajuda?
+            //_pokeBall.GetComponent<Rigidbody>().useGravity = true;
+            
             _pokeBall.transform.SetParent(null);
 
             _pokeBall = null;
@@ -550,6 +554,12 @@ namespace PokemonGO.Code
                     "AR Camera is not assigned!"
                 );
                 return;
+            }
+            // achar objeto com script de 
+            GameObject obj = FindFirstObjectByType<PokeBall>()?.gameObject;
+            if(obj != null)
+            {
+                Destroy(obj); //MATA OBJETO, trail não é removido?
             }
 
             Atomball choosen = atomballMenuManager.atomballDatabase.GetChosenAtomball();
