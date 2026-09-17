@@ -11,6 +11,7 @@ using System.Numerics;
 public class ImageTracker : MonoBehaviour
 {
     private ARTrackedImageManager trackedImages;
+    private CamSonObject camSonObject;
     public GameObject obj_escolhido;
     public GameObject[] ArPrefabs;
     public UIHandler uiHandler;
@@ -60,6 +61,7 @@ public class ImageTracker : MonoBehaviour
     private void Start()
     {
         uiHandler = FindAnyObjectByType<UIHandler>();
+        camSonObject = FindAnyObjectByType<CamSonObject>();
     }
 
     /*
@@ -423,7 +425,7 @@ public class ImageTracker : MonoBehaviour
                 Destroy(atual);
             }
         }
-
+        camSonObject.BondToCam(obj_escolhido);
         uiHandler.enableCapture();
     }
     private IEnumerator DelayedRescan()

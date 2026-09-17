@@ -5854,6 +5854,7 @@ GameObject:
   - component: {fileID: 802438528}
   - component: {fileID: 802438534}
   - component: {fileID: 802438535}
+  - component: {fileID: 802438536}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6140,6 +6141,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PokeBallHoldPosition: {fileID: 120485370}
   PlayerInputAnchor: {fileID: 951050790}
+--- !u!114 &802438536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802438526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4323be2d56f33c74fab685b5df4108aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceInFront: 1.5
+  scaleSize: 1.5
 --- !u!1 &824149559
 GameObject:
   m_ObjectHideFlags: 0

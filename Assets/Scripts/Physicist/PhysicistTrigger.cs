@@ -13,6 +13,9 @@ public class PhysicistTrigger : MonoBehaviour
     public static event Action<PhysicistTrigger> OnPhysicistDestroyed;
     public int interactionCount = 0;
 
+    public List<SpawnPattern> patterns; // quando clicado, terá uma função que invoca objetos segundo o pattern
+    // fazer uma lista de patterns possíveis? permite uma imagem proporcionar mais de uma 
+    // 
 
     [Header("Physicist Stats")]
     [SerializeField] private float hpBase; // HP base do físico
