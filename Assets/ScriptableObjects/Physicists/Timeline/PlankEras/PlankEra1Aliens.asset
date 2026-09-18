@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9357fedb20d9f1643adf9f6bb0f58dc2, type: 3}
+  m_Name: PlankEra1Aliens
+  m_EditorClassIdentifier: 
+  corDivisoria: {r: 1, g: 0, b: 0, a: 1}
+  anoInicio: 6
+  anoFim: 7
+  titulo: Era Maldita
+  listaObjetos:
+  - {fileID: 11400000, guid: 80be5d540761e1d489bbb45c9efbe3d0, type: 2}
+  - {fileID: 11400000, guid: 939d923d6d5727246aa623b27ce7dea9, type: 2}
+  - {fileID: 11400000, guid: acdfa47bb721dcf44981ef80bb89fe39, type: 2}
