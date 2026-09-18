@@ -7,6 +7,10 @@ using UnityEngine.XR.ARFoundation;
 public class ObjectData : ScriptableObject
 {
     public int id;
+
+    public ObjectData trabalhoRelacionado;
+    public PhysicistData fisicoInventor;
+
     public string name;
     [TextArea(3, 10)]
     public string description;
