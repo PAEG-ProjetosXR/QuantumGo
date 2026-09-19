@@ -29,7 +29,7 @@ public class PhyspediaManager : MonoBehaviour
 
             newCard = physicistCardPrefabClone.GetComponent<PhysicistCard>();
 
-            physicistCardPrefabClone.GetComponent<Button>().onClick.AddListener(newCard.OnClick);
+            newCard.physicistBtn.onClick.AddListener(newCard.OnClick);
             
             physicistCards.Add(newCard);
             
