@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05cd4506675e8e4cb8c0c8d19699655, type: 3}
+  m_Name: TestPattern
+  m_EditorClassIdentifier: 
+  objectsToSpawn:
+  - objectData: {fileID: 11400000, guid: 4aa9290979d4cee45afa5c00caee2b2f, type: 2}
+    cameraOffset: {x: 5, y: 3, z: 0}
+  - objectData: {fileID: 11400000, guid: 4f13990b763892e47b8c64e7797593c2, type: 2}
+    cameraOffset: {x: -5, y: 3, z: 0}
+  - objectData: {fileID: 11400000, guid: 968c3f847dccbd64785462e1824cfc10, type: 2}
+    cameraOffset: {x: 0, y: 3, z: 5}
+  - objectData: {fileID: 11400000, guid: 9712c3be96957ab4180dc8905c00f395, type: 2}
+    cameraOffset: {x: 0, y: 3, z: -5}
+  answer:
+  - {fileID: 11400000, guid: 4aa9290979d4cee45afa5c00caee2b2f, type: 2}
+  - {fileID: 11400000, guid: 4f13990b763892e47b8c64e7797593c2, type: 2}
+  - {fileID: 11400000, guid: 968c3f847dccbd64785462e1824cfc10, type: 2}
+  logicList:
+  - "O f\xEDsico Perip\xE9cio pesquisou:"
+  - 'Com isso, ele descobriu:'
+  - 'Isso foi aplicado em:'
