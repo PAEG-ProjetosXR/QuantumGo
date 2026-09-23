@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae3429be71a5aa42978f3cc5e2bd7b5, type: 3}
+  m_Name: TestObj3
+  m_EditorClassIdentifier: 
+  id: 2
+  name: Objeto Paralelepipedo
+  description: "Esse Objeto vem ap\xF3s qualquer com \"Quinas\""
+  icon: {fileID: 0}
+  modelPrefab: {fileID: 6920549342591059907, guid: 5d56d5547ef2e0f46b1471007dd21cc9, type: 3}
+  presentationAudio: {fileID: 0}
+  waitRecaptureSecs: 0

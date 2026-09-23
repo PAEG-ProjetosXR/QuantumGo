@@ -6,7 +6,6 @@ using TMPro;
 
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using System.Numerics;
 
 public class ImageTracker : MonoBehaviour
 {
@@ -19,6 +18,9 @@ public class ImageTracker : MonoBehaviour
     private Dictionary<ARTrackedImage, TMP_Text> cooldownLabels = new(); //dicionario de imagem e seu cooldown
 
     List<GameObject> ARObjects = new List<GameObject>();
+    private Vector3 patternCameraLastPosition; // usado no momento que spawna vários objetos ao clicar no físico
+    // salva rotação
+    private List<GameObject> spawnedPatternObjects = new List<GameObject>(); // salva objetos spawnados no toque
 
     /*void Update()
     {
@@ -83,6 +85,11 @@ public class ImageTracker : MonoBehaviour
         trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
         PhysicistTrigger.OnPhysicistDestroyed -= HandleDestroyed;
         TouchTest.Chosen -= AoSelecionarObjeto;
+    }
+
+    private void LateUpdate()
+    {
+        UpdateSpawnedPatternObjects();
     }
     /*
     void OnEnable()
@@ -399,15 +406,87 @@ public class ImageTracker : MonoBehaviour
             // lógica se quiser destruir ou esconder objetos
         }
     }
+
+    private void ActivateRandomPattern(PhysicistTrigger trigger) //escolhe um spawn patern para usar
+{
+    if (trigger.patterns == null || trigger.patterns.Count == 0)
+    {
+        Debug.LogWarning($"O Physicist {trigger.gameObject.name} não possui SpawnPatterns.");
+        return;
+    }
+
+    int index = UnityEngine.Random.Range(0, trigger.patterns.Count);
+
+    SpawnPattern pattern = trigger.patterns[index];
+
+    Debug.Log($"SpawnPattern escolhido: {pattern.name}");
+
+    SpawnObjects(pattern);
+}
+
+private void SpawnObjects(SpawnPattern pattern) //Função que spawna os objetos realmente 
+{
+    if (pattern == null)
+        return;
+
+    patternCameraLastPosition = arCamera.transform.position;
+
+    foreach (SpawnObjectData spawnInfo in pattern.objectsToSpawn)
+    {
+        if (spawnInfo == null || spawnInfo.objectData == null)
+            continue;
+
+        Vector3 spawnPosition = arCamera.transform.TransformPoint(spawnInfo.cameraOffset);
+
+        GameObject obj = Instantiate(spawnInfo.objectData.modelPrefab, spawnPosition, Quaternion.identity);
+        // Invoca só o modelPrefab ou o SO inteiro do Object Data?
+
+        spawnedPatternObjects.Add(obj); //adiciona o objeto para tracking de posição
+    }
+}
+
+private void UpdateSpawnedPatternObjects()
+{
+    if (spawnedPatternObjects.Count == 0)
+        return;
+
+    Vector3 cameraDelta = arCamera.transform.position - patternCameraLastPosition;
+    // pega deslocamento dentre ultimo cheque da camera
+
+    if (cameraDelta == Vector3.zero)
+        return;
+
+    for (int i = spawnedPatternObjects.Count - 1; i >= 0; i--)
+    {
+        GameObject obj = spawnedPatternObjects[i];
+
+        if (obj == null)
+        {
+            spawnedPatternObjects.RemoveAt(i);
+            continue;
+        }
+
+        // para cada objeto spawnado, adicionada o deslocamento da camera
+        obj.transform.position += cameraDelta;
+    }
+
+    patternCameraLastPosition = arCamera.transform.position;
+}
+
     private void AoSelecionarObjeto(GameObject objTouched)
     {
         Debug.Log("O ImageTracker recebeu o evento! O objeto tocado foi: " + objTouched.name);
+
+        // AQUI ESTARIA A CHAMADA PARA SPAWN DE OBJETOS
+
         obj_escolhido = objTouched;
         PhysicistTrigger trig = objTouched.GetComponent<PhysicistTrigger>();
         
         if(trig != null)
         {
             trig.foiEscolhido = true;
+
+            ActivateRandomPattern(trig);
         }
 
         // Rodamos de trás para frente (Count - 1) porque vamos deletar itens da lista
