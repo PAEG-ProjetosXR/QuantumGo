@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class PhysicistCard : MonoBehaviour
 {
     public Color32 unfoundColor = new Color32(180, 180, 180, 255);
+    public Button physicistBtn;
 
     [SerializeField]
     private Image physicistImage;
