@@ -34,3 +34,4 @@ MonoBehaviour:
   presentationAudio: {fileID: 0}
   correctIcon: {fileID: 0}
   waitRecaptureSecs: 20
+  physicistTimeline: {fileID: 11400000, guid: 1f092b892a749f14eb28c1c31d86f75c, type: 2}

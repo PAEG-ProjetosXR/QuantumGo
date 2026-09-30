@@ -1,7 +1,8 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PhysicistCard : MonoBehaviour
+public class PhysicistTimeline : MonoBehaviour
 {
     public Color32 unfoundColor = new Color32(180, 180, 180, 255);
     public Button physicistBtn;
@@ -9,11 +10,22 @@ public class PhysicistCard : MonoBehaviour
     [SerializeField]
     private Image physicistImage;
     private PhysicistData data;
+    public TimelineHead headScript;
+    public TimelineEraBody bodyScript;
+    public GameObject timelineEnd;
 
     public void SetData(PhysicistData newData)
     {
         data = newData;
         physicistImage.sprite = data.icon;
+
+        headScript.addData(newData.physicistTimeline);
+        GameObject bodyPiece = Instantiate<GameObject>(headScript.timelineHeadPiece, bodyScript.timelineEraBody.transform, false);
+        bodyScript.addData(newData.physicistTimeline, bodyPiece);
+
+        headScript.SetupHead();
+        bodyScript.SetupBody();
+        timelineEnd.transform.SetAsLastSibling();
     }
 
     public void SetFound()
@@ -36,4 +48,5 @@ public class PhysicistCard : MonoBehaviour
             FindAnyObjectByType<UIHandler>().DisplayPhysicistDetails(data);
         }
     }
+    
 }

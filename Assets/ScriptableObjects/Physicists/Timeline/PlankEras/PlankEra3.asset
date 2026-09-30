@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001d4cddb2527f640b1aa181f6f68890, type: 3}
-  m_Name: Plank
+  m_Script: {fileID: 11500000, guid: 9357fedb20d9f1643adf9f6bb0f58dc2, type: 3}
+  m_Name: PlankEra3
   m_EditorClassIdentifier: 
-  physicistData: {fileID: 11400000, guid: e71a75ee99932f04d98ac10b9254c5b6, type: 2}
-  listaErasTimeline:
-  - {fileID: 0}
+  corDivisoria: {r: 1, g: 0, b: 0, a: 1}
+  anoInicio: 7
+  anoFim: 9
+  titulo: "O \xDAtimo Alien"
+  listaPesquisas:
+  - {fileID: 11400000, guid: 80be5d540761e1d489bbb45c9efbe3d0, type: 2}

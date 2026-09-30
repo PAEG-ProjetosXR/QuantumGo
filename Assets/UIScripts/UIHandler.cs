@@ -21,6 +21,7 @@ public class UIHandler : MonoBehaviour
     public float atomballMenuMaxWidth;
     public GameObject atomballSelectInfo;
     public GameObject settingsMenuPanel;
+    public GameObject infoPesquisaPanel;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
@@ -67,6 +68,7 @@ public class UIHandler : MonoBehaviour
         atomballMenu.SetActive(false);
         atomballSelectInfo.SetActive(false);
         settingsMenuPanel.SetActive(false);
+        infoPesquisaPanel.SetActive(false);
     }
 
     #region Objepedia e Physipedia
