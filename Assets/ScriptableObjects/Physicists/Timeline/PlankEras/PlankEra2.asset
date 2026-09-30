@@ -16,5 +16,6 @@ MonoBehaviour:
   anoInicio: 7
   anoFim: 9
   titulo: "O \xDAtimo Alien"
-  listaObjetos:
+  listaPesquisas:
+  - {fileID: 11400000, guid: 80be5d540761e1d489bbb45c9efbe3d0, type: 2}
   - {fileID: 11400000, guid: 80be5d540761e1d489bbb45c9efbe3d0, type: 2}

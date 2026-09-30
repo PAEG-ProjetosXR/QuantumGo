@@ -16,7 +16,7 @@ MonoBehaviour:
   anoInicio: 6
   anoFim: 7
   titulo: Era Maldita
-  listaObjetos:
+  listaPesquisas:
   - {fileID: 11400000, guid: 80be5d540761e1d489bbb45c9efbe3d0, type: 2}
   - {fileID: 11400000, guid: 939d923d6d5727246aa623b27ce7dea9, type: 2}
   - {fileID: 11400000, guid: acdfa47bb721dcf44981ef80bb89fe39, type: 2}

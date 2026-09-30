@@ -20,12 +20,12 @@ public class EncounterManager : MonoBehaviour
         if (!foundPhysicists.Contains(physicistData))
         {
             foundPhysicists.Add(physicistData);
-            physpediaManager.physicistCards[physicistData.id].SetFound();
+            physpediaManager.physicistTimelines[physicistData.id].SetFound();
             Debug.Log($"Encontrou e registrou um novo físico: {physicistData.name}!");
         }
         else
         {
-            physpediaManager.physicistCards[physicistData.id].SetFoundAgain();
+            physpediaManager.physicistTimelines[physicistData.id].SetFoundAgain();
             Debug.Log($"{physicistData.name} já tinha sido encontrado antes.");
         }
 

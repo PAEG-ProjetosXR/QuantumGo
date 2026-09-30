@@ -28,7 +28,7 @@ public class PhysicistData : ScriptableObject
     [NonSerialized]
     // CHECAR NULO ANTES DE USAR PARAMETROS DA CLASSE CaptureInfo
     public List<CaptureInfo> physicistCaptureInfo;   // Imagens capturáveis do físico e seus correspondentes modelos e datas de captura
-
+    public PhysicistTimelineData physicistTimeline;
 }
 
 public class CaptureInfo
