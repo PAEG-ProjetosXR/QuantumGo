@@ -31,8 +31,10 @@ public class TimelineEraBody : MonoBehaviour
             GameObject eraBodyClone = Instantiate<GameObject>(timelineEraBody, timelineEraBody.transform.parent, false);
             eraBodyClone.SetActive(true);
             TimelineEraBody script = eraBodyClone.GetComponent<TimelineEraBody>();
-            script.timelineBodyPiece = Instantiate<GameObject>(this.timelineBodyPiece, timeline.transform, false);
+            script.timelineBodyPiece = Instantiate<GameObject>(this.timelineBodyPiece, script.timeline.transform, false);
+            script.timelineBodyPiece.SetActive(true);
             GameObject timelineBodyPiece = script.timelineBodyPiece;
+            
             TimelineHead.setDividerColor(script.dividerStart, physicistTimelineSO.listaErasTimeline[j].corDivisoria);
 
             timelineBodyPiece.GetComponentInChildren<TimelinePesquisaButton>().addData(physicistTimelineSO.listaErasTimeline[j].listaPesquisas[0]);
