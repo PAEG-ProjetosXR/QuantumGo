@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d8399a97f072a5f44aea4455b0e2bd4d
+guid: 851c392252a1ff742b46707280d1a8ba
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lupa_0
+      name: lupa 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -138,8 +138,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dfb60802db2f7344ba9013615cdb47eb
-      internalID: -1297404554
+      spriteID: e7282f6555d915f42985c97381c2c7bb
+      internalID: 1362007385
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1c66a4e9b55a0a04ba15597464008fd0
+    spriteID: 6564db4b1a1d1e44fa5bd972db9c7a6c
     internalID: 0
     vertices: []
     indices: 
@@ -158,7 +158,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lupa_0: -1297404554
+      lupa 1_0: 1362007385
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

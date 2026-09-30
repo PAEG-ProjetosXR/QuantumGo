@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9357fedb20d9f1643adf9f6bb0f58dc2, type: 3}
   m_Name: PlankEra2
   m_EditorClassIdentifier: 
-  corDivisoria: {r: 1, g: 0, b: 0, a: 1}
+  corDivisoria: {r: 0, g: 1, b: 0.098634005, a: 1}
   anoInicio: 7
   anoFim: 9
   titulo: "O \xDAtimo Alien"

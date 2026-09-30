@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objetosPesquisa: []
   ano: 1910
-  icone: {fileID: -1297404554, guid: d8399a97f072a5f44aea4455b0e2bd4d, type: 3}
+  icone: {fileID: 1362007385, guid: 851c392252a1ff742b46707280d1a8ba, type: 3}
   desc: 
   titulo: Vida
   trabalhoRelacionado: {fileID: 0}
