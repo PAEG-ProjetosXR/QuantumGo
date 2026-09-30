@@ -20,7 +20,8 @@ public class PhysicistTimeline : MonoBehaviour
         physicistImage.sprite = data.icon;
 
         headScript.addData(newData.physicistTimeline);
-        GameObject bodyPiece = Instantiate<GameObject>(headScript.timelineHeadPiece, bodyScript.timelineEraBody.transform, false);
+        GameObject bodyPiece = Instantiate<GameObject>(headScript.timelineHeadPiece, bodyScript.timeline.transform, false);
+        bodyPiece.SetActive(false);
         bodyScript.addData(newData.physicistTimeline, bodyPiece);
 
         headScript.SetupHead();
