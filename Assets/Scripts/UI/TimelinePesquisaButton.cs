@@ -23,6 +23,7 @@ public class TimelinePesquisaButton : MonoBehaviour
 
     public void OnClick()
     {
+        infoPesquisaPanel.GetComponent<InfoPesquisaPanel>().SetData(pesquisaSo);
         infoPesquisaPanel.SetActive(!infoPesquisaPanel.activeInHierarchy);
     }
 

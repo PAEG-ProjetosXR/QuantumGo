@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c86c2fba665337a41b10f59562e0b12f, type: 3}
-  m_Name: PlankEra1Object1
+  m_Name: PlankEra1Pesquisa3
   m_EditorClassIdentifier: 
   objetosPesquisa: []
-  ano: 1910
+  ano: 0
   icone: {fileID: 1362007385, guid: 851c392252a1ff742b46707280d1a8ba, type: 3}
   desc: 
-  titulo: Vida
+  titulo: Vida3
   trabalhoRelacionado: {fileID: 0}
   fisicoInventor: {fileID: 11400000, guid: e71a75ee99932f04d98ac10b9254c5b6, type: 2}
