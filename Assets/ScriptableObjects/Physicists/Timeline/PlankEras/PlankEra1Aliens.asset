@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlankEra1Aliens
   m_EditorClassIdentifier: 
   corDivisoria: {r: 0.07457018, g: 0, b: 1, a: 1}
-  anoInicio: 6
-  anoFim: 7
+  anoInicio: 1930
+  anoFim: 1960
   titulo: Era Maldita
   listaPesquisas:
   - {fileID: 11400000, guid: 80be5d540761e1d489bbb45c9efbe3d0, type: 2}

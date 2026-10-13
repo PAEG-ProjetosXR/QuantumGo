@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class TimelineEraBody : MonoBehaviour
     private GameObject timelineBodyPiece;
     public GameObject timeline;
     public GameObject timelineEraBody;
+    public TextMeshProUGUI anoEraText;
 
     [HideInInspector]
     public PhysicistTimelineData physicistTimelineSO;
@@ -36,6 +38,8 @@ public class TimelineEraBody : MonoBehaviour
             GameObject timelineBodyPiece = script.timelineBodyPiece;
             
             TimelineHead.setDividerColor(script.dividerStart, physicistTimelineSO.listaErasTimeline[j].corDivisoria);
+            TimelineHead.setAnoText(script.anoEraText, physicistTimelineSO.listaErasTimeline[j]);
+
 
             timelineBodyPiece.GetComponentInChildren<TimelinePesquisaButton>().addData(physicistTimelineSO.listaErasTimeline[j].listaPesquisas[0]);
             int qtdPieces = physicistTimelineSO.listaErasTimeline[j].listaPesquisas.Count;

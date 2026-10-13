@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlankEra3
   m_EditorClassIdentifier: 
   corDivisoria: {r: 1, g: 0, b: 0, a: 1}
-  anoInicio: 7
-  anoFim: 9
+  anoInicio: 1981
+  anoFim: 1989
   titulo: "O \xDAtimo Alien"
   listaPesquisas:
   - {fileID: 11400000, guid: 80be5d540761e1d489bbb45c9efbe3d0, type: 2}
