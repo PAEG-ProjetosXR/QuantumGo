@@ -22,6 +22,7 @@ public class UIHandler : MonoBehaviour
     public GameObject atomballSelectInfo;
     public GameObject settingsMenuPanel;
     public GameObject infoPesquisaPanel;
+    public GameObject objectOnTouchPanel;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
@@ -69,6 +70,7 @@ public class UIHandler : MonoBehaviour
         atomballSelectInfo.SetActive(false);
         settingsMenuPanel.SetActive(false);
         infoPesquisaPanel.SetActive(false);
+        objectOnTouchPanel.SetActive(false);
     }
 
     #region Objepedia e Physipedia
@@ -150,6 +152,26 @@ public class UIHandler : MonoBehaviour
             spawnButtonImage.color = Color.red;
         }
 
+    }
+
+    public void generateObjectUi(ObjectData data)
+    {
+        hideUI();
+        if (data != null)
+        {
+            objectOnTouchPanel.SetActive(true);
+        }
+            else
+        {
+            Debug.LogError("Object Trigger nao existe");
+            spawnButtonImage.color = Color.red;
+        }
+
+    }
+
+    public void closeObjectUi()
+    {
+        hideUI();
     }
 
     #endregion

@@ -6,6 +6,7 @@ using TMPro;
 
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using Unity.VisualScripting;
 
 public class ImageTracker : MonoBehaviour
 {
@@ -77,14 +78,15 @@ public class ImageTracker : MonoBehaviour
     {
         trackedImages.trackablesChanged.AddListener(OnTrackedImagesChanged);
         PhysicistTrigger.OnPhysicistDestroyed += HandleDestroyed;
-        TouchTest.Chosen += AoSelecionarObjeto;
+        //estava planejando fazer um diferenciação aqui 
+        TouchTest.Chosen += AoSelecionarAlvo;
     }
 
     void OnDisable()
     {
         trackedImages.trackablesChanged.RemoveListener(OnTrackedImagesChanged);
         PhysicistTrigger.OnPhysicistDestroyed -= HandleDestroyed;
-        TouchTest.Chosen -= AoSelecionarObjeto;
+        TouchTest.Chosen -= AoSelecionarAlvo;
     }
 
     private void LateUpdate()
@@ -473,9 +475,27 @@ private void UpdateSpawnedPatternObjects()
     patternCameraLastPosition = arCamera.transform.position;
 }
 
-    private void AoSelecionarObjeto(GameObject objTouched)
+
+    private void AoSelecionarAlvo(GameObject objTouched)
     {
         Debug.Log("O ImageTracker recebeu o evento! O objeto tocado foi: " + objTouched.name);
+        PhysicistTrigger PhTrig = objTouched.GetComponent<PhysicistTrigger>();
+        if(PhTrig != null)
+        {
+            AoSelecionarFisico(objTouched);
+            return;
+        }
+        ObjectTrigger ObTrig = objTouched.GetComponent<ObjectTrigger>();
+        if(ObTrig != null)
+        {
+            AoSelecionarObjeto(objTouched);
+            return;
+        } 
+        Debug.Log("Objeto a seguir tocado e sem tipo: " + objTouched.name);
+    }
+    private void AoSelecionarFisico(GameObject objTouched)
+    {
+        Debug.Log("O seguinte alvo eh físico: " + objTouched.name);
 
         // AQUI ESTARIA A CHAMADA PARA SPAWN DE OBJETOS
 
@@ -506,6 +526,17 @@ private void UpdateSpawnedPatternObjects()
         }
         camSonObject.BondToCam(obj_escolhido);
         uiHandler.enableCapture();
+    }
+
+    private void AoSelecionarObjeto(GameObject objTouched)
+    {
+        Debug.Log("O seguinte alvo eh objeo: " + objTouched.name);
+
+        // AQUI ESTARA A INVOCAÇÃO DE UI
+
+        ObjectTrigger trig = objTouched.GetComponent<ObjectTrigger>();
+        
+        uiHandler.generateObjectUi(trig.data);
     }
     private IEnumerator DelayedRescan()
     {
