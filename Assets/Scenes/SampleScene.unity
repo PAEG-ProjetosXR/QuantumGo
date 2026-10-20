@@ -13890,6 +13890,7 @@ MonoBehaviour:
   atomballSelectInfo: {fileID: 1414461244}
   settingsMenuPanel: {fileID: 1314718888}
   infoPesquisaPanel: {fileID: 846145261}
+  objectOnTouchPanel: {fileID: 1135004976}
   detailImage: {fileID: 1358358658}
   detailName: {fileID: 36290109}
   detailBio: {fileID: 1309066431}
