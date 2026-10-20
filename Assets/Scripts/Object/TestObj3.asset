@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 2
   name: Objeto Paralelepipedo
   description: "Esse Objeto vem ap\xF3s qualquer com \"Quinas\""
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1d449ca8c06bb0549b944c20e8b4ef3c, type: 3}
   modelPrefab: {fileID: 6920549342591059907, guid: 5d56d5547ef2e0f46b1471007dd21cc9, type: 3}
   presentationAudio: {fileID: 0}
   waitRecaptureSecs: 0

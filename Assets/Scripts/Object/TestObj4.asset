@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 3
   name: Objeto Capsula
   description: "Esse objeto n\xE3o est\xE1 na lista"
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 384c70ac90fd91b4f9a429d72e3bd61b, type: 3}
   modelPrefab: {fileID: 311466202829619694, guid: a1304f4960217b24b9726333d3265a86, type: 3}
   presentationAudio: {fileID: 0}
   waitRecaptureSecs: 0
