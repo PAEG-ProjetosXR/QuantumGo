@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   name: Objeto Cubo
   description: esse vem antes da Esfera
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 089f089f12d7d22418db2791c4fb5235, type: 3}
   modelPrefab: {fileID: 1785025317385968615, guid: 042a7813d305d5e448744ecfae02b35d, type: 3}
   presentationAudio: {fileID: 0}
   waitRecaptureSecs: 0

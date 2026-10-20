@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 1
   name: Objeto Esfera
   description: Esse aparece na lista
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 92c37d41d1830ef4bbbfec17497ea5fb, type: 3}
   modelPrefab: {fileID: 3736485211914026191, guid: 6cbab47b867d3ea499d6f732cdd65759, type: 3}
   presentationAudio: {fileID: 0}
   waitRecaptureSecs: 0

@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +16,10 @@ public class InfoPesquisaPanel : MonoBehaviour
     private TextMeshProUGUI pesquisaDesc;
     [SerializeField]
     private Button fecharBtn;
+    [SerializeField]
+    private GameObject objetoPesquisaFirstBtn;
+    [SerializeField]
+    private ObjectData defaultObjectDataEmpty;
 
     public void SetData(PhysicistTimelineEraPesquisa pesquisa)
     {
@@ -27,6 +33,27 @@ public class InfoPesquisaPanel : MonoBehaviour
         pesquisaNome.text = pesquisa.titulo;
         pesquisaAno.text = pesquisa.ano.ToString();
         pesquisaDesc.text = pesquisa.desc;
+
+        // Limpar objetos antigos de outra pesquisa que tinha sido aberta
+        foreach(Transform child in objetoPesquisaFirstBtn.gameObject.transform.parent)
+        {
+            if (child.gameObject != objetoPesquisaFirstBtn)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        if (pesquisa.objetosPesquisa.Count <= 0) {
+            objetoPesquisaFirstBtn.GetComponent<InfoPesquisaObjetoBtn>().SetupObjetoPesquisaBtn(defaultObjectDataEmpty);
+            return;
+        }
+        objetoPesquisaFirstBtn.GetComponent<InfoPesquisaObjetoBtn>().SetupObjetoPesquisaBtn(pesquisa.objetosPesquisa[0]);
+        for (int i = 1; i < pesquisa.objetosPesquisa.Count; i++)
+        {
+            GameObject novoObjetoPesquisaBtn = Instantiate<GameObject>(objetoPesquisaFirstBtn, objetoPesquisaFirstBtn.transform.parent);
+            novoObjetoPesquisaBtn.transform.SetAsLastSibling();
+            novoObjetoPesquisaBtn.GetComponent<InfoPesquisaObjetoBtn>().SetupObjetoPesquisaBtn(pesquisa.objetosPesquisa[i]);
+        }
     }
 
     private void FecharMenu()
