@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlankEra1Pesquisa1
   m_EditorClassIdentifier: 
   objetosPesquisa:
-  - {fileID: 11400000, guid: 0b200d0e24e733c43bb25c52a85f410b, type: 2}
   - {fileID: 11400000, guid: 4f13990b763892e47b8c64e7797593c2, type: 2}
+  - {fileID: 11400000, guid: 0b200d0e24e733c43bb25c52a85f410b, type: 2}
   - {fileID: 11400000, guid: 9712c3be96957ab4180dc8905c00f395, type: 2}
   - {fileID: 11400000, guid: 4aa9290979d4cee45afa5c00caee2b2f, type: 2}
   ano: 1950
