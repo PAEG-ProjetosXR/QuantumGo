@@ -6,5 +6,6 @@ public abstract class MinigameData : ScriptableObject
     public string minigameName;
     [TextArea] public string minigameDescription;
     public float timeLimit = 30f;
+    public int difficulty;
     public GameObject minigameUIPrefab; //O prefab da UI do minigame
 }
