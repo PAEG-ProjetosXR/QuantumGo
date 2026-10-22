@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-//Script será anexado ao Prefab da UI do minigame; ele padroniza a forma como qualquer minigame é iniciado/finalizado
+//Script padroniza a forma como qualquer minigame é iniciado/finalizado
 public abstract class MinigameBase : MonoBehaviour
 {
     //Evento disparado no fim: vitória (true) ou derrota (false)
