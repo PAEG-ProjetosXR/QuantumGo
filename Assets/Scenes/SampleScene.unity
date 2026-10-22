@@ -10133,10 +10133,10 @@ RectTransform:
   - {fileID: 1117206976}
   m_Father: {fileID: 845888774}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.20739584, y: 0.22800002}
-  m_AnchorMax: {x: 0.79, y: 0.7736875}
-  m_AnchoredPosition: {x: 0.49951172, y: -0.5004883}
-  m_SizeDelta: {x: 5, y: 3}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.5004883, y: 0.49951172}
+  m_SizeDelta: {x: 377, y: 701}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1135004978
 MonoBehaviour:
@@ -13891,10 +13891,14 @@ MonoBehaviour:
   settingsMenuPanel: {fileID: 1314718888}
   infoPesquisaPanel: {fileID: 846145261}
   objectOnTouchPanel: {fileID: 1135004976}
+  minigameButton: {fileID: 1117206977}
+  closeObjButton: {fileID: 1682509651}
   detailImage: {fileID: 1358358658}
   detailName: {fileID: 36290109}
   detailBio: {fileID: 1309066431}
   spawnButtonImage: {fileID: 416443717}
+  objNameText: {fileID: 581316782}
+  objDescText: {fileID: 1724321974}
   cooldownLabelPrefab: {fileID: 4642607027932610618, guid: 7a107136335b2224d8ca587d6bb4bfed, type: 3}
   cooldownContainer: {fileID: 281923404}
 --- !u!1 &1699879907
