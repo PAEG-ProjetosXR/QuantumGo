@@ -23,11 +23,15 @@ public class UIHandler : MonoBehaviour
     public GameObject settingsMenuPanel;
     public GameObject infoPesquisaPanel;
     public GameObject objectOnTouchPanel;
+    public Button minigameButton;
+    public Button closeObjButton;
     private TouchTest touchTest;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
     [SerializeField] private TMP_Text detailBio;
     [SerializeField] private Image spawnButtonImage;
+    [SerializeField] private TMP_Text objNameText;
+    [SerializeField] private TMP_Text objDescText;
     public TMP_Text cooldownLabelPrefab;
     public RectTransform cooldownContainer;
     
@@ -71,6 +75,7 @@ public class UIHandler : MonoBehaviour
         settingsMenuPanel.SetActive(false);
         infoPesquisaPanel.SetActive(false);
         objectOnTouchPanel.SetActive(false);
+        closeObjButton.onClick.AddListener(closeObjectUi);
     }
 
     #region Objepedia e Physipedia
@@ -160,6 +165,8 @@ public class UIHandler : MonoBehaviour
         if (data != null)
         {
             objectOnTouchPanel.SetActive(true);
+            objDescText.text = data.description;
+            objNameText.text = data.name;
         }
             else
         {
