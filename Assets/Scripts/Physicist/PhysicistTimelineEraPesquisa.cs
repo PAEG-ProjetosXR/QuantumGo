@@ -14,4 +14,5 @@ public class PhysicistTimelineEraPesquisa : ScriptableObject
     public string titulo;
     public PhysicistTimelineEraPesquisa trabalhoRelacionado;
     public PhysicistData fisicoInventor;
+    public bool unlocked;
 }
