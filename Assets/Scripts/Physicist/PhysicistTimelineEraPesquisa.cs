@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "PhysicistTimelineEraPesquisa", menuName = "Scriptable Objects/PhysicistTimelineEraPesquisa")]
 public class PhysicistTimelineEraPesquisa : ScriptableObject
 {
-    public List<ObjectData> objetosPesquisa;
+    public CorrectObjectList objetosPesquisa;
     public int ano;
     public Sprite icone;
     [TextArea(3,10)]

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aae3429be71a5aa42978f3cc5e2bd7b5, type: 3}
   m_Name: Empty
   m_EditorClassIdentifier: 
+  unlocked: 1
   id: 1
   name: Vazio
   description: Vazio

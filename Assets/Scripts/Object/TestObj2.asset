@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aae3429be71a5aa42978f3cc5e2bd7b5, type: 3}
   m_Name: TestObj2
   m_EditorClassIdentifier: 
+  unlocked: 1
   id: 1
   name: Objeto Esfera
   description: Esse aparece na lista

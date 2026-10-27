@@ -28,7 +28,7 @@ public class TimelinePesquisaButton : MonoBehaviour
 
     public void OnClick()
     {
-        if (!pesquisaSo.unlocked)
+        if (!pesquisaSo || !pesquisaSo.unlocked)
         {
             return;
         }
