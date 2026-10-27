@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aae3429be71a5aa42978f3cc5e2bd7b5, type: 3}
   m_Name: UFO
   m_EditorClassIdentifier: 
+  unlocked: 1
   id: 0
   name: Unidentified Flying Object
   description: Object that flies and is still to be identified

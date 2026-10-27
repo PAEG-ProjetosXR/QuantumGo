@@ -6,6 +6,7 @@ using UnityEngine.XR.ARFoundation;
 [CreateAssetMenu(fileName = "New Object", menuName = "QuantumGo/Object")]
 public class ObjectData : ScriptableObject
 {
+    public bool unlocked;
     public int id;
     public string name;
     [TextArea(3, 10)]

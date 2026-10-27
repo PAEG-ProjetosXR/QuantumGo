@@ -43,16 +43,16 @@ public class InfoPesquisaPanel : MonoBehaviour
             }
         }
 
-        if (pesquisa.objetosPesquisa.Count <= 0) {
+        if (!pesquisa.objetosPesquisa) {
             objetoPesquisaFirstBtn.GetComponent<InfoPesquisaObjetoBtn>().SetupObjetoPesquisaBtn(defaultObjectDataEmpty);
             return;
         }
-        objetoPesquisaFirstBtn.GetComponent<InfoPesquisaObjetoBtn>().SetupObjetoPesquisaBtn(pesquisa.objetosPesquisa[0]);
-        for (int i = 1; i < pesquisa.objetosPesquisa.Count; i++)
+        objetoPesquisaFirstBtn.GetComponent<InfoPesquisaObjetoBtn>().SetupObjetoPesquisaBtn(pesquisa.objetosPesquisa.correctObjects[0]);
+        for (int i = 1; i < pesquisa.objetosPesquisa.correctObjects.Count; i++)
         {
             GameObject novoObjetoPesquisaBtn = Instantiate<GameObject>(objetoPesquisaFirstBtn, objetoPesquisaFirstBtn.transform.parent);
             novoObjetoPesquisaBtn.transform.SetAsLastSibling();
-            novoObjetoPesquisaBtn.GetComponent<InfoPesquisaObjetoBtn>().SetupObjetoPesquisaBtn(pesquisa.objetosPesquisa[i]);
+            novoObjetoPesquisaBtn.GetComponent<InfoPesquisaObjetoBtn>().SetupObjetoPesquisaBtn(pesquisa.objetosPesquisa.correctObjects[i]);
         }
     }
 
