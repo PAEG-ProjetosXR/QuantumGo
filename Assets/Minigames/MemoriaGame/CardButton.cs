@@ -3,12 +3,17 @@ using UnityEngine.UI;
 
 public class CardButton : MonoBehaviour
 {
-    private Button button;
-    private Image iconImage; // O ícone da frente da carta (filho do botão)
+    [Header("Referências Visuais")]
+    [SerializeField] private Image cardImage; // O componente Image que vai exibir a frente ou o verso
+    [SerializeField] private Button button;
+
+    [Header("Sprites das Cartas")]
+    private Sprite frontSprite;
+    [SerializeField] private Sprite backSprite;
+
     private int cardID;
     private MemoriaGameUI gameManager;
 
-    private Sprite frontSprite;
     private bool isRevealed = false;
     private bool isMatched = false;
 
@@ -18,12 +23,14 @@ public class CardButton : MonoBehaviour
         frontSprite = cardSprite;
         gameManager = manager;
 
-        button = GetComponent<Button>();
-        iconImage = transform.GetChild(0).GetComponent<Image>(); // Assume que o ícone está no primeiro filho
+        if (button == null) button = GetComponent<Button>();
+        if (cardImage == null) cardImage = GetComponent<Image>();
 
         // O jogo começa com todas as cartas viradas para baixo (escondidas)
         HideCard();
 
+        // Evita duplicar o listener caso o Setup seja chamado novamente
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClickCard);
     }
 
@@ -42,8 +49,7 @@ public class CardButton : MonoBehaviour
     public void RevealCard()
     {
         isRevealed = true;
-        iconImage.gameObject.SetActive(true); // Mostra o ícone da carta
-        iconImage.sprite = frontSprite;       // Garante que o sprite está correto
+        cardImage.sprite = frontSprite;
     }
 
     public void HideCard()
@@ -51,7 +57,7 @@ public class CardButton : MonoBehaviour
         if (isMatched) return; // Se já achou o par, não esconde mais
 
         isRevealed = false;
-        iconImage.gameObject.SetActive(false); // Esconde o ícone (mostra apenas o fundo do botão)
+        cardImage.sprite = backSprite;
     }
 
     public void SetMatched()

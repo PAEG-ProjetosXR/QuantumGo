@@ -1,34 +1,45 @@
 using System;
 using UnityEngine;
 
-//Script será anexado num objeto fixo na cena e controla a criação/execução/destruição dos minigames
+//Controla a criação/execução/destruição dos minigames
 public class MinigameManager : MonoBehaviour
 {
     public static MinigameManager Instance {  get; private set; }
 
-    [SerializeField] private Transform canvasOverlay; //onde vai ocorrer o spawn da UI do minigame
+    [Header("Configuração de Tela")]
+    [SerializeField] private Transform minigameContainer; // Onde a UI do minigame vai nascer
+
+    private GameObject currentMinigameInstance;
 
     private void Awake()
     {
         if (Instance == null) { Instance = this; }
-        else { Destroy(Instance); }
+        else { Destroy(gameObject); }
     }
 
-    //Chama qualquer minigame e avisa o objeto solicitante se o jogador venceu
-    public void StartMinigame(MinigameData config, Action<bool> onComplete)
+    //Chama o minigame
+    public void StartMinigame(MinigameData data)
     {
-        //Instancia a UI do minigame no Canvas
-        GameObject instance = Instantiate(config.minigameUIPrefab, canvasOverlay);
-        MinigameBase minigameScript = instance.GetComponent<MinigameBase>();
+        // Instancia o prefab de UI do minijogo apontado no ScriptableObject, dentro do container
+        GameObject prefabToSpawn = data.minigameUIPrefab;
+        currentMinigameInstance = Instantiate(prefabToSpawn, minigameContainer);
 
-        //Passa os dados do ScriptableObject
-        minigameScript.Setup(config);
+        // Pega o script base do minigame e inicializa enviando os dados
+        MinigameBase minigameScript = currentMinigameInstance.GetComponent<MinigameBase>();
+        if (minigameScript != null) { minigameScript.Setup(data); }
+        else { Debug.LogError("O prefab instanciado não possui um script que herda de MinigameBase!"); }
+    }
 
-        //Escuta a conclusão para destruir a UI e avisar quem chamou
-        minigameScript.OnMinigameEnded += (success) =>
+    // Método chamado quando o minigame acaba (vitória ou derrota)
+    public void CloseMinigame(bool playerWon)
+    {
+        if (currentMinigameInstance != null)
         {
-            Destroy(instance);
-            onComplete?.Invoke(success);
-        };
+            Destroy(currentMinigameInstance);
+            currentMinigameInstance = null;
+        }
+
+        // Aqui você pode dar feedback ao restante do jogo em AR (dar recompensa se venceu, etc.)
+        Debug.Log("Minijogo encerrado. Jogador venceu? " + playerWon);
     }
 }
