@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 
+//Vai ser anexado no Prefab da UI do Jogo da Memória
 public class MemoriaGameUI : MinigameBase
 {
     [Header("Configuração Visual")]
@@ -10,8 +11,8 @@ public class MemoriaGameUI : MinigameBase
     [SerializeField] private Transform cardsGridParent;   // O painel na UI com GridLayoutGroup
 
     private MemoriaGameData memoriaConfig;
-    private int pairsFound = 0;
-    private int totalTargetPairs = 0; // Quantos pares precisamos achar nesta partida
+    private int pairsFound;
+    private int attempts;
 
     // Variáveis de controle para a lógica de clique (Caso 3)
     private CardButton firstSelectedCard;
@@ -25,11 +26,10 @@ public class MemoriaGameUI : MinigameBase
         int seed = UnityEngine.Random.Range(0, 999999);
         System.Random rng = new System.Random(seed);
 
-        // Define quantos pares teremos com base na dificuldade ou dados
-        totalTargetPairs = rng.Next(4, 5 + memoriaConfig.difficulty);
-
         pairsFound = 0;
-        GenerateCards(rng, totalTargetPairs);
+        attempts = memoriaConfig.maxAttempts;
+
+        GenerateCards(rng, memoriaConfig.totalPairs);
     }
 
     //Geração e Instanciação das Cartas
@@ -75,10 +75,7 @@ public class MemoriaGameUI : MinigameBase
     {
         if (isChecking || clickedCard == firstSelectedCard) return;
 
-        if (firstSelectedCard == null)
-        {
-            firstSelectedCard = clickedCard;
-        }
+        if (firstSelectedCard == null) { firstSelectedCard = clickedCard; }
         else
         {
             secondSelectedCard = clickedCard;
@@ -94,16 +91,12 @@ public class MemoriaGameUI : MinigameBase
                 pairsFound++;
                 ResetSelection();
 
-                if (pairsFound >= totalTargetPairs)
-                {
-                    FinishMinigame(true); // Vitória!
-                }
+                if (pairsFound >= memoriaConfig.totalPairs) { FinishMinigame(true); /*Vitória*/ }
             }
-            else
-            {
-                // ERROU! Chama a rotina para esperar um pouco e esconder as cartas de novo
-                StartCoroutine(WrongPairRoutine());
-            }
+            else { StartCoroutine(WrongPairRoutine()); /*ERROU! Chama a rotina para esperar um pouco e esconder as cartas de novo*/ }
+
+            attempts--;
+            if(attempts == 0) { OnAttemptsExhausted(); /*Tentativas esgotadas*/ }
         }
     }
 
@@ -126,10 +119,11 @@ public class MemoriaGameUI : MinigameBase
         isChecking = false;
     }
 
-    private void OnTimeExpired()
-    {
-        FinishMinigame(false); // Derrota por tempo esgotado
-    }
+    //Derrota pelo esgotamento de tentativas
+    private void OnAttemptsExhausted() { FinishMinigame(false); }
+
+    //Derrota por tempo esgotado
+    private void OnTimeExpired() { FinishMinigame(false); }
 
     // Estrutura auxiliar interna para organizar os dados antes de instanciar
     private struct CardPairData
