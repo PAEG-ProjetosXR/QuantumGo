@@ -24,4 +24,18 @@ public class ObjectData : ScriptableObject
     [NonSerialized]
     // CHECAR NULO ANTES DE USAR PARAMETROS DA CLASSE CaptureInfo
     public List<CaptureInfo> objectCaptureInfo;   // Imagens capturáveis do objeto e seus correspondentes modelos e datas de captura
+
+    // as duas funções abaixo são "overrides" que permitem comparar 2 ObjectData segundo id, útil para comparar lista
+    public override bool Equals(object obj)
+    {
+        if (obj is not ObjectData other)
+            return false;
+
+        return id == other.id;
+    }
+
+    public override int GetHashCode()
+    {
+        return id.GetHashCode();
+    }
 }

@@ -421,8 +421,9 @@ public class ImageTracker : MonoBehaviour
 
     SpawnPattern pattern = trigger.patterns[index];
 
-    Debug.Log($"SpawnPattern escolhido: {pattern.name}");
+    Debug.Log($"SpawnPattern escolhido!");
 
+    trigger.SetChosenPattern(pattern); //para facilitar checagem no pokeball
     SpawnObjects(pattern);
 }
 
