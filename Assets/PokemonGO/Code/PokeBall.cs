@@ -106,8 +106,29 @@ namespace PokemonGO.Code
             if (other.gameObject.CompareTag("Physicist"))
             {
                 hasCollided = true;
-                PhysicistTrigger physicistTrigger =
-                    other.gameObject.GetComponent<PhysicistTrigger>();
+                PhysicistTrigger physicistTrigger = other.gameObject.GetComponent<PhysicistTrigger>();
+                
+                bool isCorrect = false;
+
+                if (physicistTrigger != null)
+                {
+                    SpawnPattern pattern = physicistTrigger.GetChosenPattern();
+                    //um chosen pattern foi adicionado ao trigger, permite remover "answer" de SpawnPattern que é redundante
+                    // além de impedir ativar uma pesquisa errada pois tem os mesmos objetos da captura errada
+                    List<ObjectData> currentLogicList = null; //placeholder para 'SpawnManager.currentLogicList'
+                
+                     // achar o spawn_pattern alvo dentre aquelas do físico (talvez já salvar no trigger?)
+                    if(pattern.targetResearch.objetosPesquisa.correctObjects.SequenceEqual(currentLogicList)){
+                        pattern.targetResearch.unlocked = true;
+                        isCorrect = true;
+                            
+                    }
+                    
+                        
+                }
+                
+                /*
+                //REMOVE DAQUI...
                 if (physicistTrigger != null)
                 {
                     PhysicistData physicistData = physicistTrigger.data;
@@ -130,22 +151,28 @@ namespace PokemonGO.Code
                     {
                         physicistTrigger.TriggerEncounter(atomballInfo.captureTimes);
                     }
+                
+                
                 }
+                */
+                // ATÉ AQUI!
 
                 // Destrói o Physicist se ele morreu
-                if (targetDied)
+                if (isCorrect)
                 {
+                    physicistTrigger.TriggerEncounter(atomballInfo.captureTimes); // ativa função de captura
                     Destroy(other.gameObject);
                 }
-
+                
                 // Destrói a Atomball depois de 2 segundos
                 Destroy(gameObject, 2f);
 
                 return;
             }
-
+            /* REMOVER POIS SE CAPTURA APENAS FÍSICO COM ATOMBALL (mas a lógica pode ser útil para ativar na objepedia?) */
             if (other.gameObject.CompareTag("Object"))
             {
+                /*
                 hasCollided = true;
 
                 ObjectTrigger objectTrigger =
@@ -182,10 +209,9 @@ namespace PokemonGO.Code
                 Destroy(gameObject, 2f);
 
                 return;
+                */
+                
             }
-
-            // A física do Rigidbody agora cuida do movimento.
-            // SimulateBounce(other.GetContact(0)); // LEGADO
 
 
             OnCollision?.Invoke(other);

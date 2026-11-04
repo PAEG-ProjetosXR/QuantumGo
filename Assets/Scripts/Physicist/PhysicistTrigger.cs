@@ -15,7 +15,7 @@ public class PhysicistTrigger : MonoBehaviour
 
     public List<SpawnPattern> patterns; // quando clicado, terá uma função que invoca objetos segundo o pattern
     // fazer uma lista de patterns possíveis? permite uma imagem proporcionar mais de uma 
-    // 
+    private SpawnPattern chosenPattern; //indica qua o pattern escollhido
 
     [Header("Physicist Stats")]
     [SerializeField] private float hpBase; // HP base do físico
@@ -95,4 +95,15 @@ public class PhysicistTrigger : MonoBehaviour
             OnPhysicistDestroyed?.Invoke(this);
         }
     }
+
+    public void SetChosenPattern(SpawnPattern newPattern)
+    {
+        this.chosenPattern = newPattern;
+    }
+
+    public SpawnPattern GetChosenPattern()
+    {
+        return this.chosenPattern;
+    }
 }
+
