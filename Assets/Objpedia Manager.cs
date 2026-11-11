@@ -16,6 +16,16 @@ public class ObjpediaManager : MonoBehaviour
         encounterManager = FindAnyObjectByType<EncounterManager>();
         initializeObjspedia();
     }
+
+    public void RestartObjespedia()
+    {
+        while (objectCards.Count > 0) 
+        {
+            Destroy(objectCards[0].gameObject);
+            objectCards.RemoveAt(0);
+        }
+        initializeObjspedia();
+    }
     
     public void initializeObjspedia()
     {

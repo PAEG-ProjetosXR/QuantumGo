@@ -65,53 +65,6 @@ public class EncounterManager : MonoBehaviour
 
     }
 
-    public void RegisterObjectEncounter(ObjectData objectData, int foundTimes)
-    {
-        objectData.foundTimes += foundTimes;
-        if (!foundObjects.Contains(objectData))
-        {
-            foundObjects.Add(objectData);
-            objpediaManager.objectCards[objectData.id].SetFound();
-            Debug.Log($"Encontrou e registrou um novo físico: {objectData.name}!");
-        }
-        else
-        {
-            objpediaManager.objectCards[objectData.id].SetFoundAgain();
-            Debug.Log($"{objectData.name} já tinha sido encontrado antes.");
-        }
-
-        bool objectFound = false;
-        for (int i = 0; i < currentSaveData.foundObjectsDataPacks.Count; i++)
-        {
-            if (currentSaveData.foundObjectsDataPacks[i].id == objectData.id)
-            {
-               objectFound = true;
-                // 1. Pull out the temporary copy
-                SaveSystem.ObjectDataPack packCopy = currentSaveData.foundObjectsDataPacks[i];
-
-                // 2. Modify the copy
-                packCopy.foundTimes = objectData.foundTimes;
-
-                // 3. Shove the modified copy back into the list
-                currentSaveData.foundObjectsDataPacks[i] = packCopy;
-
-                SaveSystem.Save(ref currentSaveData);
-                break;
-            }
-        }
-
-        if (!objectFound)
-        {
-            currentSaveData.foundObjectsDataPacks.Add(new SaveSystem.ObjectDataPack
-            {
-                id = objectData.id,
-                foundTimes = objectData.foundTimes
-            });
-
-            SaveSystem.Save(ref currentSaveData);
-        }
-    }
-
     private void ResetAllQuests()
     {
         foreach (var quest in questDatabase.allQuests)
@@ -151,7 +104,7 @@ public class EncounterManager : MonoBehaviour
             if (index != -1)
             {
                 var match = currentSaveData.foundObjectsDataPacks[index];
-                obj.foundTimes = match.foundTimes;
+                obj.unlocked = match.foundTimes > 0;
                 foundObjects.Add(obj);
             }
         });

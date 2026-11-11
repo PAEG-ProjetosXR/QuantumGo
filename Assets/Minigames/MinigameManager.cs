@@ -1,10 +1,14 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //Controla a criação/execução/destruição dos minigames
 public class MinigameManager : MonoBehaviour
 {
     public static MinigameManager Instance {  get; private set; }
+
+    [SerializeField]
+    private SpawnManager SpawnManager;
 
     [Header("Configuração de Tela")]
     [SerializeField] private Transform minigameContainer; // Onde a UI do minigame vai nascer
@@ -20,6 +24,7 @@ public class MinigameManager : MonoBehaviour
     //Chama o minigame
     public void StartMinigame(MinigameData data)
     {
+        SpawnManager.GanhouMinigameAtual(); //REMOVER, só coloquei pq n tem como ganhar minigames pra testar
         // Instancia o prefab de UI do minijogo apontado no ScriptableObject, dentro do container
         GameObject prefabToSpawn = data.minigameUIPrefab;
         currentMinigameInstance = Instantiate(prefabToSpawn, minigameContainer);
@@ -41,5 +46,10 @@ public class MinigameManager : MonoBehaviour
 
         // Aqui você pode dar feedback ao restante do jogo em AR (dar recompensa se venceu, etc.)
         Debug.Log("Minijogo encerrado. Jogador venceu? " + playerWon);
+        if (playerWon)
+        {
+            SpawnManager.GanhouMinigameAtual();
+        }
+
     }
 }

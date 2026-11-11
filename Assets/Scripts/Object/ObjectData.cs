@@ -19,9 +19,6 @@ public class ObjectData : ScriptableObject
     public int waitRecaptureSecs;
 
     [NonSerialized]
-    public int foundTimes = 0;                       // Indica se o objeto foi encontrado ou não
-
-    [NonSerialized]
     // CHECAR NULO ANTES DE USAR PARAMETROS DA CLASSE CaptureInfo
     public List<CaptureInfo> objectCaptureInfo;   // Imagens capturáveis do objeto e seus correspondentes modelos e datas de captura
 

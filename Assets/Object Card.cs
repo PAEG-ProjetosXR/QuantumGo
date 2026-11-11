@@ -6,6 +6,14 @@ public class ObjectCard : MonoBehaviour
     private ObjectData data;
     public Color32 unfoundColor = new Color32(180, 180, 180, 255);
 
+    private void OnEnable()
+    {
+        if (data && data.unlocked)
+        {
+            SetFound();
+        }
+    }
+
     public void SetData(ObjectData newData)
     {
         data = newData;
@@ -16,18 +24,15 @@ public class ObjectCard : MonoBehaviour
     {
         GetComponent<Image>().color = Color.white;
     }
-    public void SetFoundAgain()
-    {
-    }
     public void SetUnfound()
     {
         GetComponent<Image>().color = unfoundColor;
-        data.foundTimes = 0;
+        data.unlocked = false;
     }
 
     public void OnClick()
     {
-        if (data != null && data.foundTimes > 0)
+        if (data != null && data.unlocked)
         {
             FindAnyObjectByType<UIHandler>().DisplayObjectDetails(data);
         }

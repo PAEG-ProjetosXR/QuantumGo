@@ -17,11 +17,12 @@ public class ImageTracker : MonoBehaviour
     public UIHandler uiHandler;
     [SerializeField] private Camera arCamera;
     private Dictionary<ARTrackedImage, TMP_Text> cooldownLabels = new(); //dicionario de imagem e seu cooldown
-
     List<GameObject> ARObjects = new List<GameObject>();
     private Vector3 patternCameraLastPosition; // usado no momento que spawna vários objetos ao clicar no físico
     // salva rotação
     private List<GameObject> spawnedPatternObjects = new List<GameObject>(); // salva objetos spawnados no toque
+    [SerializeField]
+    private SpawnManager spawnManager; // Para atualizar os objetos spawnados atuais
 
     /*void Update()
     {
@@ -134,204 +135,204 @@ public class ImageTracker : MonoBehaviour
     */
     private void UpdateLabelPosition(ARTrackedImage trackedImage, TMP_Text label)
     {
-    UnityEngine.Vector3 screenPos = arCamera.WorldToScreenPoint(trackedImage.transform.position);
-    label.rectTransform.position = screenPos + new UnityEngine.Vector3(0,0,10);
+        UnityEngine.Vector3 screenPos = arCamera.WorldToScreenPoint(trackedImage.transform.position);
+        label.rectTransform.position = screenPos + new UnityEngine.Vector3(0, 0, 10);
 
     }
 
 
     private IEnumerator UpdateCooldownLabel(ARTrackedImage trackedImage, DateTime recaptureTime, TMP_Text label)
     {
-    while (trackedImage != null)
-    {
-        TimeSpan remaining = recaptureTime - DateTime.Now;
-
-        if (remaining.TotalSeconds <= 0)
+        while (trackedImage != null)
         {
-            Destroy(label.gameObject);
-            cooldownLabels.Remove(trackedImage);
-            yield break;
+            TimeSpan remaining = recaptureTime - DateTime.Now;
+
+            if (remaining.TotalSeconds <= 0)
+            {
+                Destroy(label.gameObject);
+                cooldownLabels.Remove(trackedImage);
+                yield break;
+            }
+            label.text = $"{Mathf.CeilToInt((float)remaining.TotalSeconds)}s";
+            //label.fontSize = trackedImage.size.x * 100f;
+            UpdateLabelPosition(trackedImage, label);
+            yield return null;
         }
-        label.text = $"{Mathf.CeilToInt((float)remaining.TotalSeconds)}s";
-        //label.fontSize = trackedImage.size.x * 100f;
-        UpdateLabelPosition(trackedImage, label);
-        yield return null;
-    }
     }
 
     private void CreateCooldownLabel(
     ARTrackedImage trackedImage,
     DateTime recaptureTime)
-{
-    if (cooldownLabels.ContainsKey(trackedImage))
-        return;
+    {
+        if (cooldownLabels.ContainsKey(trackedImage))
+            return;
 
-    UIHandler ui = FindFirstObjectByType<UIHandler>();
+        UIHandler ui = FindFirstObjectByType<UIHandler>();
 
-    TMP_Text label = Instantiate(ui.cooldownLabelPrefab, ui.cooldownContainer);
+        TMP_Text label = Instantiate(ui.cooldownLabelPrefab, ui.cooldownContainer);
 
-    cooldownLabels.Add(trackedImage, label);
+        cooldownLabels.Add(trackedImage, label);
 
-    StartCoroutine(UpdateCooldownLabel(trackedImage,recaptureTime,label));
-}
+        StartCoroutine(UpdateCooldownLabel(trackedImage, recaptureTime, label));
+    }
 
     public bool CanSpawn(PhysicistData identidade, ARTrackedImage tracked, out TimeSpan remaining)
     {
-    remaining = TimeSpan.Zero;
+        remaining = TimeSpan.Zero;
 
-    CaptureInfo info =
-        HasTrackedImage(identidade, tracked);
+        CaptureInfo info =
+            HasTrackedImage(identidade, tracked);
 
-    if (info == null)
-        return true;
+        if (info == null)
+            return true;
 
-    if (!info.recaptureTime.HasValue)
-        return true;
+        if (!info.recaptureTime.HasValue)
+            return true;
 
-    if (DateTime.Now >= info.recaptureTime.Value)
-        return true;
+        if (DateTime.Now >= info.recaptureTime.Value)
+            return true;
 
-    remaining =
-        info.recaptureTime.Value - DateTime.Now;
+        remaining =
+            info.recaptureTime.Value - DateTime.Now;
 
-    return false;
+        return false;
     }
 
     private void TrySpawnFromImage(ARTrackedImage trackedImage)
     {
 
-    Debug.Log("TrySpawn");
-    if (trackedImage == null) //se imagem invalida
-        return;
+        Debug.Log("TrySpawn");
+        if (trackedImage == null) //se imagem invalida
+            return;
 
-    if (obj_escolhido != null) //se já tem um outro objeto escolhido
-        return;
+        if (obj_escolhido != null) //se já tem um outro objeto escolhido
+            return;
 
-    foreach (var arPrefab in ArPrefabs)
-    {
-        if (trackedImage.referenceImage.name != arPrefab.name)
-            continue;
-
-        // Evita duplicatas
-        foreach (GameObject obje in ARObjects)
+        foreach (var arPrefab in ArPrefabs)
         {
-            if (obje == null)
+            if (trackedImage.referenceImage.name != arPrefab.name)
                 continue;
 
-            PhysicistTrigger trig = obje.GetComponent<PhysicistTrigger>();
-
-            if (trig != null &&
-                trig.info != null &&
-                trig.info.trackedImage == trackedImage)
+            // Evita duplicatas
+            foreach (GameObject obje in ARObjects)
             {
+                if (obje == null)
+                    continue;
+
+                PhysicistTrigger trig = obje.GetComponent<PhysicistTrigger>();
+
+                if (trig != null &&
+                    trig.info != null &&
+                    trig.info.trackedImage == trackedImage)
+                {
+                    return;
+                }
+            }
+
+            PhysicistData identidade =
+                arPrefab.GetComponent<PhysicistTrigger>().data;
+
+            if (identidade == null)
+                return;
+
+            if (identidade.physicistCaptureInfo == null)
+            {
+                identidade.physicistCaptureInfo =
+                    new List<CaptureInfo>();
+            }
+
+            CaptureInfo info = HasTrackedImage(identidade, trackedImage);
+
+            if (info != null)
+            {
+                Debug.Log($"Info encontrada. Recapture={info.recaptureTime}");
+            }
+
+            // Verifica cooldown
+            if (info != null && info.recaptureTime.HasValue && DateTime.Now < info.recaptureTime.Value)
+            {
+                TimeSpan remaining =
+                    info.recaptureTime.Value - DateTime.Now;
+
+                // gerar o timer na tela
+                Debug.Log("Tentando Tempo... nhie");
+                CreateCooldownLabel(trackedImage, info.recaptureTime.Value);
+
                 return;
             }
+
+            // Instancia o objeto
+            GameObject obj = Instantiate(arPrefab);
+
+            // Fazer o objeto surgir entre a imagem e a camera
+            Transform cam = Camera.main.transform;
+
+            // Interpola posição da camera e imagem
+            UnityEngine.Vector3 spawnPos = UnityEngine.Vector3.Lerp(trackedImage.transform.position, cam.position, 0.15f);
+
+            // garante pelo menos 50 cm da câmera
+            float minDist = 0.5f;
+
+            if (UnityEngine.Vector3.Distance(cam.position, spawnPos) < minDist)
+            {
+                spawnPos = cam.position + cam.forward * minDist;
+            }
+
+            // coloca o objeto 
+            obj.transform.position = spawnPos;
+
+            // escala automática
+            float dist = UnityEngine.Vector3.Distance(cam.position, spawnPos);
+
+            float scale = Mathf.Clamp(dist * 0.075f, 0.03f, 1f);
+
+            obj.transform.localScale = UnityEngine.Vector3.one * scale;
+
+            obj.transform.rotation = trackedImage.transform.rotation;
+
+            ARObjects.Add(obj);
+
+            PhysicistTrigger trigger = obj.GetComponent<PhysicistTrigger>();
+
+            if (info != null)
+            {
+                trigger.info = info;
+
+                Debug.Log(
+                    $"[ImageTracker] Reutilizando CaptureInfo."
+                );
+            }
+            else
+            {
+                info = new CaptureInfo(
+                    trackedImage,
+                    obj,
+                    DateTime.Now,
+                    null
+                );
+
+                identidade.physicistCaptureInfo.Add(info);
+
+                trigger.info = info;
+
+                Debug.Log(
+                    $"[ImageTracker] Criando novo CaptureInfo."
+                );
+            }
+
+            break;
         }
-
-        PhysicistData identidade =
-            arPrefab.GetComponent<PhysicistTrigger>().data;
-
-        if (identidade == null)
-            return;
-
-        if (identidade.physicistCaptureInfo == null)
-        {
-            identidade.physicistCaptureInfo =
-                new List<CaptureInfo>();
-        }
-
-        CaptureInfo info = HasTrackedImage(identidade, trackedImage);
-
-        if(info != null)
-        {
-            Debug.Log($"Info encontrada. Recapture={info.recaptureTime}");
-        }
-
-        // Verifica cooldown
-        if (info != null && info.recaptureTime.HasValue && DateTime.Now < info.recaptureTime.Value)
-        {
-            TimeSpan remaining =
-                info.recaptureTime.Value - DateTime.Now;
-
-            // gerar o timer na tela
-            Debug.Log("Tentando Tempo... nhie");
-           CreateCooldownLabel(trackedImage, info.recaptureTime.Value);
-
-            return;
-        }
-
-        // Instancia o objeto
-        GameObject obj = Instantiate(arPrefab);
-
-        // Fazer o objeto surgir entre a imagem e a camera
-        Transform cam = Camera.main.transform;
-
-        // Interpola posição da camera e imagem
-        UnityEngine.Vector3 spawnPos = UnityEngine.Vector3.Lerp(trackedImage.transform.position, cam.position, 0.15f);
-
-        // garante pelo menos 50 cm da câmera
-        float minDist = 0.5f;
-
-        if (UnityEngine.Vector3.Distance(cam.position, spawnPos) < minDist)
-        {
-            spawnPos = cam.position + cam.forward * minDist;
-        }
-
-        // coloca o objeto 
-        obj.transform.position = spawnPos;
-
-        // escala automática
-        float dist =  UnityEngine.Vector3.Distance(cam.position, spawnPos);
-
-        float scale = Mathf.Clamp(dist * 0.075f, 0.03f, 1f);
-
-        obj.transform.localScale = UnityEngine.Vector3.one * scale;
-
-        obj.transform.rotation = trackedImage.transform.rotation;
-
-        ARObjects.Add(obj);
-
-        PhysicistTrigger trigger = obj.GetComponent<PhysicistTrigger>();
-
-        if (info != null)
-        {
-            trigger.info = info;
-
-            Debug.Log(
-                $"[ImageTracker] Reutilizando CaptureInfo."
-            );
-        }
-        else
-        {
-            info = new CaptureInfo(
-                trackedImage,
-                obj,
-                DateTime.Now,
-                null
-            );
-
-            identidade.physicistCaptureInfo.Add(info);
-
-            trigger.info = info;
-
-            Debug.Log(
-                $"[ImageTracker] Criando novo CaptureInfo."
-            );
-        }
-
-        break;
     }
-}
 
     private void ForceRescan()
     {
-    foreach(var trackedImage in trackedImages.trackables)
-    {
-        if(trackedImage.trackingState != TrackingState.Tracking)
-            continue;
+        foreach (var trackedImage in trackedImages.trackables)
+        {
+            if (trackedImage.trackingState != TrackingState.Tracking)
+                continue;
 
-        TrySpawnFromImage(trackedImage);
-    }
+            TrySpawnFromImage(trackedImage);
+        }
     }
 
 
@@ -339,47 +340,47 @@ public class ImageTracker : MonoBehaviour
 
     public CaptureInfo HasTrackedImage(PhysicistData identidade, ARTrackedImage tracked)
     {
-    if (identidade == null || identidade.physicistCaptureInfo == null ||tracked == null)
-    {
-        return null;
-    }
-
-    foreach (CaptureInfo info in identidade.physicistCaptureInfo)
-    {
-        if (info.trackedImage == tracked)
+        if (identidade == null || identidade.physicistCaptureInfo == null || tracked == null)
         {
-            return info;
+            return null;
         }
-    }
 
-    return null;
+        foreach (CaptureInfo info in identidade.physicistCaptureInfo)
+        {
+            if (info.trackedImage == tracked)
+            {
+                return info;
+            }
+        }
+
+        return null;
     }
 
     public bool CheckAndUpdateCapture(PhysicistData identidade, ARTrackedImage tracked)
     {
-    if (identidade == null ||
-        identidade.physicistCaptureInfo == null ||
-        tracked == null)
-    {
-        return false;
-    }
-
-    foreach (CaptureInfo info in identidade.physicistCaptureInfo)
-    {
-        if (info.trackedImage == tracked)
+        if (identidade == null ||
+            identidade.physicistCaptureInfo == null ||
+            tracked == null)
         {
-            info.recaptureTime = DateTime.Now;
-            return true;
+            return false;
         }
-    }
 
-    return false;
+        foreach (CaptureInfo info in identidade.physicistCaptureInfo)
+        {
+            if (info.trackedImage == tracked)
+            {
+                info.recaptureTime = DateTime.Now;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
 
-        
+
         //Create object based on image tracked
         foreach (var trackedImage in eventArgs.added)
         {
@@ -410,88 +411,91 @@ public class ImageTracker : MonoBehaviour
     }
 
     private void ActivateRandomPattern(PhysicistTrigger trigger) //escolhe um spawn patern para usar
-{
-    if (trigger.patterns == null || trigger.patterns.Count == 0)
     {
-        Debug.LogWarning($"O Physicist {trigger.gameObject.name} não possui SpawnPatterns.");
-        return;
-    }
-
-    int index = UnityEngine.Random.Range(0, trigger.patterns.Count);
-
-    SpawnPattern pattern = trigger.patterns[index];
-
-    Debug.Log($"SpawnPattern escolhido!");
-
-    trigger.SetChosenPattern(pattern); //para facilitar checagem no pokeball
-    SpawnObjects(pattern);
-}
-
-private void SpawnObjects(SpawnPattern pattern) //Função que spawna os objetos realmente 
-{
-    if (pattern == null)
-        return;
-
-    patternCameraLastPosition = arCamera.transform.position;
-
-    foreach (SpawnObjectData spawnInfo in pattern.objectsToSpawn)
-    {
-        if (spawnInfo == null || spawnInfo.objectData == null)
-            continue;
-
-        Vector3 spawnPosition = arCamera.transform.TransformPoint(spawnInfo.cameraOffset);
-
-        GameObject obj = Instantiate(spawnInfo.objectData.modelPrefab, spawnPosition, Quaternion.identity);
-        // Invoca só o modelPrefab ou o SO inteiro do Object Data?
-
-        spawnedPatternObjects.Add(obj); //adiciona o objeto para tracking de posição
-    }
-}
-
-private void UpdateSpawnedPatternObjects()
-{
-    if (spawnedPatternObjects.Count == 0)
-        return;
-
-    Vector3 cameraDelta = arCamera.transform.position - patternCameraLastPosition;
-    // pega deslocamento dentre ultimo cheque da camera
-
-    if (cameraDelta == Vector3.zero)
-        return;
-
-    for (int i = spawnedPatternObjects.Count - 1; i >= 0; i--)
-    {
-        GameObject obj = spawnedPatternObjects[i];
-
-        if (obj == null)
+        if (trigger.patterns == null || trigger.patterns.Count == 0)
         {
-            spawnedPatternObjects.RemoveAt(i);
-            continue;
+            Debug.LogWarning($"O Physicist {trigger.gameObject.name} não possui SpawnPatterns.");
+            return;
         }
 
-        // para cada objeto spawnado, adicionada o deslocamento da camera
-        obj.transform.position += cameraDelta;
+        int index = UnityEngine.Random.Range(0, trigger.patterns.Count);
+
+        SpawnPattern pattern = trigger.patterns[index];
+
+        Debug.Log($"SpawnPattern escolhido!");
+
+        trigger.SetChosenPattern(pattern); //para facilitar checagem no pokeball
+        spawnManager.AtualizarFisicoAtual(trigger);
+        SpawnObjects(pattern);
     }
 
-    patternCameraLastPosition = arCamera.transform.position;
-}
+    private void SpawnObjects(SpawnPattern pattern) //Função que spawna os objetos realmente 
+    {
+        if (pattern == null)
+            return;
+
+        spawnManager.AtualizarObjetosSpawnados(pattern);
+
+        patternCameraLastPosition = arCamera.transform.position;
+
+        foreach (SpawnObjectData spawnInfo in pattern.objectsToSpawn)
+        {
+            if (spawnInfo == null || spawnInfo.objectData == null)
+                continue;
+
+            Vector3 spawnPosition = arCamera.transform.TransformPoint(spawnInfo.cameraOffset);
+
+            GameObject obj = Instantiate(spawnInfo.objectData.modelPrefab, spawnPosition, Quaternion.identity);
+            // Invoca só o modelPrefab ou o SO inteiro do Object Data?
+
+            spawnedPatternObjects.Add(obj); //adiciona o objeto para tracking de posição
+        }
+    }
+
+    private void UpdateSpawnedPatternObjects()
+    {
+        if (spawnedPatternObjects.Count == 0)
+            return;
+
+        Vector3 cameraDelta = arCamera.transform.position - patternCameraLastPosition;
+        // pega deslocamento dentre ultimo cheque da camera
+
+        if (cameraDelta == Vector3.zero)
+            return;
+
+        for (int i = spawnedPatternObjects.Count - 1; i >= 0; i--)
+        {
+            GameObject obj = spawnedPatternObjects[i];
+
+            if (obj == null)
+            {
+                spawnedPatternObjects.RemoveAt(i);
+                continue;
+            }
+
+            // para cada objeto spawnado, adicionada o deslocamento da camera
+            obj.transform.position += cameraDelta;
+        }
+
+        patternCameraLastPosition = arCamera.transform.position;
+    }
 
 
     private void AoSelecionarAlvo(GameObject objTouched)
     {
         Debug.Log("O ImageTracker recebeu o evento! O objeto tocado foi: " + objTouched.name);
         PhysicistTrigger PhTrig = objTouched.GetComponent<PhysicistTrigger>();
-        if(PhTrig != null)
+        if (PhTrig != null)
         {
             AoSelecionarFisico(objTouched);
             return;
         }
         ObjectTrigger ObTrig = objTouched.GetComponent<ObjectTrigger>();
-        if(ObTrig != null)
+        if (ObTrig != null)
         {
             AoSelecionarObjeto(objTouched);
             return;
-        } 
+        }
         Debug.Log("Objeto a seguir tocado e sem tipo: " + objTouched.name);
     }
     private void AoSelecionarFisico(GameObject objTouched)
@@ -502,8 +506,8 @@ private void UpdateSpawnedPatternObjects()
 
         obj_escolhido = objTouched;
         PhysicistTrigger trig = objTouched.GetComponent<PhysicistTrigger>();
-        
-        if(trig != null)
+
+        if (trig != null)
         {
             trig.foiEscolhido = true;
 
@@ -536,26 +540,26 @@ private void UpdateSpawnedPatternObjects()
         // AQUI ESTARA A INVOCAÇÃO DE UI
 
         ObjectTrigger trig = objTouched.GetComponent<ObjectTrigger>();
-        
+
         uiHandler.generateObjectUi(trig.data);
     }
     private IEnumerator DelayedRescan()
     {
-    yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 
-    Debug.Log("Executando ForceRescan");
+        Debug.Log("Executando ForceRescan");
 
-    ForceRescan();
+        ForceRescan();
     }
 
     private void HandleDestroyed(PhysicistTrigger instance)
     {
-    Debug.Log("Objeto destruído!");
-    if (instance.gameObject != obj_escolhido)
-        return;
+        Debug.Log("Objeto destruído!");
+        if (instance.gameObject != obj_escolhido)
+            return;
 
-    obj_escolhido = null;
-    StartCoroutine(DelayedRescan());
+        obj_escolhido = null;
+        StartCoroutine(DelayedRescan());
     }
 
 }

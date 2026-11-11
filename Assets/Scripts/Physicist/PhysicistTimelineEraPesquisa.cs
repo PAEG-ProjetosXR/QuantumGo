@@ -16,27 +16,28 @@ public class PhysicistTimelineEraPesquisa : ScriptableObject
     public string titulo;
     public PhysicistTimelineEraPesquisa trabalhoRelacionado;
     public PhysicistData fisicoInventor;
-    public bool unlocked;
+    [NonSerialized]
+    public bool unlocked = false;
 
-    public static void LiberarPesquisa(PhysicistTimelineEraPesquisa pesquisa)
+    public static void DesbloquearPesquisa(PhysicistTimelineEraPesquisa pesquisa)
     {
         pesquisa.unlocked = true;
     }
-    public static void LiberarObjetosPesquisa(PhysicistTimelineEraPesquisa pesquisa)
+    public static void DesbloquearObjetosPesquisa(PhysicistTimelineEraPesquisa pesquisa)
     {
         foreach (var objeto in pesquisa.objetosPesquisa.correctObjects)
         {
             objeto.unlocked = true;
         }
     }
-    public static void LiberarObjetosPesquisa(List<ObjectData> listaObjetos)
+    public static void DesbloquearObjetosPesquisa(List<ObjectData> listaObjetos)
     {
         foreach (var objeto in listaObjetos)
         {
             objeto.unlocked = true;
         }
     }
-    public static void LiberarObjetosPesquisa(CorrectObjectList listaOBJS)
+    public static void DesbloquearObjetosPesquisa(CorrectObjectList listaOBJS)
     {
         foreach (var objeto in listaOBJS.correctObjects)
         {
