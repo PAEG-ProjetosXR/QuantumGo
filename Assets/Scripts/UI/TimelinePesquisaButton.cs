@@ -8,6 +8,16 @@ public class TimelinePesquisaButton : MonoBehaviour
     public GameObject infoPesquisaPanel;
     [SerializeField]
     private Button btnPesquisa;
+
+    public void OnEnable()
+    {
+        if (!pesquisaSo)
+        {
+            return;
+        }
+        setupButtonPesquisa();
+    }
+
     public void addData(PhysicistTimelineEraPesquisa pesquisaSo)
     {
         this.pesquisaSo = pesquisaSo;
@@ -22,6 +32,10 @@ public class TimelinePesquisaButton : MonoBehaviour
         if (!pesquisaSo.unlocked)
         {
             color = lockedColor;
+        }
+        else
+        {
+            color = Color.white;
         }
         btnPesquisa.image.color = color;
     }

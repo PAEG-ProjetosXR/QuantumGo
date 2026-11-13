@@ -45,7 +45,7 @@ public class TouchTest : MonoBehaviour
                 if (hit.transform.CompareTag("Physicist") || hit.transform.CompareTag("Object"))
                 {
 
-                    Debug.Log(hit.transform.name + " : " + hit.transform.tag);
+                    //Debug.Log(hit.transform.name + " : " + hit.transform.tag);
                     Interaction(hit);
                 }
             }

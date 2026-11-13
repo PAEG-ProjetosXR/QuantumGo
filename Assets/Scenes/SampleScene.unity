@@ -4802,6 +4802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce33123979fd1f4fb88951681edabb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpawnManager: {fileID: 887732344}
   minigameContainer: {fileID: 617481561}
 --- !u!1 &581316780
 GameObject:
@@ -6287,6 +6288,7 @@ MonoBehaviour:
   - {fileID: 545080610674363962, guid: 3d28fb06fd135ff4087aa9535e61e83c, type: 3}
   uiHandler: {fileID: 1688097539}
   arCamera: {fileID: 802438533}
+  spawnManager: {fileID: 887732344}
 --- !u!114 &724357208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8609,6 +8611,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 951050790}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &887732343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 887732345}
+  - component: {fileID: 887732344}
+  m_Layer: 0
+  m_Name: SpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &887732344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887732343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eec9557f17b4343933577370268d0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  encounterManager: {fileID: 1110719208}
+  objpediaManager: {fileID: 1415739808}
+--- !u!4 &887732345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887732343}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &941982049
 GameObject:
   m_ObjectHideFlags: 0
@@ -10213,6 +10261,7 @@ GameObject:
   - component: {fileID: 1117206979}
   - component: {fileID: 1117206978}
   - component: {fileID: 1117206977}
+  - component: {fileID: 1117206980}
   m_Layer: 5
   m_Name: ButtonInicio
   m_TagString: Untagged
@@ -10283,7 +10332,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1117206978}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1117206980}
+        m_TargetAssemblyTypeName: IniciarMinigameBtn, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1117206978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10322,6 +10383,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1117206975}
   m_CullTransparentMesh: 1
+--- !u!114 &1117206980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117206975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879e68a1d7203e044b1740f8c607adce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testeMinigameData: {fileID: 11400000, guid: 5fe1d38720574124b833bdf4d29faa8b, type: 2}
+  minigameManager: {fileID: 557571337}
 --- !u!1 &1126989165
 GameObject:
   m_ObjectHideFlags: 0
@@ -17640,3 +17715,4 @@ SceneRoots:
   - {fileID: 403205169}
   - {fileID: 1259125403}
   - {fileID: 557571336}
+  - {fileID: 887732345}
