@@ -412,6 +412,11 @@ public class ImageTracker : MonoBehaviour
 
     private void ActivateRandomPattern(PhysicistTrigger trigger) //escolhe um spawn patern para usar
     {
+        if(obj_escolhido != null)
+        {
+            return; // se já tiver um objeto escolhido, não cria mais
+        }
+
         if (trigger.patterns == null || trigger.patterns.Count == 0)
         {
             Debug.LogWarning($"O Physicist {trigger.gameObject.name} não possui SpawnPatterns.");
@@ -503,8 +508,11 @@ public class ImageTracker : MonoBehaviour
         Debug.Log("O seguinte alvo eh físico: " + objTouched.name);
 
         // AQUI ESTARIA A CHAMADA PARA SPAWN DE OBJETOS
-
-        obj_escolhido = objTouched;
+        GameObject falseObject = null;
+        if(obj_escolhido != null)
+        {
+            falseObject = obj_escolhido;
+        }
         PhysicistTrigger trig = objTouched.GetComponent<PhysicistTrigger>();
 
         if (trig != null)
@@ -513,6 +521,8 @@ public class ImageTracker : MonoBehaviour
 
             ActivateRandomPattern(trig);
         }
+        // mover o obj_escolhido para aqui, assim pode checar se tem um ativo na geração de pattern!
+        obj_escolhido = objTouched;
 
         // Rodamos de trás para frente (Count - 1) porque vamos deletar itens da lista
         for (int i = ARObjects.Count - 1; i >= 0; i--)
@@ -529,7 +539,10 @@ public class ImageTracker : MonoBehaviour
                 Destroy(atual);
             }
         }
-        camSonObject.BondToCam(obj_escolhido);
+        if(falseObject == null) // falseObject é falso se, ao selecionar o físico, NÃO tinha obj_escolhido ANTES
+        {
+          camSonObject.BondToCam(obj_escolhido);  
+        }
         uiHandler.enableCapture();
     }
 
