@@ -1,4 +1,6 @@
 using PokemonGO.Code;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using TMPro;
@@ -32,6 +34,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField] private Image spawnButtonImage;
     [SerializeField] private TMP_Text objNameText;
     [SerializeField] private TMP_Text objDescText;
+    [SerializeField] private TMP_Text logicListText;
+    [SerializeField] private SpawnManager spawnManager;
     public TMP_Text cooldownLabelPrefab;
     public RectTransform cooldownContainer;
     
@@ -181,6 +185,7 @@ public class UIHandler : MonoBehaviour
         hideUI();
     }
 
+
     #endregion
 
     #region Atomball Menu
@@ -220,9 +225,24 @@ public class UIHandler : MonoBehaviour
                 RectTransform.Axis.Horizontal,
                 width);
 
-            UpdateCellSizeAtomball(atomballGridLayout, 2);
+            SpawnPattern currentPattern = spawnManager.GetCurrentSpawnPattern();
+            List<string> currentLogicList = spawnManager.GetCurrentLogicList(); 
 
-            AtomballCard.disableOutlinesExceptForAtomballSelected();
+            logicListText.text = "";
+            if(currentPattern != null)
+            {
+                spawnManager.initializeCurrentLogicList(); // numero de entradas na lista = esperado pelo spawn pattern
+                for (int i = 0; i < currentLogicList.Count; i++)
+                {
+                    logicListText.text = logicListText.text + currentPattern.logicList[i] + " ";
+                    logicListText.text = logicListText.text + currentLogicList[i] + ". ";
+
+                }
+            } else
+            {
+                logicListText.text = "Inicie uma captura de físico para ve a lista lógica!";
+            }
+            
         }
     }
 

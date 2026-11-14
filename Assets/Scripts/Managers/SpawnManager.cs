@@ -1,16 +1,20 @@
 using System;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private SpawnPattern currentSpawnPattern; // isso atualmente vem do Image tracker quando os objetos spawnam
+    private List<string> currentLogicList = new List<string>(); // lista atual, deve ser apagada com morte de físico e seu tamanho é =
     private PhysicistTrigger triggerFisicoAtual;
     [SerializeField]
     private EncounterManager encounterManager;
     [SerializeField]
     private ObjpediaManager objpediaManager;
+
+    private const string BLANK_TEXT = "_____";
 
     // adiciona objetos apenas se não estiverem na objespedia
     public void AdicionarObjetosObjespedia(SpawnPattern lista)
@@ -74,4 +78,47 @@ public class SpawnManager : MonoBehaviour
         }
         Debug.Log(texto);
     }
+
+    public SpawnPattern GetCurrentSpawnPattern()
+    {
+        return this.currentSpawnPattern;
+    }
+
+    public void SetCurrentSpawnPattern(SpawnPattern newPattern)
+    {
+        this.currentSpawnPattern = newPattern;
+        return;
+    }
+
+    public List<string> GetCurrentLogicList()
+    {
+        return this.currentLogicList;
+    }
+
+    public void initializeCurrentLogicList()
+    {
+        
+        this.currentLogicList.Clear(); // limpa a lista para iniciar novo
+        foreach(string entrada in currentSpawnPattern.logicList)
+        {
+          this.currentLogicList.Add(BLANK_TEXT); // um espaço em branco
+        }
+        
+        return;
+    }
+
+    public void insertInCurrentLogicList(string newObject)
+    {
+        for (int i = 0; i < currentLogicList.Count; i++)
+        {
+            if (currentLogicList[i] == BLANK_TEXT)
+            {
+                currentLogicList[i] = newObject;
+                return;
+            }
+        }
+        Debug.LogWarning("Não há mais espaços disponíveis na currentLogicList!");
+    }
+
+    
 }
