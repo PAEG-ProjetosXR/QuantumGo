@@ -53,6 +53,7 @@ public class SpawnManager : MonoBehaviour
     // Desbloqueia pesquisa e objetos capturados conforme spawn pattern atual
     public void GanhouMinigameAtual()
     {
+        encounterManager.RegisterPhysicistEncounter(triggerFisicoAtual.data, 1);
         if (!currentSpawnPattern)
         {
             Debug.LogError("Não há Spawn Pattern para desbloquear a pesquisa, isso COM CERTEZA É UM BUG!");
