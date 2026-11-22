@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     public GameObject detailPanel;
+    public GameObject minigamePanel;
     public GameObject menuPanel;
     public GameObject physpediaPanel;
     public GameObject objpediaPanel;
@@ -28,6 +29,9 @@ public class UIHandler : MonoBehaviour
     public Button minigameButton;
     public Button closeObjButton;
     private TouchTest touchTest;
+    [SerializeField] private MinigameManager minigameManager;
+    [SerializeField] private MemoriaGameData memoriaGameData; 
+    [SerializeField] private GameObject arInterface;
     [SerializeField] private Image detailImage;
     [SerializeField] private TMP_Text detailName;
     [SerializeField] private TMP_Text detailBio;
@@ -74,12 +78,23 @@ public class UIHandler : MonoBehaviour
         physpediaPanel.SetActive(false);
         objpediaPanel.SetActive(false);
         detailPanel.SetActive(false);
+        minigamePanel.SetActive(false);
         atomballMenu.SetActive(false);
         atomballSelectInfo.SetActive(false);
         settingsMenuPanel.SetActive(false);
         infoPesquisaPanel.SetActive(false);
         objectOnTouchPanel.SetActive(false);
         closeObjButton.onClick.AddListener(closeObjectUi);
+    }
+
+    public void HideUIForMinigame()
+    {
+        arInterface.SetActive(false);
+    }
+
+    public void ShowUIAfterMinigame()
+    {
+        arInterface.SetActive(true);
     }
 
     #region Objepedia e Physipedia
@@ -206,6 +221,12 @@ public class UIHandler : MonoBehaviour
 
         grid.cellSize = new Vector2(cellWidth, cellWidth);
     }
+
+    public void IniciarJogoDaMemoria()
+    {
+    minigamePanel.SetActive(true);
+    minigameManager.StartMinigame(memoriaGameData);
+    }  
 
     public void openAtomballMenu()
     {

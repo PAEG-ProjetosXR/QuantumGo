@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7dee4b236c9954493e0482e02ece13, type: 3}
   m_Name: Memoria_01
   m_EditorClassIdentifier: 
-  minigameName: 
-  minigameDescription: 
+  minigameName: "Jogo da Mem\xF3ria"
+  minigameDescription: "combine cartas iguais rapidamente! n\xE3o ultrapasse o limite
+    de tentativas"
   timeLimit: 60
   difficulty: 1
-  minigameUIPrefab: {fileID: 0}
+  minigameUIPrefab: {fileID: 1518942198299216435, guid: a2f3895e5a6654a41882ba67a2c90527, type: 3}
   maxAttempts: 10
   totalPairs: 4
-  cardSprites: []
+  cardSprites:
+  - {fileID: 21300000, guid: 92c37d41d1830ef4bbbfec17497ea5fb, type: 3}
+  - {fileID: 21300000, guid: 161c5422cb8eb6f41a5771325006f039, type: 3}
+  - {fileID: 21300000, guid: 6531020ee672d1f4dae95e79d3d8665c, type: 3}
+  - {fileID: 21300000, guid: defee248b21987d4eaffd820143f1510, type: 3}

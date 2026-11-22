@@ -2,22 +2,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
+using TMPro;
 
-//Vai ser anexado no Prefab da UI do Jogo da Memória
+//Vai ser anexado no Prefab da UI do Jogo da Memï¿½ria
 public class MemoriaGameUI : MinigameBase
 {
-    [Header("Configuração Visual")]
-    [SerializeField] private GameObject cardButtonPrefab; // Prefab do botão da carta
+    [Header("Configuraï¿½ï¿½o Visual")]
+    [SerializeField] private GameObject cardButtonPrefab; // Prefab do botï¿½o da carta
     [SerializeField] private Transform cardsGridParent;   // O painel na UI com GridLayoutGroup
 
+
+    [Header("Tela de Resultado")]
+    [SerializeField] private GameObject resultPanel;
+    [SerializeField] private TMP_Text resultText;
+    [SerializeField] private Button closeButton;
+
+    private bool gameFinished = false;
     private MemoriaGameData memoriaConfig;
     private int pairsFound;
     private int attempts;
 
-    // Variáveis de controle para a lógica de clique (Caso 3)
+    // Variï¿½veis de controle para a lï¿½gica de clique (Caso 3)
     private CardButton firstSelectedCard;
     private CardButton secondSelectedCard;
-    private bool isChecking = false; // Trava para o jogador não clicar em 3 cartas ao mesmo tempo
+    private CardButton pendingWrongFirst;
+    private CardButton pendingWrongSecond;
+    private Coroutine wrongPairCoroutine;
+    private bool pendingWrongExhausted; // evitar vida extras clicando vÃ¡rias vezes
+    private bool isChecking = false; // Trava para o jogador nï¿½o clicar em 3 cartas ao mesmo tempo
 
     public override void Setup(MinigameData data)
     {
@@ -30,12 +42,38 @@ public class MemoriaGameUI : MinigameBase
         attempts = memoriaConfig.maxAttempts;
 
         GenerateCards(rng, memoriaConfig.totalPairs);
+
+        gameFinished = false;
+
+        resultPanel.SetActive(false);
+
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(
+            MinigameManager.Instance.CloseResultPanel
+        );
     }
 
-    //Geração e Instanciação das Cartas
+    // mostrar tela de resultado
+    public override void ShowResult(bool playerWon)
+    {
+        gameFinished = true;
+
+        resultPanel.SetActive(true);
+
+        if (playerWon)
+        {
+            resultText.text = "VITÃ“RIA!\nVocÃª encontrou todos os pares!";
+        }
+        else
+        {
+            resultText.text = "DERROTA!\nSuas tentativas acabaram.";
+        }
+    }
+
+    //Geraï¿½ï¿½o e Instanciaï¿½ï¿½o das Cartas
     private void GenerateCards(System.Random rng, int actualPairs)
     {
-        // Estrutura temporária para guardar o ID e o Sprite juntos
+        // Estrutura temporï¿½ria para guardar o ID e o Sprite juntos
         List<CardPairData> cardList = new List<CardPairData>();
 
         // Pega os pares configurados no ScriptableObject
@@ -59,57 +97,117 @@ public class MemoriaGameUI : MinigameBase
             cardList[n] = temp;
         }
 
-        // Instancia os botões de fato na tela dentro do Grid
+        // Instancia os botï¿½es de fato na tela dentro do Grid
         foreach (var item in cardList)
         {
             GameObject cardObj = Instantiate(cardButtonPrefab, cardsGridParent);
             CardButton cardButtonComponent = cardObj.GetComponent<CardButton>();
 
-            // Configura o botão passando seu ID único do par, o sprite e o gerenciador
+            // Configura o botï¿½o passando seu ID ï¿½nico do par, o sprite e o gerenciador
             cardButtonComponent.SetupCard(item.id, item.sprite, this);
         }
     }
 
-    //Lógica de Clique e Comparação de Pares
+    //Lï¿½gica de Clique e Comparaï¿½ï¿½o de Pares
     public void OnCardClicked(CardButton clickedCard)
     {
-        if (isChecking || clickedCard == firstSelectedCard) return;
+        if (gameFinished)
+            return;
 
-        if (firstSelectedCard == null) { firstSelectedCard = clickedCard; }
+        // Se havia um par errado esperando para ser escondido,
+        // esconde-o imediatamente ao receber um novo clique.
+        if (pendingWrongFirst != null)
+        {
+            // Se era a Ãºltima tentativa, nÃ£o permite continuar
+            if (pendingWrongExhausted)
+                return;
+
+            StopCoroutine(wrongPairCoroutine);
+
+            pendingWrongFirst.HideCard();
+            pendingWrongSecond.HideCard();
+
+            pendingWrongFirst = null;
+            pendingWrongSecond = null;
+            pendingWrongExhausted = false;
+            wrongPairCoroutine = null;
+
+            ResetSelection();
+        }
+
+        if (isChecking || clickedCard == firstSelectedCard)
+            return;
+
+        clickedCard.RevealCard();
+
+        if (firstSelectedCard == null)
+        {
+            firstSelectedCard = clickedCard;
+            return;
+        }
+
+        secondSelectedCard = clickedCard;
+        isChecking = true;
+
+        attempts--;
+
+        if (firstSelectedCard.GetCardID() == secondSelectedCard.GetCardID())
+        {
+            firstSelectedCard.SetMatched();
+            secondSelectedCard.SetMatched();
+
+            pairsFound++;
+
+            ResetSelection();
+
+            if (pairsFound >= memoriaConfig.totalPairs)
+            {
+                FinishMinigame(true);
+                return;
+            }
+
+            if (attempts <= 0)
+            {
+                OnAttemptsExhausted();
+                return;
+            }
+        }
         else
         {
-            secondSelectedCard = clickedCard;
-            isChecking = true;
+            // Guarda explicitamente as cartas erradas
+            pendingWrongFirst = firstSelectedCard;
+            pendingWrongSecond = secondSelectedCard;
+            pendingWrongExhausted = attempts <= 0;
 
-            // Compara os IDs das duas cartas
-            if (firstSelectedCard.GetCardID() == secondSelectedCard.GetCardID())
-            {
-                // ACERTOU O PAR!
-                firstSelectedCard.SetMatched();
-                secondSelectedCard.SetMatched();
-
-                pairsFound++;
-                ResetSelection();
-
-                if (pairsFound >= memoriaConfig.totalPairs) { FinishMinigame(true); /*Vitória*/ }
-            }
-            else { StartCoroutine(WrongPairRoutine()); /*ERROU! Chama a rotina para esperar um pouco e esconder as cartas de novo*/ }
-
-            attempts--;
-            if(attempts == 0) { OnAttemptsExhausted(); /*Tentativas esgotadas*/ }
+            wrongPairCoroutine = StartCoroutine(
+                WrongPairRoutine(attempts <= 0)
+            );
         }
     }
 
     // Rotina de espera caso o jogador erre o par
-    private IEnumerator WrongPairRoutine()
+    private IEnumerator WrongPairRoutine(bool exhaustedAttempts)
     {
-        yield return new WaitForSeconds(0.8f); // Tempo de espera na tela
+        yield return new WaitForSeconds(0.8f);
 
-        // Vira as cartas de volta para baixo
-        firstSelectedCard.HideCard();
-        secondSelectedCard.HideCard();
+        // Verifica se ainda existe um par pendente
+        if (pendingWrongFirst != null)
+        {
+            pendingWrongFirst.HideCard();
+            pendingWrongSecond.HideCard();
 
-        ResetSelection();
+            pendingWrongFirst = null;
+            pendingWrongSecond = null;
+            wrongPairCoroutine = null;
+            pendingWrongExhausted = false;
+
+            ResetSelection();
+        }
+
+        if (exhaustedAttempts)
+        {
+            OnAttemptsExhausted();
+        }
     }
 
     private void ResetSelection()
