@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class CardButton : MonoBehaviour
 {
-    [Header("Referências Visuais")]
+    [Header("Referï¿½ncias Visuais")]
     [SerializeField] private Image cardImage; // O componente Image que vai exibir a frente ou o verso
     [SerializeField] private Button button;
 
@@ -26,7 +26,7 @@ public class CardButton : MonoBehaviour
         if (button == null) button = GetComponent<Button>();
         if (cardImage == null) cardImage = GetComponent<Image>();
 
-        // O jogo começa com todas as cartas viradas para baixo (escondidas)
+        // O jogo comeï¿½a com todas as cartas viradas para baixo (escondidas)
         HideCard();
 
         // Evita duplicar o listener caso o Setup seja chamado novamente
@@ -36,13 +36,8 @@ public class CardButton : MonoBehaviour
 
     private void OnClickCard()
     {
-        // Se a carta já estiver revelada ou já tiver feito par, ignora o clique
         if (isRevealed || isMatched) return;
 
-        // Revela a carta visualmente
-        RevealCard();
-
-        // Avisa o script principal que esta carta foi clicada
         gameManager.OnCardClicked(this);
     }
 
@@ -54,7 +49,7 @@ public class CardButton : MonoBehaviour
 
     public void HideCard()
     {
-        if (isMatched) return; // Se já achou o par, não esconde mais
+        if (isMatched) return; // Se jï¿½ achou o par, nï¿½o esconde mais
 
         isRevealed = false;
         cardImage.sprite = backSprite;
@@ -63,7 +58,7 @@ public class CardButton : MonoBehaviour
     public void SetMatched()
     {
         isMatched = true;
-        button.interactable = false; // Desativa o botão para o jogador não clicar mais nele
+        button.interactable = false; // Desativa o botï¿½o para o jogador nï¿½o clicar mais nele
     }
 
     public int GetCardID()

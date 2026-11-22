@@ -1,12 +1,19 @@
 using UnityEngine;
 using System;
 
-//Padroniza a forma como qualquer minigame é iniciado/finalizado
 public abstract class MinigameBase : MonoBehaviour
 {
-    //Método de finalização
-    protected void FinishMinigame(bool sucess) { MinigameManager.Instance.CloseMinigame(sucess); }
+    // Finaliza a partida e informa se houve sucesso
+    protected void FinishMinigame(bool success)
+    {
+        MinigameManager.Instance.CloseMinigame(success);
+    }
 
-    //Método de inicialização
+    // Inicializa o minigame
     public abstract void Setup(MinigameData data);
+
+    // Mostra o resultado da partida
+    public virtual void ShowResult(bool playerWon)
+    {
+    }
 }

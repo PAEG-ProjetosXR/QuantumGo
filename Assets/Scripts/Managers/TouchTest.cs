@@ -55,6 +55,10 @@ public class TouchTest : MonoBehaviour
     // responsavel pelo evento de 
     private void Interaction(RaycastHit hit)
     {
+        if (MinigameManager.Instance.IsMinigameActive)
+        {
+            return;
+        }
         GameObject objHit = hit.transform.gameObject;
         Chosen?.Invoke(objHit);
     }
